@@ -1,20 +1,24 @@
 package com.example.projectwebbackend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
-
+@Table(name = "NguoiDung")
 @Entity
 public class User {
     @Id
+    @Column(name = "MaNguoiDung")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(name = "Ten")
     private String name;
+    @Column(name = "TaiKhoan")
     private String account;
+    @Column(name = "MatKhau")
     private String password;
+    @Column(name = "SoDienThoai")
     private String phone;
+    @Column(name = "Email")
     private String email;
 
     public long getId() {
