@@ -1,5 +1,7 @@
 package com.example.projectwebbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -16,6 +18,8 @@ public class Ticket {
     private Trip trip;
 
     @OneToMany
+    @JsonBackReference
+    @JsonIgnore
     @JoinColumn(name = "MaGhe")
     private List<Seat> seatList;
 

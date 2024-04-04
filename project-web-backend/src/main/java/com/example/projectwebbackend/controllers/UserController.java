@@ -1,10 +1,13 @@
 package com.example.projectwebbackend.controllers;
 
 import com.example.projectwebbackend.dto.UserCreationRequest;
+import com.example.projectwebbackend.dto.UserSigninRequest;
 import com.example.projectwebbackend.dto.UserUpdateRequest;
 import com.example.projectwebbackend.entity.User;
 import com.example.projectwebbackend.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,14 +18,24 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("")
-    User createUser(@RequestBody UserCreationRequest request) {
+    @PostMapping("/dangky")
+    User createUser(@RequestBody @Valid UserCreationRequest request) {
 
         return userService.createUser(request);
     }
 
-    @GetMapping("")
-    List<User> getUsers(){
+    @PostMapping("/dangnhap")
+    public ResponseEntity<User> signinUser(@RequestBody @Valid UserSigninRequest request){
+        return userService.signinUser(request.getAccount(), request.getPassword());
+    }
+
+    @PutMapping("/thaydoimatkhau")
+    public ResponseEntity<User> updatePassword(@RequestParam String account, @RequestParam String newpassword) {
+        return userService.updatePassword(account, newpassword);
+    }
+
+    @GetMapping("/")
+    public  List<User> getUsers(){
          return userService.getUsers();
     }
 

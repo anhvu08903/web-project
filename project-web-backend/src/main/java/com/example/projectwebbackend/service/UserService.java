@@ -5,6 +5,8 @@ import com.example.projectwebbackend.dto.UserUpdateRequest;
 import com.example.projectwebbackend.entity.User;
 import com.example.projectwebbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +18,12 @@ public class UserService {
 
     public User createUser(UserCreationRequest request){
         User user = new User();
+        if (userRepository.existsByAccount(request.getAccount())){
+            throw  new RuntimeException("User existed.");
+        }
+        if (userRepository.existsByPhone(request.getPhone())){
+            throw new RuntimeException("Phone number existed.");
+        }
         user.setName(request.getName());
         user.setAccount(request.getAccount());
         user.setPassword(request.getPassword());
@@ -24,6 +32,21 @@ public class UserService {
 
         return userRepository.save(user);
 
+    }
+    public ResponseEntity<User> signinUser(String account, String password){
+        User user =  userRepository.findByAccount(account);
+        if(user == null) {
+            throw  new RuntimeException("User's not existed.");
+        }
+        if(!user.getPassword().equals(password)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        return ResponseEntity.ok(user);
+    }
+
+    public ResponseEntity<User> updatePassword(String account, String newpassword){
+        User user = userRepository.findByAccount(account);
+        user.setPassword(newpassword);
+        userRepository.save(user);
+        return ResponseEntity.status(HttpStatus.OK).body(user);
     }
      public List<User> getUsers(){
         return userRepository.findAll();
