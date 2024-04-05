@@ -1,5 +1,7 @@
 package com.example.projectwebbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,6 +15,8 @@ public class Payment {
 
     @ManyToOne
     @JoinColumn(name = "MaNguoiDung")
+    @JsonBackReference
+    @JsonIgnore
     private User user;
     @OneToOne
     @JoinColumn(name = "MaVeXe")

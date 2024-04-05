@@ -1,5 +1,7 @@
 package com.example.projectwebbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -25,8 +27,10 @@ public class Trip {
     @JoinColumn(name = "MatTinhDen")
     private Province endprovince;
 
-   @ManyToOne
+    @ManyToOne
     @JoinColumn(name = "BienSoXe")
+    @JsonBackReference
+    @JsonIgnore
     private Coach coach;
 
     public Long getTripid() {

@@ -1,5 +1,7 @@
 package com.example.projectwebbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -17,6 +19,8 @@ public class Coach {
 
     @ManyToOne
     @JoinColumn(name = "MaNhaXe")
+    @JsonBackReference
+    @JsonIgnore
     private Admin admin;
 
     public String getLicenseplate() {
