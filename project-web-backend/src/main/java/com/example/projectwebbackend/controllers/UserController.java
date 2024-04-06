@@ -1,9 +1,6 @@
 package com.example.projectwebbackend.controllers;
 
-import com.example.projectwebbackend.dto.UserBookTicketRequest;
-import com.example.projectwebbackend.dto.UserCreationRequest;
-import com.example.projectwebbackend.dto.UserSigninRequest;
-import com.example.projectwebbackend.dto.UserUpdateRequest;
+import com.example.projectwebbackend.dto.*;
 import com.example.projectwebbackend.entity.Province;
 import com.example.projectwebbackend.entity.Trip;
 import com.example.projectwebbackend.entity.User;
@@ -47,10 +44,15 @@ public class UserController {
         return userService.tripfilterLocation(startpname, endpname);
     }
 
-    //@PostMapping("/datvexe/{id}")
-    //public ResponseEntity<String> bookTicket(@PathVariable Long id, @RequestBody UserBookTicketRequest request){
-        //eturn userService.bookTicket(id, request);
-    //}
+    @PostMapping("/datvexe")
+    public ResponseEntity<String> bookTicket(@RequestBody UserBookTicketRequest request){
+        return userService.bookTicket(request);
+    }
+
+    @PostMapping("/thanhtoan/{id}")
+    public  ResponseEntity<String> payBill(@PathVariable Long id, @RequestBody UserPaymentRequest request){
+        return userService.payBill(id, request);
+    }
 
     @GetMapping("/taikhoannguoidung")
     public  List<User> getUsers(){
