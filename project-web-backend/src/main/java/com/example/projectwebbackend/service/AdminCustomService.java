@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface AdminCustomService {
 
-    List<Admin> getAllAdmin();
+    //List<Admin> getAllAdmin();
 
 }

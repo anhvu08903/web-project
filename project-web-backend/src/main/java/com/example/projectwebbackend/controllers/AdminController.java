@@ -34,18 +34,18 @@ public class AdminController {
     private List<Admin> admins = new ArrayList<>();
 
     @GetMapping
-    public List<Admin> adminIndex(Model model) {
-        admins = adminService.getAllAdmin();
-        return admins;
-    }
+    //public List<Admin> adminIndex(Model model) {
+        //admins = adminService.getAllAdmin();
+        //return admins;
+   // }
 
-    @PostMapping("/all")
-    public List<Admin> addAllAdmin(@RequestBody List<Admin> admins) {
+    //@PostMapping("/all")
+    //public List<Admin> addAllAdmin(@RequestBody List<Admin> admins) {
 //        admins.add(admin);
 
-        adminRepository.saveAll(admins);
-        return adminService.getAllAdmin();
-    }
+        //adminRepository.saveAll(admins);
+        //return adminService.getAllAdmin();
+    //}
 
     @PostMapping("/add")
     public Admin addAdmin(@RequestBody Admin admins) {

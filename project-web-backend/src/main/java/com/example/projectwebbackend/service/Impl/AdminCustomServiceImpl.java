@@ -10,11 +10,12 @@ import java.util.List;
 
 public class AdminCustomServiceImpl implements AdminCustomService {
 
-    @Autowired private EntityManager entityManager;
-    @Override
-    public List<Admin> getAllAdmin() {
-        String query = "SELECT * From Admin";
-        Query query1 = entityManager.createQuery(query);
-        return null;
-    }
+    //@Autowired
+    //private EntityManager entityManager;
+    //@Override
+   // public List<Admin> getAllAdmin() {
+       // String query = "SELECT * From Admin";
+        //Query query1 = entityManager.createQuery(query);
+        //return null;
+    //}
 }
