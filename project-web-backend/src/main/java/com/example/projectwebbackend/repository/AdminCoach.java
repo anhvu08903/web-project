@@ -1,4 +1,4 @@
-package com.example.projectwebbackend.dto;
+package com.example.projectwebbackend.repository;
 
 import com.example.projectwebbackend.entity.Admin;
 import com.example.projectwebbackend.entity.Coach;

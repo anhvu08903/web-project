@@ -1,4 +1,4 @@
-package com.example.projectwebbackend.controllers.Admin;
+package com.example.projectwebbackend.controllers;
 import com.example.projectwebbackend.dto.AdminCoach;
 import com.example.projectwebbackend.entity.Admin;
 import com.example.projectwebbackend.entity.Coach;
