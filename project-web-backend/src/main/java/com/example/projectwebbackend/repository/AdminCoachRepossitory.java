@@ -3,7 +3,7 @@ package com.example.projectwebbackend.repository;
 import com.example.projectwebbackend.entity.Coach;
 import org.springframework.data.repository.CrudRepository;
 
-public interface CoachRepossitory extends CrudRepository<Coach, Long> {
+public interface AdminCoachRepossitory extends CrudRepository<Coach, Long> {
 //    @Modifying
 //    @Transactional
 //    @Query("INSERT INTO Coach(licenseplate, coachtype, number, admin) " +

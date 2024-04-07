@@ -1,15 +1,14 @@
-package com.example.projectwebbackend.controllers;
+package com.example.projectwebbackend.controllers.admin;
 import com.example.projectwebbackend.dto.AdminCoach;
 import com.example.projectwebbackend.entity.Admin;
 import com.example.projectwebbackend.entity.Coach;
 import com.example.projectwebbackend.repository.AdminRepository;
-import com.example.projectwebbackend.repository.CoachRepossitory;
+import com.example.projectwebbackend.repository.AdminCoachRepossitory;
 import com.example.projectwebbackend.service.AdminService;
 import com.example.projectwebbackend.service.CoachService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class AdminController {
     AdminRepository adminRepository;
 
     @Autowired private CoachService coachService;
-    @Autowired private CoachRepossitory coachRepossitory;
+    @Autowired private AdminCoachRepossitory adminCoachRepossitory;
 
 
 

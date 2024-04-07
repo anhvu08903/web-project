@@ -1,4 +1,4 @@
-package com.example.projectwebbackend.controllers;
+package com.example.projectwebbackend.controllers.user;
 
 import com.example.projectwebbackend.dto.*;
 import com.example.projectwebbackend.entity.Province;

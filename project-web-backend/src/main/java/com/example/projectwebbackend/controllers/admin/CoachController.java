@@ -1,7 +1,7 @@
-package com.example.projectwebbackend.controllers;
+package com.example.projectwebbackend.controllers.admin;
 
 import com.example.projectwebbackend.entity.Coach;
-import com.example.projectwebbackend.repository.CoachRepossitory;
+import com.example.projectwebbackend.repository.AdminCoachRepossitory;
 import com.example.projectwebbackend.service.CoachService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/coach")
 public class CoachController {
     @Autowired private CoachService coachService;
-    @Autowired private CoachRepossitory coachRepossitory;
+    @Autowired private AdminCoachRepossitory coachRepossitory;
 
     List<Coach> coaches = new ArrayList<>();
 
