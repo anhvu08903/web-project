@@ -28,6 +28,12 @@ public class UserService {
     private TicketRepository ticketRepository;
     @Autowired
     private PaymentRepository paymentRepository;
+    @Autowired
+    private SeatRepository seatRepository;
+    @Autowired
+    private CoachRepository coachRepository;
+    @Autowired
+    private SeatLocationRepository seatLocationRepository;
 
     public User createUser(UserCreationRequest request){
         User user = new User();
@@ -95,11 +101,24 @@ public class UserService {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body("Khong tim thay nguoi dung");
         }
 
+        Ticket ticket = new Ticket();
+        ticket.setTrip(request.getUserBookTicketRequest().getTrip());
+        ticket.setPickAddress(request.getUserBookTicketRequest().getPickAddress());
+        ticket.setReturnAddress(request.getUserBookTicketRequest().getReturnAddress());
+        ticket.setSeatList(request.getUserBookTicketRequest().getSeatList());
+        ticketRepository.save(ticket);
 
+        List<Seat> seats = ticket.getSeatList();
+        for (Seat seat : seats) {
+            Seat seat1 = seatRepository.findBySeatid( seat.getSeatid());
+            totalbill += seat1.getPrice();
+        }
+        payment.setUser(user);
+        payment.setTicket(ticket);
+        payment.setTotalprice(totalbill);
+        paymentRepository.save(payment);
 
-
-
-        return ResponseEntity.status(HttpStatus.OK).body("Nhập dữ liệu thành công");
+        return ResponseEntity.status(HttpStatus.OK).body("don dat ve thanh cong");
     }
 
 
