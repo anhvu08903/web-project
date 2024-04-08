@@ -4,15 +4,10 @@ import com.example.projectwebbackend.entity.PickAddress;
 import com.example.projectwebbackend.entity.ReturnAddress;
 import com.example.projectwebbackend.entity.Seat;
 import com.example.projectwebbackend.entity.Trip;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 
 import java.util.List;
 
-public class UserBookTicketRequest {
+public class UserTicketBookingRequest {
     private Trip trip;
     private List<Seat> seatList;
     private PickAddress pickAddress;

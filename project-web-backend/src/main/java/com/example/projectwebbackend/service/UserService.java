@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -70,7 +68,7 @@ public class UserService {
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
-    public ResponseEntity<Comment> createComment(UserCommentRequest request){
+    public ResponseEntity<Comment> createComment(UserCommentationRequest request){
         try {
             Comment comment = new Comment();
             comment.setUser(request.getUser());
@@ -100,7 +98,7 @@ public class UserService {
         return Collections.emptyList();
     }
 
-    public ResponseEntity<String> bookTicket(UserBookTicketRequest request){
+    public ResponseEntity<String> bookTicket(UserTicketBookingRequest request){
         Ticket ticket = new Ticket();
         ticket.setTrip(ticket.getTrip());
         ticket.setPickAddress(ticket.getPickAddress());
@@ -151,7 +149,7 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
      }
 
-     public User updateUser(Long id, UserUpdateRequest request){
+     public User updateUser(Long id, UserUpdationRequest request){
         User user = getUser(id);
         user.setName(request.getName());
         user.setEmail(request.getEmail());
