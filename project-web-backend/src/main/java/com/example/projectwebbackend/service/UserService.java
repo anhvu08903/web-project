@@ -1,9 +1,6 @@
 package com.example.projectwebbackend.service;
 
-import com.example.projectwebbackend.dto.UserBookTicketRequest;
-import com.example.projectwebbackend.dto.UserCreationRequest;
-import com.example.projectwebbackend.dto.UserPaymentRequest;
-import com.example.projectwebbackend.dto.UserUpdateRequest;
+import com.example.projectwebbackend.dto.*;
 import com.example.projectwebbackend.entity.*;
 import com.example.projectwebbackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +31,8 @@ public class UserService {
     private CoachRepository coachRepository;
     @Autowired
     private SeatLocationRepository seatLocationRepository;
+    @Autowired
+    private CommentRepository commentRepository;
 
     public User createUser(UserCreationRequest request){
         User user = new User();
@@ -63,9 +62,26 @@ public class UserService {
 
     public ResponseEntity<User> updatePassword(String account, String newpassword){
         User user = userRepository.findByAccount(account);
+        if(user == null) {
+            throw  new RuntimeException("User's not existed.");
+        }
         user.setPassword(newpassword);
         userRepository.save(user);
         return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+
+    public ResponseEntity<Comment> createComment(UserCommentRequest request){
+        try {
+            Comment comment = new Comment();
+            comment.setUser(request.getUser());
+            comment.setContent(request.getContent());
+            comment.setCreatedAt(request.getCreatedAt());
+            commentRepository.save(comment);
+            return ResponseEntity.status(HttpStatus.OK).body(comment);
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     public List<Trip> tripList(){

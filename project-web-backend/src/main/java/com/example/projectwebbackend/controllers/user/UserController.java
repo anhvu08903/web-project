@@ -1,6 +1,7 @@
 package com.example.projectwebbackend.controllers.user;
 
 import com.example.projectwebbackend.dto.*;
+import com.example.projectwebbackend.entity.Comment;
 import com.example.projectwebbackend.entity.Province;
 import com.example.projectwebbackend.entity.Trip;
 import com.example.projectwebbackend.entity.User;
@@ -32,6 +33,10 @@ public class UserController {
     @PutMapping("/thaydoimatkhau")
     public ResponseEntity<User> updatePassword(@RequestParam String account, @RequestParam String newpassword) {
         return userService.updatePassword(account, newpassword);
+    }
+    @PostMapping("/binhluan")
+    public ResponseEntity<Comment> createComment(@RequestBody @Valid UserCommentRequest request){
+        return userService.createComment(request);
     }
 
     @GetMapping("/danhsachtatcachuyenxe")
