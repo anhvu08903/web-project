@@ -4,9 +4,11 @@ import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from "react";
+import Booking from "./Components/Booking/Booking";
+import RangeSlider from "./Components/Booking/RangeSlider";
 
 function App() {
-  const [userstate, setUserState] = useState({});
+  const [userState, setUserState] = useState({});
   return (
     <div className="App">
       <Router>
@@ -14,10 +16,10 @@ function App() {
           <Route
             path="/"
             element={
-              userstate && userstate._id ? (
+              userState && userState._id ? (
                 <Profile
                   setUserState={setUserState}
-                  username={userstate.fname}
+                  username={userState.fname}
                 />
               ) : (
                 <Login setUserState={setUserState} />
@@ -29,6 +31,8 @@ function App() {
             element={<Login setUserState={setUserState} />}
           ></Route>
           <Route path="/signup" element={<Register />}></Route>
+          <Route path = "/booking" element={<Booking />}></Route>
+          <Route path = "/slider" element={<RangeSlider />}></Route>
         </Routes>
       </Router>
     </div>
