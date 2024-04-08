@@ -24,7 +24,7 @@ public class Trip {
     private Province startprovince;
 
     @OneToOne
-    @JoinColumn(name = "MatTinhDen")
+    @JoinColumn(name = "MaTinhDen")
     private Province endprovince;
 
     @ManyToOne

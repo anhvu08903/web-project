@@ -12,7 +12,6 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long billid;
 
-
     @ManyToOne
     @JoinColumn(name = "MaNguoiDung")
     @JsonBackReference
