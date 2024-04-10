@@ -1,22 +1,18 @@
 package com.example.projectwebbackend.dto;
 
-import com.example.projectwebbackend.entity.Ticket;
 import com.example.projectwebbackend.entity.User;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 
 public class UserPaymentRequest {
     private User user;
-    private UserBookTicketRequest userBookTicketRequest;
+    private UserTicketBookingRequest userTicketBookingRequest;
     private Long totalprice;
 
-    public UserBookTicketRequest getUserBookTicketRequest() {
-        return userBookTicketRequest;
+    public UserTicketBookingRequest getUserBookTicketRequest() {
+        return userTicketBookingRequest;
     }
 
-    public void setUserBookTicketRequest(UserBookTicketRequest userBookTicketRequest) {
-        this.userBookTicketRequest = userBookTicketRequest;
+    public void setUserBookTicketRequest(UserTicketBookingRequest userTicketBookingRequest) {
+        this.userTicketBookingRequest = userTicketBookingRequest;
     }
 
     public User getUser() {

@@ -1,19 +1,14 @@
 package com.example.projectwebbackend.service;
 
-import com.example.projectwebbackend.dto.UserBookTicketRequest;
-import com.example.projectwebbackend.dto.UserCreationRequest;
-import com.example.projectwebbackend.dto.UserPaymentRequest;
-import com.example.projectwebbackend.dto.UserUpdateRequest;
+import com.example.projectwebbackend.dto.*;
 import com.example.projectwebbackend.entity.*;
 import com.example.projectwebbackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -28,6 +23,14 @@ public class UserService {
     private TicketRepository ticketRepository;
     @Autowired
     private PaymentRepository paymentRepository;
+    @Autowired
+    private SeatRepository seatRepository;
+    @Autowired
+    private CoachRepository coachRepository;
+    @Autowired
+    private SeatLocationRepository seatLocationRepository;
+    @Autowired
+    private CommentRepository commentRepository;
 
     public User createUser(UserCreationRequest request){
         User user = new User();
@@ -57,9 +60,26 @@ public class UserService {
 
     public ResponseEntity<User> updatePassword(String account, String newpassword){
         User user = userRepository.findByAccount(account);
+        if(user == null) {
+            throw  new RuntimeException("User's not existed.");
+        }
         user.setPassword(newpassword);
         userRepository.save(user);
         return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+
+    public ResponseEntity<Comment> createComment(UserCommentationRequest request){
+        try {
+            Comment comment = new Comment();
+            comment.setUser(request.getUser());
+            comment.setContent(request.getContent());
+            comment.setCreatedAt(request.getCreatedAt());
+            commentRepository.save(comment);
+            return ResponseEntity.status(HttpStatus.OK).body(comment);
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     public List<Trip> tripList(){
@@ -78,7 +98,7 @@ public class UserService {
         return Collections.emptyList();
     }
 
-    public ResponseEntity<String> bookTicket(UserBookTicketRequest request){
+    public ResponseEntity<String> bookTicket(UserTicketBookingRequest request){
         Ticket ticket = new Ticket();
         ticket.setTrip(ticket.getTrip());
         ticket.setPickAddress(ticket.getPickAddress());
@@ -95,11 +115,24 @@ public class UserService {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body("Khong tim thay nguoi dung");
         }
 
+        Ticket ticket = new Ticket();
+        ticket.setTrip(request.getUserBookTicketRequest().getTrip());
+        ticket.setPickAddress(request.getUserBookTicketRequest().getPickAddress());
+        ticket.setReturnAddress(request.getUserBookTicketRequest().getReturnAddress());
+        ticket.setSeatList(request.getUserBookTicketRequest().getSeatList());
+        ticketRepository.save(ticket);
 
+        List<Seat> seats = ticket.getSeatList();
+        for (Seat seat : seats) {
+            Seat seat1 = seatRepository.findBySeatid( seat.getSeatid());
+            totalbill += seat1.getPrice();
+        }
+        payment.setUser(user);
+        payment.setTicket(ticket);
+        payment.setTotalprice(totalbill);
+        paymentRepository.save(payment);
 
-
-
-        return ResponseEntity.status(HttpStatus.OK).body("Nhập dữ liệu thành công");
+        return ResponseEntity.status(HttpStatus.OK).body("don dat ve thanh cong");
     }
 
 
@@ -116,7 +149,7 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
      }
 
-     public User updateUser(Long id, UserUpdateRequest request){
+     public User updateUser(Long id, UserUpdationRequest request){
         User user = getUser(id);
         user.setName(request.getName());
         user.setEmail(request.getEmail());

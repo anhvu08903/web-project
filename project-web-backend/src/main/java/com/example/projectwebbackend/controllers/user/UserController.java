@@ -1,7 +1,7 @@
-package com.example.projectwebbackend.controllers;
+package com.example.projectwebbackend.controllers.user;
 
 import com.example.projectwebbackend.dto.*;
-import com.example.projectwebbackend.entity.Province;
+import com.example.projectwebbackend.entity.Comment;
 import com.example.projectwebbackend.entity.Trip;
 import com.example.projectwebbackend.entity.User;
 import com.example.projectwebbackend.service.UserService;
@@ -33,6 +33,10 @@ public class UserController {
     public ResponseEntity<User> updatePassword(@RequestParam String account, @RequestParam String newpassword) {
         return userService.updatePassword(account, newpassword);
     }
+    @PostMapping("/binhluan")
+    public ResponseEntity<Comment> createComment(@RequestBody @Valid UserCommentationRequest request){
+        return userService.createComment(request);
+    }
 
     @GetMapping("/danhsachtatcachuyenxe")
     public List<Trip> tripList() {
@@ -45,7 +49,7 @@ public class UserController {
     }
 
     @PostMapping("/datvexe")
-    public ResponseEntity<String> bookTicket(@RequestBody UserBookTicketRequest request){
+    public ResponseEntity<String> bookTicket(@RequestBody UserTicketBookingRequest request){
         return userService.bookTicket(request);
     }
 
@@ -65,7 +69,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    User updateUser(@PathVariable long id, @RequestBody UserUpdateRequest request){
+    User updateUser(@PathVariable long id, @RequestBody UserUpdationRequest request){
         return userService.updateUser(id, request);
     }
 
