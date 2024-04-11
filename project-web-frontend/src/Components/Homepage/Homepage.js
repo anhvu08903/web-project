@@ -1,7 +1,15 @@
 import React from 'react';
 import './Homepage.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const Homepage = () => {
+  const navigate = useNavigate();
+
+  const handleLoginButtonClick = () => {
+    navigate('/login');
+  };
+
+
   return (
     <div>
       <div className="navbar">
@@ -16,7 +24,8 @@ const Homepage = () => {
               Hotline 24/7
               <span></span>
             </button>
-            <button className="buttons">
+            {/* thêm chức năng xử lý route vào button */}
+            <button className="buttons" onClick={handleLoginButtonClick}>
               Đăng nhập
               <span></span>
             </button>
@@ -24,7 +33,8 @@ const Homepage = () => {
         </ul>
       </div>
       <div className="banner">
-        <img className="banner-background" src="https://229a2c9fe669f7b.cmccloud.com.vn/images/banner-main-vi.jpg" alt="Banner background" />
+        {/* test ảnh vì bị lỗi homepage */}
+        <img className="banner-background" src="https://229a2c9fe669f7b.cmccloud.com.vn/images/banner-main-vi.jpg" alt="Banner background"  style={{height: 100}}/>
         <div className="banner-middle">
           <h2>Đặt vé xe đơn giản và an toàn</h2>
           <div className="ticket-widget">
