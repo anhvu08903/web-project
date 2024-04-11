@@ -42,3 +42,15 @@
 #apply-filter:hover {
     background-color: #45a049;
 }
+
+input {
+    display: inline;
+}
+
+.radio {
+    display: block;
+}
+
+.filter {
+    display: inline;
+}

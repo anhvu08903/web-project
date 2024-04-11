@@ -21,6 +21,9 @@ export default function RangeSlider() {
         onChange={handleChange}
         valueLabelDisplay="auto"
         getAriaValueText={valuetext}
+        min={10} // Đặt giá trị min là 10
+        max={200} // Đặt giá trị max là 200
+        step={10} // Đặt bước là 10
       />
     </Box>
   );
