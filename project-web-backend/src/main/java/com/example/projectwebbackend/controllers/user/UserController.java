@@ -1,10 +1,7 @@
 package com.example.projectwebbackend.controllers.user;
 
 import com.example.projectwebbackend.dto.*;
-import com.example.projectwebbackend.entity.Comment;
-import com.example.projectwebbackend.entity.Seat;
-import com.example.projectwebbackend.entity.Trip;
-import com.example.projectwebbackend.entity.User;
+import com.example.projectwebbackend.entity.*;
 import com.example.projectwebbackend.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +58,11 @@ public class UserController {
     @PostMapping("/thanhtoan/{id}")
     public  ResponseEntity<String> payBill(@PathVariable Long id, @RequestBody UserPaymentRequest request){
         return userService.payBill(id, request);
+    }
+
+    @GetMapping("/lichsudatve/{id}")
+    public  ResponseEntity<List<Payment>> getAllTicketBookings(@PathVariable Long id){
+        return  userService.getAllTicketBookings(id);
     }
 
     @GetMapping("/taikhoannguoidung")

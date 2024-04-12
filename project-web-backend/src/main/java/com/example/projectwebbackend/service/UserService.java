@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -147,6 +148,22 @@ public class UserService {
 
         return ResponseEntity.status(HttpStatus.OK).body("don dat ve thanh cong");
     }
+
+    public ResponseEntity<List<Payment>> getAllTicketBookings(Long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            List<Payment> payments = paymentRepository.findPaymentsByUser(user);
+            if (!payments.isEmpty()) {
+                return ResponseEntity.ok(payments);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 
 
