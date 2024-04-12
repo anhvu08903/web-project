@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -81,6 +82,18 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+    public ResponseEntity<List<Seat>> getAllSeatsOnCoach(String licenseplate) {
+        Coach coach = coachRepository.findByLicenseplate(licenseplate);
+        if (coach != null){
+            List<Seat> seats = seatRepository.findAllByCoach(coach);
+            if (!seats.isEmpty()) {
+                return new ResponseEntity<>(seats, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     public List<Trip> tripList(){
         return tripRepository.findAll();
@@ -149,7 +162,7 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
      }
 
-     public User updateUser(Long id, UserUpdationRequest request){
+     public User updateUser(Long id, UserUpdateRequest request){
         User user = getUser(id);
         user.setName(request.getName());
         user.setEmail(request.getEmail());

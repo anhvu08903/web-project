@@ -2,6 +2,7 @@ package com.example.projectwebbackend.controllers.user;
 
 import com.example.projectwebbackend.dto.*;
 import com.example.projectwebbackend.entity.Comment;
+import com.example.projectwebbackend.entity.Seat;
 import com.example.projectwebbackend.entity.Trip;
 import com.example.projectwebbackend.entity.User;
 import com.example.projectwebbackend.service.UserService;
@@ -43,6 +44,10 @@ public class UserController {
         return userService.tripList();
     }
 
+    @GetMapping("/danhsachtatcacacghetrenchuyenxe")
+    public ResponseEntity<List<Seat>> getAllSeatsOnCoach(@PathVariable String licenseplate ) {
+        return userService.getAllSeatsOnCoach(licenseplate);
+    }
     @GetMapping("/danhsachchuyenxetheodiemdiden")
     public List<Trip> tripfilterLocation(@RequestParam String startpname, @RequestParam String endpname) {
         return userService.tripfilterLocation(startpname, endpname);
@@ -69,7 +74,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    User updateUser(@PathVariable long id, @RequestBody UserUpdationRequest request){
+    User updateUser(@PathVariable long id, @RequestBody UserUpdateRequest request){
         return userService.updateUser(id, request);
     }
 

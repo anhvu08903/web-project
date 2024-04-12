@@ -1,6 +1,6 @@
 package com.example.projectwebbackend.dto;
 
-public class UserUpdationRequest {
+public class UserUpdateRequest {
     private String name;
 
     private String password;
