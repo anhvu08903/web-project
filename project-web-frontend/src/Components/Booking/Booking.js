@@ -4,8 +4,8 @@ import ToggleableRangeSlider from './testSlider';
 
 
 const Booking = () => {
-    const [bookingState, setBookingState] = useState([]);
     const [sortOption, setSortOption] = useState('default'); // State để lưu trữ tùy chọn sắp xếp
+    const [filteredBookings, setFilteredBookings] = useState([]);
 
     // Một mảng ví dụ cho các chuyến đi
     const bookings = [
@@ -48,16 +48,23 @@ const Booking = () => {
     // Sắp xếp danh sách chuyến đi dựa trên tùy chọn đã chọn
     const sortedBookings = sortBookings(sortOption);
 
-    const filterBooking = () => {
-
-    }
+    const handleSliderChange = (newValue) => {
+        const [start, end] = newValue;
+        const filtered = bookings.filter(
+          (booking) =>
+            parseInt(booking.departureTime.split(":")[0]) >= start &&
+            parseInt(booking.arrivalTime.split(":")[0]) <= end
+        );
+    
+        setFilteredBookings(filtered);
+      };
 
     return (
         <div>
             <div>
                 <h1>Sắp xếp</h1>
                 <div>
-                    <div className='radio'>
+                    <div>
                     <input
                         type="radio"
                         id="default"
@@ -68,7 +75,7 @@ const Booking = () => {
                     <label htmlFor="default">Mặc định</label>
                     </div>
 
-                    <div className='radio'>
+                    <div>
                     <input
                         type="radio"
                         id="earliest"
@@ -79,7 +86,7 @@ const Booking = () => {
                     <label htmlFor="earliest">Giờ đi sớm nhất</label>
                     </div>
 
-                    <div className='radio'>
+                    <div>
                     <input
                         type="radio"
                         id="latest"
@@ -127,27 +134,40 @@ const Booking = () => {
             <div>
                 <h1>Lọc</h1>
                 <div>
-                    <div className='filer'>
+                    <div>
                         <p>Giờ đi</p>
-                        { <ToggleableRangeSlider />}
+                        { <ToggleableRangeSlider min={0} max={24} step={1} formatLabel={(value) => `${value}:00` } handleChange={handleSliderChange} />}
                     </div>
                 </div>
             </div>
             <div>
-                <h2>Danh sách chuyến đi</h2>
+                <h1>Danh sách chuyến đi</h1>
                 <ul>
                     {/* Sử dụng danh sách đã được sắp xếp để render */}
                     {sortedBookings.map(booking => (
                         <li key={booking.id}>
-                            <strong>Giờ đi:</strong> {booking.departureTime}<br />
-                            <strong>Giờ đón:</strong> {booking.arrivalTime}<br />
-                            <strong>Giá vé:</strong> ${booking.price}<br />
-                            <strong>Đánh giá:</strong> {booking.rating} sao<br />
-                            
+                            <strong>Giờ đi:</strong> {booking.departureTime} <br />
+                            <strong>Giờ đón:</strong> {booking.arrivalTime} <br />
+                            <strong>Giá vé:</strong> ${booking.price} <br />
+                            <strong>Đánh giá:</strong> {booking.rating} sao <br />
+
                         </li>
                     ))}
                 </ul>
             </div>
+            <div>
+        <h1>Filtered Bookings</h1>
+        <ul>
+          {filteredBookings.map((booking) => (
+            <li key={booking.id}>
+              <strong>Giờ đi:</strong> {booking.departureTime} <br />
+              <strong>Giờ đón:</strong> {booking.arrivalTime} <br />
+              <strong>Giá vé:</strong> ${booking.price} <br />
+              <strong>Đánh giá:</strong> {booking.rating} sao <br />
+            </li>
+          ))}
+        </ul>
+      </div>
         </div>
     );
 }

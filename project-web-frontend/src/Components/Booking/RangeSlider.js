@@ -1,30 +1,29 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Slider from '@mui/material/Slider';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Slider from "@mui/material/Slider";
 
-function valuetext(value) {
-  return `${value}°C`;
-}
+export default function RangeSlider({ min, max, step, formatLabel,handleChange }) {
+  const [value, setValue] = React.useState([min, max]);
 
-export default function RangeSlider() {
-  const [value, setValue] = React.useState([20, 37]);
-
-  const handleChange = (event, newValue) => {
+  const handleSliderChange = (event, newValue) => {
     setValue(newValue);
+    handleChange(newValue); // Gọi hàm xử lý sự kiện từ props
   };
+  
 
   return (
     <Box sx={{ width: 300 }}>
       <Slider
-        getAriaLabel={() => 'Temperature range'}
+        getAriaLabel={() => "Hour range"}
         value={value}
-        onChange={handleChange}
+        onChange={handleSliderChange}
         valueLabelDisplay="auto"
-        getAriaValueText={valuetext}
-        min={10} // Đặt giá trị min là 10
-        max={200} // Đặt giá trị max là 200
-        step={10} // Đặt bước là 10
+        valueLabelFormat={formatLabel}
+        min={min}
+        max={max}
+        step={step}
       />
+      
     </Box>
   );
 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import RangeSlider from './RangeSlider';
 
 
-const ToggleableRangeSlider = () => {
+const ToggleableRangeSlider = ({ min, max, step, formatLabel,handleChange }) => {
     const [showSlider, setShowSlider] = useState(false);
     const [currentImage, setCurrentImage] = useState('image1'); // Thêm state để theo dõi ảnh hiện tại
 
@@ -25,7 +25,8 @@ const ToggleableRangeSlider = () => {
                 style={{ height: '25px', width: '25px' }}
             />
             {/* Hiển thị slider nếu showSlider là true */}
-            {showSlider && <RangeSlider />}
+            {showSlider && <RangeSlider min={min} max={max} step={step} formatLabel={formatLabel } handleChange={handleChange} />
+}
         </div>
     );
 }
