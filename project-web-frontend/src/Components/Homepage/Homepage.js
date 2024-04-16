@@ -35,7 +35,6 @@ const Homepage = () => {
         </ul>
       </div>
       <div className={styles.banner}>
-        {/* test ảnh vì bị lỗi homepage */}
         <img className={styles.bannerBackground} src="https://229a2c9fe669f7b.cmccloud.com.vn/images/banner-main-vi.jpg"/>
         <div className={styles.bannerMiddle}>
           <h2>Đặt vé xe đơn giản và an toàn</h2>
