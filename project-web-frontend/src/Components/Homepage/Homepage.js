@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Homepage.module.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
@@ -26,11 +26,12 @@ const Homepage = () => {
               Hotline 24/7
               <span></span>
             </button>
-            {/* thêm chức năng xử lý route vào button */}
-            <button className={styles.buttons} /*onClick={handleLoginButtonClick}*/>
-              Đăng nhập
-              <span></span>
-            </button>
+            <Link to='/login'>
+              <button className={styles.buttons} /*onClick={handleLoginButtonClick}*/>
+                Đăng nhập
+                <span></span>
+              </button>
+            </Link>
           </div>
         </ul>
       </div>

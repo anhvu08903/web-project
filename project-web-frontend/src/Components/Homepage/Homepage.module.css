@@ -23,7 +23,7 @@ body{
     box-sizing: border-box;
     line-height: 1.5;
     font-weight: 700;
-
+    max-height: 90px;
 }
 
 .headerRight{
@@ -54,6 +54,7 @@ li{
     padding: 10px 0px 10px 15px;
     color: rgb(13, 46, 89);
     text-align: center;
+    height: 44px;
 }
 
 .buttons span {

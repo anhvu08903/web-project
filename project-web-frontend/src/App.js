@@ -2,7 +2,7 @@ import "./App.css";
 import Profile from "./Components/Profile/Profile";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
 import { useState } from "react";
 import Booking from "./Components/Booking/Booking";
 import RangeSlider from "./Components/Booking/RangeSlider";
@@ -49,7 +49,18 @@ import Homepage from "./Components/Homepage/Homepage";
 
 function App() {
   return (
-    <Homepage></Homepage>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />}/>
+          <Route path="/signup" element={<Register />}></Route>
+          <Route path="/booking" element={<Booking />}></Route>
+          <Route path="/slider" element={<RangeSlider />}></Route>
+          <Route path="/testslider" element={<ToggleableRangeSlider />}></Route>
+          <Route path="/homepage" element={<Homepage />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
