@@ -2,7 +2,7 @@ import "./App.css";
 import Profile from "./Components/Profile/Profile";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
-import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { useState } from "react";
 import Booking from "./Components/Booking/Booking";
 import RangeSlider from "./Components/Booking/RangeSlider";
@@ -58,6 +58,7 @@ function App() {
           <Route path="/slider" element={<RangeSlider />}></Route>
           <Route path="/testslider" element={<ToggleableRangeSlider />}></Route>
           <Route path="/homepage" element={<Homepage />}></Route>
+          <Route path="/" element ={<Navigate replace to="/homepage"/>}></Route>
         </Routes>
       </BrowserRouter>
     </>
