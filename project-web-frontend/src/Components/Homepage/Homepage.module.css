@@ -203,3 +203,68 @@ h2{
     color: white;
     font-weight: 500;
 }
+
+.selectStartPoint{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 10px;
+}
+
+.selectEndPoint{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 10px;
+}
+
+.inputPointContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.titlePoint{
+    font-size: 12px;
+    font-weight: 400;
+    color: rgb(168, 168, 168);
+}
+
+.inputPoint{
+    border: 0;
+    font-size: 16px;
+    font-weight: 500;
+    width: 150px;
+    padding: 0;
+}
+
+.inputPoint:focus{
+    outline: none;
+}
+
+.switchButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 4;
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    background-color: lightgray;
+    margin-left: 16.35%;
+    top: 382px;
+}
+
+.switchIcon{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    transform: rotate(90deg)
+}
+
+.material-icons-outlined{
+    font-size: 20px !important;
+}

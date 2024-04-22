@@ -43,12 +43,49 @@ const Homepage = () => {
             <div className={styles.infoRow}>
               <div className={styles.info} id={styles.startPoint}>
 
+                <div className={styles.switchButton}>
+                  <div className={styles.switchIcon}>
+                    <i className="material-icons-outlined">import_export</i>
+                  </div>
+                </div>
+
+                <div className={styles.selectStartPoint}>
+                  <div className={styles.iconPoint}>
+                    <img className={styles.itemImg} src="https://229a2c9fe669f7b.cmccloud.com.vn/svgIcon/pickup_vex_blue_24dp.svg"/>
+                  </div>
+                  <div className={styles.inputPointContainer}>
+                    <label className={styles.titlePoint}>
+                      Nơi xuất phát
+                    </label>
+                    <input className={styles.inputPoint} value="Hà Nội"></input>
+                  </div>
+                </div>
               </div>
               <div className={styles.info} id={styles.endPoint}>
- 
-              </div>
+                <div className={styles.selectEndPoint}>
+                    <div className={styles.iconPoint}>
+                      <img className={styles.itemImg} src="https://229a2c9fe669f7b.cmccloud.com.vn/svgIcon/dropoff_new_24dp.svg"/>
+                    </div>
+                    <div className={styles.inputPointContainer}>
+                      <label className={styles.titlePoint}>
+                        Nơi đến
+                      </label>
+                      <input className={styles.inputPoint} value="TP. HCM"></input>
+                    </div>
+                  </div>
+                </div>
               <div className={styles.info} id={styles.startDate}>
-   
+                <div className={styles.selectEndPoint}>
+                    <div className={styles.iconPoint}>
+                      <img className={styles.itemImg} src="https://storage.googleapis.com/fe-production/svgIcon/event_vex_blue_24dp.svg"/>
+                    </div>
+                    <div className={styles.inputPointContainer}>
+                      <label className={styles.titlePoint}>
+                        Ngày đi
+                      </label>
+                      <input className={styles.inputPoint} value="Ngày nào đó"></input>
+                    </div>
+                  </div>
               </div>
               <div className={styles.info} id={styles.endDate}>
    
