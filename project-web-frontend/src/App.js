@@ -4,10 +4,9 @@ import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from "react";
-import Booking from "./Components/Booking/Booking";
 import RangeSlider from "./Components/Booking/RangeSlider";
-import ToggleableRangeSlider from "./Components/Booking/testSlider";
 import Homepage from "./Components/Homepage/Homepage";
+import Booking from "./Components/Booking/Booking";
 
 function App() {
   const [userState, setUserState] = useState({});
@@ -35,7 +34,6 @@ function App() {
           <Route path="/signup" element={<Register />}></Route>
           <Route path = "/booking" element={<Booking />}></Route>
           <Route path = "/slider" element={<RangeSlider />}></Route>
-          <Route path = "/testslider" element={<ToggleableRangeSlider />}></Route>
           <Route path="/homepage" element={<Homepage />}></Route>
 
           

@@ -1,14 +1,14 @@
-body{
+body {
     margin: 0;
-    overflow: hidden;
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+    /* overflow: hidden; */
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
     height: 100vh;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
 }
 
-.navbar{
+.navbar {
     display: flex;
     align-items: center;
     min-height: 72px;
@@ -16,7 +16,7 @@ body{
     padding: 16px 20px;
     color: white;
     justify-content: space-between;
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
     font-size: 14px;
     box-sizing: border-box;
     line-height: 1.5;
@@ -24,7 +24,7 @@ body{
 
 }
 
-.header-right{
+.header-right {
     display: flex;
     justify-content: flex-end;
     gap: 24px;
@@ -32,15 +32,15 @@ body{
     align-items: center;
 }
 
-li{
+li {
     display: flex;
 }
 
-.material-icons-round{
+.material-icons-round {
     font-size: 20px !important;
 }
 
-.buttons{
+.buttons {
     background-color: aliceblue;
     display: flex;
     justify-content: space-evenly;
@@ -58,37 +58,37 @@ li{
     cursor: pointer;
     transition: 0.5s;
     display: inline-block;
-  }
-  
+}
+
 .buttons span:after {
     content: '\00bb';
     opacity: 0;
     right: -20px;
     transition: 0.5s;
-  }
-  
+}
+
 .buttons:hover span {
     padding-right: 20px;
 }
-  
+
 .buttons:hover span:after {
     opacity: 1;
     right: 0;
 }
 
-.sign-in-button{
+.sign-in-button {
     display: flex;
     justify-content: space-between;
     align-content: center;
     gap: 15px;
 }
 
-.banner{
+.banner {
     display: flex;
     height: 80vh;
 }
 
-.banner-background{
+.banner-background {
     position: absolute;
     object-fit: cover;
     width: 100%;
@@ -96,7 +96,7 @@ li{
     z-index: -100;
 }
 
-h2{
+h2 {
     color: white;
     font-weight: normal;
     font-size: 36px;
@@ -104,7 +104,7 @@ h2{
     font-weight: 500;
 }
 
-.banner-middle{
+.banner-middle {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -112,7 +112,7 @@ h2{
     flex-direction: column;
 }
 
-.ticket-widget{
+.ticket-widget {
     display: flex;
     border-radius: 8px;
     background-color: white;
@@ -123,7 +123,7 @@ h2{
     gap: 15px;
 }
 
-.info-row{
+.info-row {
     display: flex;
     border-radius: 8px;
     width: 100%;
@@ -133,20 +133,20 @@ h2{
 
 }
 
-.info{
+.info {
     border: solid 1px rgb(215, 233, 255);
     width: 25%;
 }
 
-#start-point{
+#start-point {
     border-radius: 8px 0 0 8px;
 }
 
-#end-date{
+#end-date {
     border-radius: 0 8px 8px 0;
 }
 
-.search-button{
+.search-button {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -154,7 +154,7 @@ h2{
     gap: 15px;
 }
 
-#search-button{
+#search-button {
     width: 100%;
     background-color: rgb(255, 211, 51);
     color: black;
@@ -162,11 +162,11 @@ h2{
     justify-content: center;
 }
 
-.end{
+.end {
     position: relative;
 }
 
-.background{
+.background {
     position: absolute;
     background-color: black;
     opacity: 50%;
@@ -174,14 +174,14 @@ h2{
     width: 100%;
 }
 
-.end-items{
+.end-items {
     top: 0;
     width: 100%;
     display: flex;
     justify-content: space-evenly;
 }
 
-.items{
+.items {
     display: flex;
     justify-content: center;
     z-index: 100;
@@ -190,13 +190,13 @@ h2{
     gap: 10px;
 }
 
-.item-img{
+.item-img {
     width: 24px;
     height: 24px;
     display: flex;
 }
 
-.title{
+.title {
     color: white;
     font-weight: 500;
 }
