@@ -28,8 +28,8 @@ public class UserController {
     }
 
     @PutMapping("/thaydoimatkhau")
-    public ResponseEntity<User> updatePassword(@RequestParam String account, @RequestParam String newpassword) {
-        return userService.updatePassword(account, newpassword);
+    public ResponseEntity<User> updatePassword(@RequestParam String account, @RequestParam String newpassword, @RequestParam String renewpassword) {
+        return userService.updatePassword(account, newpassword, renewpassword);
     }
     @PostMapping("/binhluan")
     public ResponseEntity<Comment> createComment(@RequestBody @Valid UserCommentationRequest request){

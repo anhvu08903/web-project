@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
 @Service
 public class UserService {
     @Autowired
@@ -60,14 +59,19 @@ public class UserService {
         return ResponseEntity.ok(user);
     }
 
-    public ResponseEntity<User> updatePassword(String account, String newpassword){
+    public ResponseEntity<User> updatePassword(String account, String newpassword, String renewpassword){
         User user = userRepository.findByAccount(account);
         if(user == null) {
             throw  new RuntimeException("User's not existed.");
         }
-        user.setPassword(newpassword);
-        userRepository.save(user);
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+        if (!newpassword.equals(renewpassword)){
+            throw  new RuntimeException("Nhap lai mat khau moi khong dung.");
+        }
+        else {
+            user.setPassword(newpassword);
+            userRepository.save(user);
+            return ResponseEntity.status(HttpStatus.OK).body(user);
+        }
     }
 
     public ResponseEntity<Comment> createComment(UserCommentationRequest request){
@@ -163,14 +167,6 @@ public class UserService {
             return ResponseEntity.notFound().build();
         }
     }
-
-
-
-
-
-
-
-
     public List<User> getUsers(){
         return userRepository.findAll();
      }
