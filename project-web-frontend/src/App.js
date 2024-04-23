@@ -5,8 +5,6 @@ import Register from "./Components/Register/Register";
 import { BrowserRouter as Router, Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { useState } from "react";
 import Booking from "./Components/Booking/Booking";
-import RangeSlider from "./Components/Booking/RangeSlider";
-import ToggleableRangeSlider from "./Components/Booking/testSlider";
 import Homepage from "./Components/Homepage/Homepage";
 
 // function App() {
@@ -55,8 +53,6 @@ function App() {
           <Route path="/login" element={<Login />}/>
           <Route path="/signup" element={<Register />}></Route>
           <Route path="/booking" element={<Booking />}></Route>
-          <Route path="/slider" element={<RangeSlider />}></Route>
-          <Route path="/testslider" element={<ToggleableRangeSlider />}></Route>
           <Route path="/homepage" element={<Homepage />}></Route>
           <Route path="/" element ={<Navigate replace to="/homepage"/>}></Route>
         </Routes>

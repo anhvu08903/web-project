@@ -65,7 +65,7 @@ const [selectedNhaXe, setSelectedNhaXe] = useState([]);
 
 
     const bookings = [
-        { id: 1, departureTime: "9:45", arrivalTime: "11:10", price: 50, rating: 3 , nhaXe: 'peo1'},
+        { id: 1, departureTime: "9:45", arrivalTime: "12:20", price: 50, rating: 3 , nhaXe: 'peo1'},
         { id: 2, departureTime: "12:15", arrivalTime: "14:30", price: 60, rating: 1 , nhaXe: 'peo2'},
         { id: 3, departureTime: "15:00", arrivalTime: "17:45", price: 70, rating: 5, nhaXe: 'peo3' },
         { id: 4, departureTime: "16:30", arrivalTime: "19:40", price: 90, rating: 4, nhaXe: 'peo4' }
@@ -216,7 +216,7 @@ const filterBookings = (timeRange, priceRange) => {
                     <div>
                         <p>Nhà xe</p>
                         <img
-                            src={currentImage2 === 'image1' ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Ic_keyboard_arrow_down_48px.svg/768px-Ic_keyboard_arrow_down_48px.svg.png' : 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Ic_keyboard_arrow_up_48px.svg/768px-Ic_keyboard_arrow_up_48px.svg.png'}
+                            src={currentImage3 === 'image1' ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Ic_keyboard_arrow_down_48px.svg/768px-Ic_keyboard_arrow_down_48px.svg.png' : 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Ic_keyboard_arrow_up_48px.svg/768px-Ic_keyboard_arrow_up_48px.svg.png'}
                             alt="Toggle Image"
                             onClick={handleClick3} // Sử dụng handleClick khi ảnh được click
                             className='arrow'
