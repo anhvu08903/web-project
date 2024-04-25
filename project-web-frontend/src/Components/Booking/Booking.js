@@ -173,7 +173,7 @@ const filterBookings = (timeRange, priceRange) => {
 
 
     const [showMessage, setShowMessage] = useState(null);// State quản lý div chọn chuyến
-    const [currentBookingPrice, setCurrentBookingPrice] = useState(null);
+    const [currentBookingPrice, setCurrentBookingPrice] = useState(null); 
 
 
     const handleBookTicket = (event, booking,id) => {
