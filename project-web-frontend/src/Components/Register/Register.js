@@ -15,6 +15,7 @@ const Register = () => {
     phoneNumber: "",
     password: "",
     cpassword: "",
+    account: "",
   });
 
   const changeHandler = (e) => {
@@ -31,7 +32,7 @@ const Register = () => {
     if (!values.name) {
       error.fname = "First Name is required";
     }
-    
+
     if (!values.email) {
       error.email = "Email is required";
     } else if (!regex.test(values.email)) {
@@ -63,71 +64,83 @@ const Register = () => {
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       console.log(user);
-      axios.post("http://localhost:4000/api/user/register", user).then((res) => {
-        alert(res.data.message);
-        navigate("/login", { replace: true });
-      });
+      axios
+        .post("http://localhost:8080/identity/users/dangky", user)
+        .then((res) => {
+          alert(res.data.message);
+          navigate("/login", { replace: true });
+        });
     }
   }, [formErrors]);
   return (
     <>
-    <div className={registerstyle.container}>
-      <div className={registerstyle.register}>
-        <form>
-          <h1>Create your account</h1>
-          
-          <input
-            type="text"
-            name="name"
-            id="name"
-            placeholder="Name"
-            onChange={changeHandler}
-            value={user.name}
-          />
-          <p className={basestyle.error}>{formErrors.name}</p>
-          <input
-            type="text"
-            name="phoneNumber"
-            id="phone"
-            placeholder="Phone Number"
-            onChange={changeHandler}
-            value={user.phoneNumber}
-          />
-          <p className={basestyle.error}>{formErrors.phoneNumber}</p>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            placeholder="Email"
-            onChange={changeHandler}
-            value={user.email}
-          />
-          <p className={basestyle.error}>{formErrors.email}</p>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Password"
-            onChange={changeHandler}
-            value={user.password}
-          />
-          <p className={basestyle.error}>{formErrors.password}</p>
-          <input
-            type="password"
-            name="cpassword"
-            id="cpassword"
-            placeholder="Confirm Password"
-            onChange={changeHandler}
-            value={user.cpassword}
-          />
-          <p className={basestyle.error}>{formErrors.cpassword}</p>
-          <button className={basestyle.button_common} onClick={signupHandler}>
-            Register
-          </button>
-        </form>
-        <NavLink to="/login">Already registered? Login</NavLink>
+      <div className={registerstyle.container}>
+        <div className={registerstyle.register}>
+          <form>
+            <h1>Create your account</h1>
+
+            <input
+              type="text"
+              name="name"
+              id="name"
+              placeholder="Name"
+              onChange={changeHandler}
+              value={user.name}
+            />
+            <p className={basestyle.error}>{formErrors.name}</p>
+            <input
+              type="account"
+              name="account"
+              id="account"
+              placeholder="Account"
+              onChange={changeHandler}
+              value={user.account}
+            />
+            <p className={basestyle.error}>{formErrors.account}</p>
+
+            <input
+              type="text"
+              name="phoneNumber"
+              id="phone"
+              placeholder="Phone Number"
+              onChange={changeHandler}
+              value={user.phoneNumber}
+            />
+            <p className={basestyle.error}>{formErrors.phoneNumber}</p>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Email"
+              onChange={changeHandler}
+              value={user.email}
+            />
+            <p className={basestyle.error}>{formErrors.email}</p>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Password"
+              onChange={changeHandler}
+              value={user.password}
+            />
+            <p className={basestyle.error}>{formErrors.password}</p>
+            <input
+              type="password"
+              name="cpassword"
+              id="cpassword"
+              placeholder="Confirm Password"
+              onChange={changeHandler}
+              value={user.cpassword}
+            />
+            <p className={basestyle.error}>{formErrors.cpassword}</p>
+            <button className={basestyle.button_common} onClick={signupHandler}>
+              Register
+            </button>
+          </form>
+          <NavLink to="/login">Already registered? Login</NavLink>
+        </div>
       </div>
-    </div>
     </>
   );
 };
