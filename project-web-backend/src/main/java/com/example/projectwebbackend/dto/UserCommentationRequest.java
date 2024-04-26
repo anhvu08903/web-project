@@ -1,9 +1,10 @@
 package com.example.projectwebbackend.dto;
 
 import com.example.projectwebbackend.entity.User;
+import lombok.AllArgsConstructor;
 
 import java.util.Date;
-
+@AllArgsConstructor
 public class UserCommentationRequest {
     private String content;
     private User user;

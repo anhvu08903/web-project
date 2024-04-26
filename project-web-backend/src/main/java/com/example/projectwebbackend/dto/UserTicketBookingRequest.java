@@ -4,9 +4,10 @@ import com.example.projectwebbackend.entity.PickAddress;
 import com.example.projectwebbackend.entity.ReturnAddress;
 import com.example.projectwebbackend.entity.Seat;
 import com.example.projectwebbackend.entity.Trip;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
-
+@AllArgsConstructor
 public class UserTicketBookingRequest {
     private Trip trip;
     private List<Seat> seatList;

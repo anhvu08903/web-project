@@ -2,16 +2,22 @@ package com.example.projectwebbackend.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class UserCreationRequest {
     @NotNull
     private String name;
+
     @Size(min = 4, message = "Tai khoan can it nhat 4 ki tu")
     private String account;
+
     @Size(min = 6, message = "Mat khau phai co it nhat 6 ky tu")
     private String password;
-    @Size(min = 9, max = 10, message = "SDT can co it nhat 9 chu so va nhieu nhat 10 chu so")
+
+    @Size(min = 9, max = 11, message = "SDT can co it nhat 9 chu so va nhieu nhat 10 chu so")
     private String phone;
+
     @NotNull
     private String email;
 

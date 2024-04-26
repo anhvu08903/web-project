@@ -1,7 +1,9 @@
 package com.example.projectwebbackend.dto;
 
 import com.example.projectwebbackend.entity.User;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class UserPaymentRequest {
     private User user;
     private UserTicketBookingRequest userTicketBookingRequest;

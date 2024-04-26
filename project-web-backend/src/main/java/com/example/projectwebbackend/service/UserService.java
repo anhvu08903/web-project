@@ -34,13 +34,13 @@ public class UserService {
     private CommentRepository commentRepository;
 
     public User createUser(UserCreationRequest request){
-        User user = new User();
         if (userRepository.existsByAccount(request.getAccount())){
-            throw  new RuntimeException("User existed.");
+            throw new RuntimeException("User existed.");
         }
         if (userRepository.existsByPhone(request.getPhone())){
             throw new RuntimeException("Phone number existed.");
-        }
+        }git
+        User user = new User();
         user.setName(request.getName());
         user.setAccount(request.getAccount());
         user.setPassword(request.getPassword());

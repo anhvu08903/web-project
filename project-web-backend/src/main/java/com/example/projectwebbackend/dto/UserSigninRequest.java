@@ -1,7 +1,9 @@
 package com.example.projectwebbackend.dto;
 
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class UserSigninRequest {
     @Size(min = 4, message = "Tai khoan can it nhat 4 ki tu")
     private String account;
