@@ -39,7 +39,7 @@ public class UserService {
         }
         if (userRepository.existsByPhone(request.getPhone())){
             throw new RuntimeException("Phone number existed.");
-        }git
+        }
         User user = new User();
         user.setName(request.getName());
         user.setAccount(request.getAccount());
