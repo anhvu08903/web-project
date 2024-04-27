@@ -267,7 +267,8 @@ h2 {
     display: flex;
     justify-content: center;
     align-self: center;
-    transform: rotate(90deg)
+    transform: rotate(90deg);
+    cursor: pointer;
 }
 
 .material-icons-outlined {

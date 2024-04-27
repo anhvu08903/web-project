@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route, BrowserRouter, Navigate } from 
 import { useState } from "react";
 import Booking from "./Components/Booking/Booking";
 import Homepage from "./Components/Homepage/Homepage";
+import Payment from "./Components/Payment/Payment";
 
 // function App() {
 //   const [userState, setUserState] = useState({});
@@ -54,6 +55,7 @@ function App() {
           <Route path="/signup" element={<Register />}></Route>
           <Route path="/booking" element={<Booking />}></Route>
           <Route path="/homepage" element={<Homepage />}></Route>
+          <Route path="/payment" element={<Payment />}></Route>
           <Route path="/" element ={<Navigate replace to="/homepage"/>}></Route>
         </Routes>
       </BrowserRouter>
