@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface AdminCoachRepossitory extends CrudRepository<Coach, Long> {
 //    @Modifying
-//    @Transactional
+//    @Transactiona
 //    @Query("INSERT INTO Coach(licenseplate, coachtype, number, admin) " +
 //            "SELECT :licenseplate, :coachtype, :number, a FROM Admin a WHERE a.adminid = :adminid")
 //    void addCoachWithAdminId(@Param("licenseplate") String licenseplate,

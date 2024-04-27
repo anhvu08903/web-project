@@ -1,5 +1,8 @@
 package com.example.projectwebbackend.dto;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class UserUpdateRequest {
     private String name;
 
