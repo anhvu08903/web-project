@@ -11,6 +11,14 @@ const Homepage = () => {
   //   navigate('/login');
   // };
 
+  const [startPointValue, setStartPointValue] = useState('Hà Nội');
+  const [endPointValue, setEndPointValue] = useState('TP. HCM');
+
+    const handleSwitch = () => {
+      setEndPointValue(startPointValue);
+      setStartPointValue(endPointValue);
+    };
+
   return (
     <div>
       <div className={styles.navbar}>
@@ -42,7 +50,7 @@ const Homepage = () => {
             <div className={styles.infoRow}>
               <div className={styles.info} id={styles.startPoint}>
 
-                <div className={styles.switchButton}>
+                <div className={styles.switchButton} onClick={handleSwitch}>
                   <div className={styles.switchIcon}>
                     <i className="material-icons-outlined">import_export</i>
                   </div>
@@ -56,7 +64,11 @@ const Homepage = () => {
                     <label className={styles.titlePoint}>
                       Nơi xuất phát
                     </label>
-                    <input className={styles.inputPoint} value="Hà Nội"></input>
+                    <input 
+                      className={styles.inputPoint} 
+                      value={startPointValue} 
+                      onChange={(e) => setStartPointValue(e.target.value)}>
+                    </input>
                   </div>
                 </div>
               </div>
@@ -69,7 +81,11 @@ const Homepage = () => {
                       <label className={styles.titlePoint}>
                         Nơi đến
                       </label>
-                      <input className={styles.inputPoint} value="TP. HCM"></input>
+                      <input 
+                        className={styles.inputPoint} 
+                        value={endPointValue} 
+                        onChange={(e) => setEndPointValue(e.target.value)}>
+                      </input>
                     </div>
                   </div>
                 </div>
