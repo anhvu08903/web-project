@@ -7,6 +7,7 @@ import { useState } from "react";
 import Booking from "./Components/Booking/Booking";
 import Homepage from "./Components/Homepage/Homepage";
 import Payment from "./Components/Payment/Payment";
+import Coach from "./Components/Coach/Coach";
 
 // function App() {
 //   const [userState, setUserState] = useState({});
@@ -56,6 +57,7 @@ function App() {
           <Route path="/booking" element={<Booking />}></Route>
           <Route path="/homepage" element={<Homepage />}></Route>
           <Route path="/payment" element={<Payment />}></Route>
+          <Route path="/coach" element={<Coach />}></Route>
           <Route path="/" element ={<Navigate replace to="/homepage"/>}></Route>
         </Routes>
       </BrowserRouter>
