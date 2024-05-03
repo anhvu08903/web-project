@@ -2,17 +2,94 @@ import React, {useState} from 'react';
 import styles from './Coach.module.css';
 import { Link, useNavigate} from 'react-router-dom';
 import Trip from './Trip';
+import TripForm from './TripForm';
 
 const Coach = () => {
     
 const coachName = "{Placeholder}";
 
+const [buttonPopup, setButtonPopup] = useState(false);
+
     return (
         <div>
-            <button className={`${styles.addTripButton} ${styles.buttons}`}>
+            <button className={`${styles.addTripButton} ${styles.buttons}`} onClick={() => setButtonPopup(true)}>
                 Thêm chuyến xe
                 <span></span>
             </button>
+
+            <TripForm trigger={buttonPopup} setTrigger={setButtonPopup}>
+
+                <div style={{width: "100%"}}>
+                    <div className={styles.infoBoxWrapper}>
+                        <div className={styles.infoBoxTitle}>Thông tin chuyến xe</div>
+                        <form className={styles.infoBoxForm}>
+                            <div className={styles.places}>
+                                <div className={styles.inputContainer}>
+                                    <label className={styles.title}>
+                                        Nơi xuất phát*
+                                    </label>
+                                    <input className={styles.input} value="Hà Lội"></input>
+                                </div>
+
+                                <div className={styles.inputContainer}>
+                                    <label className={styles.title}>
+                                        Nơi đến*
+                                    </label>
+                                    <input className={styles.input} value="Xài Gòn"></input>
+                                </div>
+                            </div>
+
+                            <div className={styles.times}>
+                                <div className={styles.inputContainer}>
+                                    <label className={styles.title}>
+                                        Ngày đi*
+                                    </label>
+                                    <input className={styles.input} value="Ngày nào đó"></input>
+                                </div>
+
+                                <div className={styles.inputContainer}>
+                                    <label className={styles.title}>
+                                        Ngày về*
+                                    </label>
+                                    <input className={styles.input} value="Ngày nào đó"></input>
+                                </div>
+                            </div>
+
+                            <div className={styles.types}>
+                                <div className={styles.inputContainer} style={{width: "17%"}}>
+                                    <label className={styles.title}>
+                                        Giờ đi*
+                                    </label>
+                                    <input className={styles.input} value="0:00"></input>
+                                </div>
+
+                                <div className={styles.inputContainer} style={{width: "17%"}}>
+                                    <label className={styles.title}>
+                                        Giờ về*
+                                    </label>
+                                    <input className={styles.input} value="23:59"></input>
+                                </div>
+
+                                <div className={styles.inputContainer}>
+                                    <label className={styles.title}>
+                                        Loại xe*
+                                    </label>
+                                    <input className={styles.input} value="??? chỗ"></input>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div className={styles.searchButton}>
+                            <button className={styles.buttons} id={styles.searchButton}>
+                                Tạo chuyến xe
+                                <span></span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </TripForm>
 
             <div className={styles.navbar}>
                 <div className={styles.headerLeft}>

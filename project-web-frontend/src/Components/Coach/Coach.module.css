@@ -233,3 +233,118 @@ li {
     height: 86px;
 }
 
+.popUp{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popUpInner{
+    position: relative;
+    width: 50%;
+    height: 50%;
+    background-color: #fff;
+    border-radius: 8px;
+
+    display: flex;
+}
+
+.closePopUpButton{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 24px;
+    height: 24px;
+    border-radius: 20px;
+    border: 0;
+    font-size: 18px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: gray;
+    transition: background-color 0.5s ease;
+}
+
+.closePopUpButton:hover{
+    background-color: rgb(232, 232, 232);
+}
+
+.infoBoxWrapper{
+    padding: 20px;
+    height: 100%;
+    
+}
+
+.infoBoxForm{
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.infoBoxTitle{
+    font-size: 18px;
+    font-weight: 700;
+    color: #202020;
+    padding-bottom: 20px;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    border: 1px solid rgb(225, 225, 225);
+    border-radius: 8px;
+    padding: 8px 20px;
+    width: 100%;
+}
+
+.title {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgb(168, 168, 168);
+}
+
+.input {
+    border: 0;
+    font-size: 16px;
+    font-weight: 500;
+    width: 150px;
+    padding: 0;
+}
+
+.input:focus{
+    outline: none;
+}
+
+.places, .times, .types{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 20px;
+}
+
+.searchButton {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 15px;
+    padding-top: 20px;
+}
+
+#searchButton {
+    width: 100%;
+    background-color: rgb(255, 211, 51);
+    color: black;
+    font-size: 16px;
+    justify-content: center;
+}
