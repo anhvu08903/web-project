@@ -20,7 +20,7 @@ const Homepage = () => {
     };
 
   return (
-    <div>
+    <div style={{overflow: "hidden"}}>
       <div className={styles.navbar}>
         <div className={styles.headerLeft}>
 
@@ -48,7 +48,7 @@ const Homepage = () => {
           <h2>Đặt vé xe đơn giản và an toàn</h2>
           <div className={styles.ticketWidget}>
             <div className={styles.infoRow}>
-              <div className={styles.info} id={styles.startPoint}>
+              <div className={styles.info} id={styles.startPoint} style={{position: "relative"}}>
 
                 <div className={styles.switchButton} onClick={handleSwitch}>
                   <div className={styles.switchIcon}>

@@ -28,14 +28,14 @@ const [buttonPopup, setButtonPopup] = useState(false);
                                     <label className={styles.title}>
                                         Nơi xuất phát*
                                     </label>
-                                    <input className={styles.input} value="Hà Lội"></input>
+                                    <input className={styles.input}></input>
                                 </div>
 
                                 <div className={styles.inputContainer}>
                                     <label className={styles.title}>
                                         Nơi đến*
                                     </label>
-                                    <input className={styles.input} value="Xài Gòn"></input>
+                                    <input className={styles.input}></input>
                                 </div>
                             </div>
 
@@ -44,14 +44,14 @@ const [buttonPopup, setButtonPopup] = useState(false);
                                     <label className={styles.title}>
                                         Ngày đi*
                                     </label>
-                                    <input className={styles.input} value="Ngày nào đó"></input>
+                                    <input className={styles.input}></input>
                                 </div>
 
                                 <div className={styles.inputContainer}>
                                     <label className={styles.title}>
                                         Ngày về*
                                     </label>
-                                    <input className={styles.input} value="Ngày nào đó"></input>
+                                    <input className={styles.input}></input>
                                 </div>
                             </div>
 
@@ -60,21 +60,21 @@ const [buttonPopup, setButtonPopup] = useState(false);
                                     <label className={styles.title}>
                                         Giờ đi*
                                     </label>
-                                    <input className={styles.input} value="0:00"></input>
+                                    <input className={styles.input}></input>
                                 </div>
 
                                 <div className={styles.inputContainer} style={{width: "17%"}}>
                                     <label className={styles.title}>
                                         Giờ về*
                                     </label>
-                                    <input className={styles.input} value="23:59"></input>
+                                    <input className={styles.input}></input>
                                 </div>
 
                                 <div className={styles.inputContainer}>
                                     <label className={styles.title}>
                                         Loại xe*
                                     </label>
-                                    <input className={styles.input} value="??? chỗ"></input>
+                                    <input className={styles.input}></input>
                                 </div>
                             </div>
                         </form>
