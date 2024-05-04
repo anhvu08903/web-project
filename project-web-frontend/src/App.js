@@ -8,6 +8,8 @@ import Booking from "./Components/Booking/Booking";
 import Homepage from "./Components/Homepage/Homepage";
 import Payment from "./Components/Payment/Payment";
 import Coach from "./Components/Coach/Coach";
+import LoginCoach from "./Components/Login/LoginCoach";
+import RegisterCoach from "./Components/Register/RegisterCoach";
 
 // function App() {
 //   const [userState, setUserState] = useState({});
@@ -58,6 +60,8 @@ function App() {
           <Route path="/homepage" element={<Homepage />}></Route>
           <Route path="/payment" element={<Payment />}></Route>
           <Route path="/coach" element={<Coach />}></Route>
+          <Route path="/logincoach" element={<LoginCoach />}></Route>
+          <Route path="/registercoach" element={<RegisterCoach />}></Route>
           <Route path="/" element ={<Navigate replace to="/homepage"/>}></Route>
         </Routes>
       </BrowserRouter>

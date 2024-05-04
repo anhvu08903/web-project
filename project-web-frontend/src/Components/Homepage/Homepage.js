@@ -20,13 +20,15 @@ const Homepage = () => {
     };
 
   return (
-    <div style={{overflow: "hidden"}}>
+    <div style={{overflow: "hidden", height: "100vh"}}>
       <div className={styles.navbar}>
         <div className={styles.headerLeft}>
 
         </div>
         <ul className={styles.headerRight}>
-          <li>Đăng ký mở bán vé</li>
+          <Link to='/logincoach' style={{color: "white"}}>
+            <li>Đăng ký mở bán vé</li>
+          </Link>
           <div className={styles.signInButton}>
             <button className={styles.buttons}>
               <i className="material-icons-round">phone</i>
