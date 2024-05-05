@@ -154,11 +154,11 @@ public class AdminController {
     }
 
 
-    @GetMapping
-    public List<Trip> getAllTrip(){
-        return  tripRepository.get();
-
-    }
+//    @GetMapping
+//    public List<Trip> getAllTrip(){
+//        return  tripRepository.get();
+//
+//    }
 }
 
 
