@@ -4,6 +4,7 @@ import SortOptions from "./SortOptions";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 const Booking = () => {
   // const token = sessionStorage.getItem('token');
@@ -238,7 +239,7 @@ const Booking = () => {
   };
 
   return (
-    <div>
+    <div className="background">
       <div className="box left">
         <div>
           <SortOptions
@@ -246,7 +247,7 @@ const Booking = () => {
             handleSortChange={handleSortChange}
           />
         </div>
-        <div>
+        <div className="loc">
           <h1>Lọc</h1>
           <div>
             <div>
@@ -351,6 +352,7 @@ const Booking = () => {
                 <strong>Nhà xe:</strong> {booking.nhaXe} <br />
                 <div key={booking.id}>
                   <button
+                    className="button"
                     onClick={(event) =>
                       handleBookTicket(event, booking, booking.id)
                     }
@@ -360,17 +362,58 @@ const Booking = () => {
                   {showPickSeat === booking.id && (
                     <div>
                       <div>
-                        {[...Array(booking.totalSeat)].map((_, index) => (
-                          <img
-                            key={index}
-                            src="https://cdn.iconscout.com/icon/premium/png-256-thumb/car-seat-1616720-1372229.png"
-                            className="seat"
-                            onClick={handleSeat}
-                          />
-                        ))}
+                        {[...Array(30)].map((_, index) => {
+                          if (
+                            index < booking.totalSeat &&
+                            index % 2 == 0 &&
+                            index > 0
+                          ) {
+                            // Hiển thị ảnh 1
+                            return (
+                              <div>
+                                <img
+                                  src="https://cdn-icons-png.flaticon.com/512/1683/1683758.png"
+                                  className="seat"
+                                  onClick={handleSeat}
+                                />
+                                <img
+                                  src="https://cdn-icons-png.flaticon.com/512/1683/1683758.png"
+                                  className="seat"
+                                  onClick={handleSeat}
+                                />
+                              </div>
+                            );
+                          } else if (
+                            index == booking.totalSeat &&
+                            booking.totalSeat % 2 == 1
+                          ) {
+                            return (
+                              <img
+                                src="https://cdn-icons-png.flaticon.com/512/1683/1683758.png"
+                                className="seat"
+                                onClick={handleSeat}
+                              />
+                            );
+                          } else if (
+                            index >= booking.totalSeat &&
+                            index <= 30
+                          ) {
+                            return (
+                              <img
+                                src="https://cdn.iconscout.com/icon/premium/png-256-thumb/car-seat-1616720-1372229.png"
+                                className="seat"
+                                onClick={handleSeat}
+                              />
+                            );
+                          } else {
+                            // Trường hợp còn lại, không hiển thị
+                            return null;
+                          }
+                        })}
                       </div>
                       <div>
                         <button
+                          className="button"
                           onClick={(event) =>
                             handlePick(event, booking, booking.id)
                           }
@@ -439,7 +482,9 @@ const Booking = () => {
                                 )}
                               </div>
                             </div>
-                            <button>Tiếp tục</button>
+                            <Link to={"/payment"}>
+                              <button className="button">Tiếp tục</button>
+                            </Link>
                           </div>
                         )}
                       </div>

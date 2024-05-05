@@ -4,12 +4,11 @@ import loginstyle from "./Login.module.css";
 import axios from "axios";
 import { useNavigate, NavLink } from "react-router-dom";
 const Login = () => {
-  
   const navigate = useNavigate();
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const [user, setUserDetails] = useState({
-    userName: "",
+    account: "",
     password: "",
   });
 
@@ -23,11 +22,10 @@ const Login = () => {
   const validateForm = (values) => {
     const error = {};
     const regex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    if (!values.userName) {
-      error.userName = "Email is required";
-    } else if (!regex.test(values.userName)) {
-      error.userName = "Please enter a valid email address";
+    if (!values.account) {
+      error.account = "Account is required";
     }
+
     if (!values.password) {
       error.password = "Password is required";
     }
@@ -39,18 +37,21 @@ const Login = () => {
     setFormErrors(validateForm(user));
     setIsSubmit(true);
     // if (!formErrors) {
-    console.log(formErrors)
+    console.log(formErrors);
     // }
   };
 
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       console.log(user);
-      axios.post("http://localhost:4000/api/user/login", user).then((res) => {
-        alert(res.data.message);
-        if (typeof window !== 'undefined') sessionStorage.setItem('token', res.data.token);
-        navigate("/", { replace: true });
-      });
+      axios
+        .post("http://localhost:8080/identity/users/dangnhap", user)
+        .then((res) => {
+          alert("Dang nhap thanh cong!");
+          if (typeof window !== "undefined")
+            sessionStorage.setItem("token", res.data.token);
+          navigate("/Homepage", { replace: true });
+        });
     }
   }, [formErrors]);
   return (
@@ -59,14 +60,14 @@ const Login = () => {
         <form>
           <h1>Login</h1>
           <input
-            type="userName"
-            name="userName"
-            id="userName"
-            placeholder="Email or PhoneNumber"
+            type="text"
+            name="account"
+            id="account"
+            placeholder="Account"
             onChange={changeHandler}
-            value={user.userName}
+            value={user.account}
           />
-          <p className={basestyle.error}>{formErrors.userName}</p>
+          <p className={basestyle.error}>{formErrors.account}</p>
           <input
             type="password"
             name="password"
