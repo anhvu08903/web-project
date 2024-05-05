@@ -20,13 +20,15 @@ const Homepage = () => {
     };
 
   return (
-    <div>
+    <div style={{overflow: "hidden", height: "100vh"}}>
       <div className={styles.navbar}>
         <div className={styles.headerLeft}>
 
         </div>
         <ul className={styles.headerRight}>
-          <li>Đăng ký mở bán vé</li>
+          <Link to='/logincoach' style={{color: "white"}}>
+            <li>Đăng ký mở bán vé</li>
+          </Link>
           <div className={styles.signInButton}>
             <button className={styles.buttons}>
               <i className="material-icons-round">phone</i>
@@ -48,7 +50,7 @@ const Homepage = () => {
           <h2>Đặt vé xe đơn giản và an toàn</h2>
           <div className={styles.ticketWidget}>
             <div className={styles.infoRow}>
-              <div className={styles.info} id={styles.startPoint}>
+              <div className={styles.info} id={styles.startPoint} style={{position: "relative"}}>
 
                 <div className={styles.switchButton} onClick={handleSwitch}>
                   <div className={styles.switchIcon}>
