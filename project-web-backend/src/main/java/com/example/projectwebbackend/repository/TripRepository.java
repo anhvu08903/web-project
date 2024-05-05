@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Long> {
     List<Trip> findByStartprovinceAndEndprovince(Province sprovince, Province eprovince);
+
 }
