@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './Coach.module.css';
 import { Link, useNavigate} from 'react-router-dom';
 import Trip from './Trip';
@@ -6,46 +6,71 @@ import TripForm from './TripForm';
 import axios from 'axios';
 
 const Coach = () => {
-    
+
     const coachName = "{Placeholder}";
 
     const [buttonPopup, setButtonPopup] = useState(false);
 
     const [tripInfo, setTripInfo] = useState({
-        startPlace: "",
-        endPlace: "",
-        startDate: "",
-        endDate: "",
-        startTime: "",
-        endTime: "",
-        seatType: "",
-        remainingSeat: "0"
+        startprovince: {
+            pid: "",
+            pname: ""
+        },
+        endprovince: {
+            pid: "",
+            pname: ""
+        },
+        starttime: "",
+        endtime: "",
+        licenseplate: ""
+
+
     })
 
     const handleChange = (e) => {
         setTripInfo({...tripInfo, [e.target.name]: e.target.value})
-    } 
+    }
 
     const addTrip = async() => {
         let trip = tripInfo;
         console.log(trip);
-        await axios.post("url nhe", trip)
+         axios.post("http://localhost:8080/identity/api/add/trip", trip)
             .then((res) => {
-                res.json();
-                
+                alert ("thanh cong ")
+
             })
         setButtonPopup(false);
         setTripInfo({
-            startPlace: "",
-            endPlace: "",
-            startDate: "",
-            endDate: "",
-            startTime: "",
-            endTime: "",
-            seatType: "",
-            remainingSeat: "0"
+            startprovince: {
+                pid: "",
+                pname: ""
+            },
+            endprovince: {
+                pid: "",
+                pname: ""
+            },
+            starttime: "",
+            endtime: "",
+            licenseplate: ""
         })
     }
+
+
+    // const AddTrip = (e) => {
+    //     e.preventDefault();
+    //
+    // };
+    //
+    // useEffect(() => {
+    //     {
+    //
+    //         axios.post("http://localhost:8080/api/admin/add/trip", tripInfo).then((res) => {
+    //             alert(res.data.message);
+    //
+    //
+    //         });
+    //     }
+    // }, []);
 
     const Trips = [
         {
@@ -110,63 +135,63 @@ const Coach = () => {
                             <div className={styles.places}>
                                 <div className={styles.inputContainer}>
                                     <label className={styles.title}>
-                                        Nơi xuất phát*
+                                        Ma Tinh Di
                                     </label>
-                                    <input className={styles.input} name='startPlace' onChange={handleChange} value={tripInfo.startPlace}></input>
+                                    <input type={"text"} className={styles.input} name='startprovince' onChange={handleChange} value={tripInfo.startprovince.pid}></input>
+                                </div>
+
+                                <div className={styles.inputContainer}>
+                                <label className={styles.title}>
+                                    Ten Tinh Di
+                                </label>
+                                <input type={"text"} className={styles.input} name='startprovince' onChange={handleChange} value={tripInfo.startprovince.pname}></input>
+                            </div>
+
+                                <div className={styles.inputContainer}>
+                                    <label className={styles.title}>
+                                        Ma Tinh Den
+                                    </label>
+                                    <input type={"text"} className={styles.input} name='endprovince' onChange={handleChange} value={tripInfo.endprovince.pid}></input>
                                 </div>
 
                                 <div className={styles.inputContainer}>
                                     <label className={styles.title}>
-                                        Nơi đến*
+                                        Ten Tinh Den
                                     </label>
-                                    <input className={styles.input} name='endPlace' onChange={handleChange} value={tripInfo.endPlace}></input>
+                                    <input type={"text"} className={styles.input} name='endprovince' onChange={handleChange} value={tripInfo.endprovince.pname}></input>
                                 </div>
                             </div>
 
                             <div className={styles.times}>
                                 <div className={styles.inputContainer}>
                                     <label className={styles.title}>
-                                        Ngày đi*
+                                        Thoi Gian Di
                                     </label>
-                                    <input className={styles.input} name='startDate' onChange={handleChange} value={tripInfo.startDate}></input>
+                                    <input type={"date"} className={styles.input} name='starttime' onChange={handleChange} value={tripInfo.starttime}></input>
                                 </div>
 
                                 <div className={styles.inputContainer}>
                                     <label className={styles.title}>
-                                        Ngày về*
+                                        Thoi Gian Den
                                     </label>
-                                    <input className={styles.input} name='endDate' onChange={handleChange} value={tripInfo.endDate}></input>
+                                    <input type={"date"} className={styles.input} name='endtime' onChange={handleChange} value={tripInfo.endtime}></input>
                                 </div>
                             </div>
 
                             <div className={styles.types}>
-                                <div className={styles.types} style={{width: "100%"}}>
-                                    <div className={styles.inputContainer}>
-                                        <label className={styles.title}>
-                                            Giờ đi*
-                                        </label>
-                                        <input className={styles.input} name='startTime' onChange={handleChange} value={tripInfo.startTime}></input>
-                                    </div>
 
-                                    <div className={styles.inputContainer}>
-                                        <label className={styles.title}>
-                                            Giờ về*
-                                        </label>
-                                        <input className={styles.input} name='endTime' onChange={handleChange} value={tripInfo.endTime}></input>
-                                    </div>
-                                </div>
 
                                 <div className={styles.inputContainer}>
                                     <label className={styles.title}>
-                                        Loại xe*
+                                        Bien So Xe
                                     </label>
-                                    <input className={styles.input} name='seatType' onChange={handleChange} value={tripInfo.seatType}></input>
+                                    <input type={"text"} className={styles.input} name='licenseplate' onChange={handleChange} value={tripInfo.licenseplate}></input>
                                 </div>
                             </div>
                         </form>
 
                         <div className={styles.searchButton}>
-                            <button className={styles.buttons} id={styles.searchButton} onClick={addTrip}>
+                            <button className={styles.buttons} id={styles.searchButton} onClick={addTrip} >
                                 Tạo chuyến xe
                                 <span></span>
                             </button>
@@ -207,8 +232,8 @@ const Coach = () => {
                     <div style={{display: "flex", justifyContent: "space-between", marginTop: "40px"}}>
                         <div style={{display: "flex", gap: "40px", flexDirection: "column"}}>
                             {Trips.map((trip, i) => {
-                                return <Trip 
-                                    key={i} 
+                                return <Trip
+                                    key={i}
                                     // id={trip.id}
                                     // seatType={trip.seatType}
                                     // remainingSeat={trip.remainingSeat}

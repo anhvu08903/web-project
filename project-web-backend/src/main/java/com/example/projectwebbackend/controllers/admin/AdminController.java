@@ -43,13 +43,16 @@ public class AdminController {
     @Autowired private AdminTicketPromptService adminTicketPromptService;
 
 
+
+
     private List<Admin> admins = new ArrayList<>();
 
 
     //danh sach tat ca nha xe
         @GetMapping
         public List<Admin> getAllAdmins(){
-            return adminService.getAllAdmin();
+            return  adminService.getAllAdmin();
+
         }
 
         //dang ki
@@ -59,12 +62,15 @@ public class AdminController {
         return adminService.adminSignUp(request);
     }
 
-    //dang nhap
+   // dang nhap
     @PostMapping("/signin")
     public ResponseEntity<Admin> signinAdmin(@RequestBody @Valid AdminSignInRequest request){
         return adminService.signInAdmin(request.getAdminaccount(), request.getAdminpassword());
+
     }
 
+
+        //them tai khoan admin
     @PostMapping("/add")
     public Admin addAdmin(@RequestBody Admin admins) {
         return adminService.addAdmin(admins);
@@ -146,6 +152,13 @@ public class AdminController {
     public void denyTicket(@PathVariable Long  id){
         adminTicketPromptService.DenyTicket(id);
     }
+
+
+//    @GetMapping
+//    public List<Trip> getAllTrip(){
+//        return  tripRepository.get();
+//
+//    }
 }
 
 
