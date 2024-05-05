@@ -2,10 +2,6 @@
 
 body {
     margin: 0;
-<<<<<<< HEAD
-    /* overflow: auto; */
-=======
->>>>>>> 528eccd86ce26f451b852b391d118b9a1bab6ac0
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
     height: 100vh;
     display: flex;
