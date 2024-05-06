@@ -29,8 +29,8 @@ public class Trip {
 
     @ManyToOne
     @JoinColumn(name = "BienSoXe")
-    @JsonBackReference
-    @JsonIgnore
+//    @JsonBackReference
+//    @JsonIgnore
     private Coach coach;
 
     public Long getTripid() {
