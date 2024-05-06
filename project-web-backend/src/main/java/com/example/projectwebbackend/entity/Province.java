@@ -1,7 +1,9 @@
 package com.example.projectwebbackend.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "Tinh")
 public class Province {
@@ -13,16 +15,8 @@ public class Province {
     @Column(name = "TenTinh")
     private String pname;
 
-    public Integer getPid() {
-        return pid;
-    }
-
     public void setPid(Integer pid) {
         this.pid = pid;
-    }
-
-    public String getPname() {
-        return pname;
     }
 
     public void setPname(String pname) {

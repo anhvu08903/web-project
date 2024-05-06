@@ -5,12 +5,32 @@ import Trip from "./Trip";
 import TripForm from "./TripForm";
 import axios from "axios";
 
+// function convertToStandardDateFormat(datetimeLocal) {
+//   // Tạo một đối tượng Date từ chuỗi datetime-local
+//   var date = new Date(datetimeLocal);
+
+//   // Lấy các thành phần ngày, tháng, năm, giờ, phút, giây từ đối tượng Date
+//   var year = date.getFullYear();
+//   var month = ("0" + (date.getMonth() + 1)).slice(-2); // Tháng bắt đầu từ 0 nên cần cộng thêm 1
+//   var day = ("0" + date.getDate()).slice(-2);
+//   var hour = ("0" + date.getHours()).slice(-2);
+//   var minute = ("0" + date.getMinutes()).slice(-2);
+//   var second = ("0" + date.getSeconds()).slice(-2);
+
+//   // Trả về định dạng chuẩn của Date
+//   return (
+//     year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second
+//   );
+// }
+
 const Coach = () => {
   const coachName = "{Placeholder}";
 
   const [buttonPopup, setButtonPopup] = useState(false);
 
   const [tripInfo, setTripInfo] = useState({
+    starttime: "",
+    endtime: "",
     startprovince: {
       pid: "",
       pname: "",
@@ -19,42 +39,88 @@ const Coach = () => {
       pid: "",
       pname: "",
     },
-    starttime: "",
-    endtime: "",
     licenseplate: "",
   });
 
   const handleChange = (e) => {
     setTripInfo({ ...tripInfo, [e.target.name]: e.target.value });
+    if (e.target.name == "startprovince-pid")
+      setTripInfo({
+        ...tripInfo,
+        startprovince: {
+          pid: e.target.value,
+          pname: tripInfo.startprovince.pname,
+        },
+      });
+    if (e.target.name == "startprovince-pname")
+      setTripInfo({
+        ...tripInfo,
+        startprovince: {
+          pname: e.target.value,
+          pid: tripInfo.startprovince.pid,
+        },
+      });
+    if (e.target.name == "endprovince-pid")
+      setTripInfo({
+        ...tripInfo,
+        endprovince: {
+          pid: e.target.value,
+          pname: tripInfo.endprovince.pname,
+        },
+      });
+    if (e.target.name == "endprovince-pname")
+      setTripInfo({
+        ...tripInfo,
+        endprovince: {
+          pname: e.target.value,
+          pid: tripInfo.endprovince.pid,
+        },
+      });
+    console.log(tripInfo);
   };
 
   const addTrip = async () => {
-    try {
-      let trip = tripInfo;
-      console.log(trip);
-      const res = await axios.post(
+    // var startdatetimeLocal = document.getElementsByName("starttime").value;
+    // var startstandardDate = convertToStandardDateFormat(startdatetimeLocal);
+    // var enddatetimeLocal = document.getElementsByName("endtime").value;
+    // var endstandardDate = convertToStandardDateFormat(enddatetimeLocal);
+    axios
+      .post(
         "http://localhost:8080/identity/api/admin/add/trip",
-        trip
-      );
-      alert("Thành công");
-      setButtonPopup(false);
-      setTripInfo({
-        startprovince: {
-          pid: "",
-          pname: "",
-        },
-        endprovince: {
-          pid: "",
-          pname: "",
-        },
-        starttime: "",
-        endtime: "",
-        licenseplate: "",
+        tripInfo
+
+        // {
+        //   startprovince: {
+        //     pid: tripInfo.startprovince.pid,
+        //     pname: tripInfo.startprovince.pname,
+        //   },
+        //   endprovince: {
+        //     pid: tripInfo.endprovince.pid,
+        //     pname: tripInfo.endprovince.pname,
+        //   },
+        //   starttime: startstandardDate ? startstandardDate : "",
+        //   endtime: endstandardDate ? endstandardDate : "",
+        //   licenseplate: tripInfo.licenseplate,
+        // }
+      )
+      .then((res) => {
+        alert("thanh cong ");
       });
-    } catch (error) {
-      console.error("Lỗi khi thêm chuyến xe:", error);
-      alert("Đã xảy ra lỗi khi thêm chuyến xe");
-    }
+    setButtonPopup(false);
+    setTripInfo({
+      starttime: "",
+      endtime: "",
+
+      startprovince: {
+        pid: "",
+        pname: "",
+      },
+      endprovince: {
+        pid: "",
+        pname: "",
+      },
+      licenseplate: "",
+    });
   };
 
   // const AddTrip = (e) => {
@@ -139,9 +205,9 @@ const Coach = () => {
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Ma Tinh Di</label>
                   <input
-                    type={"text"}
+                    type="text"
                     className={styles.input}
-                    name="startprovince"
+                    name="startprovince-pid"
                     onChange={handleChange}
                     value={tripInfo.startprovince.pid}
                   ></input>
@@ -150,9 +216,9 @@ const Coach = () => {
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Ten Tinh Di</label>
                   <input
-                    type={"text"}
+                    type="text"
                     className={styles.input}
-                    name="startprovince"
+                    name="startprovince-pname"
                     onChange={handleChange}
                     value={tripInfo.startprovince.pname}
                   ></input>
@@ -161,9 +227,9 @@ const Coach = () => {
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Ma Tinh Den</label>
                   <input
-                    type={"text"}
+                    type="text"
                     className={styles.input}
-                    name="endprovince"
+                    name="endprovince-pid"
                     onChange={handleChange}
                     value={tripInfo.endprovince.pid}
                   ></input>
@@ -172,9 +238,9 @@ const Coach = () => {
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Ten Tinh Den</label>
                   <input
-                    type={"text"}
+                    type="text"
                     className={styles.input}
-                    name="endprovince"
+                    name="endprovince-pname"
                     onChange={handleChange}
                     value={tripInfo.endprovince.pname}
                   ></input>
@@ -185,7 +251,7 @@ const Coach = () => {
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Thoi Gian Di</label>
                   <input
-                    type={"date"}
+                    type="text"
                     className={styles.input}
                     name="starttime"
                     onChange={handleChange}
@@ -196,7 +262,7 @@ const Coach = () => {
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Thoi Gian Den</label>
                   <input
-                    type={"date"}
+                    type="text"
                     className={styles.input}
                     name="endtime"
                     onChange={handleChange}
@@ -209,7 +275,7 @@ const Coach = () => {
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Bien So Xe</label>
                   <input
-                    type={"text"}
+                    type="text"
                     className={styles.input}
                     name="licenseplate"
                     onChange={handleChange}
