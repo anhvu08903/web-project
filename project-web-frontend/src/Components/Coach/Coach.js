@@ -1,262 +1,302 @@
-import React, {useEffect, useState} from 'react';
-import styles from './Coach.module.css';
-import { Link, useNavigate} from 'react-router-dom';
-import Trip from './Trip';
-import TripForm from './TripForm';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import styles from "./Coach.module.css";
+import { Link, useNavigate } from "react-router-dom";
+import Trip from "./Trip";
+import TripForm from "./TripForm";
+import axios from "axios";
 
 const Coach = () => {
+  const coachName = "{Placeholder}";
 
-    const coachName = "{Placeholder}";
+  const [buttonPopup, setButtonPopup] = useState(false);
 
-    const [buttonPopup, setButtonPopup] = useState(false);
+  const [tripInfo, setTripInfo] = useState({
+    startprovince: {
+      pid: "",
+      pname: "",
+    },
+    endprovince: {
+      pid: "",
+      pname: "",
+    },
+    starttime: "",
+    endtime: "",
+    licenseplate: "",
+  });
 
-    const [tripInfo, setTripInfo] = useState({
+  const handleChange = (e) => {
+    setTripInfo({ ...tripInfo, [e.target.name]: e.target.value });
+  };
+
+  const addTrip = async () => {
+    try {
+      let trip = tripInfo;
+      console.log(trip);
+      const res = await axios.post(
+        "http://localhost:8080/identity/api/admin/add/trip",
+        trip
+      );
+      alert("Thành công");
+      setButtonPopup(false);
+      setTripInfo({
         startprovince: {
-            pid: "",
-            pname: ""
+          pid: "",
+          pname: "",
         },
         endprovince: {
-            pid: "",
-            pname: ""
+          pid: "",
+          pname: "",
         },
         starttime: "",
         endtime: "",
-        licenseplate: ""
-
-
-    })
-
-    const handleChange = (e) => {
-        setTripInfo({...tripInfo, [e.target.name]: e.target.value})
+        licenseplate: "",
+      });
+    } catch (error) {
+      console.error("Lỗi khi thêm chuyến xe:", error);
+      alert("Đã xảy ra lỗi khi thêm chuyến xe");
     }
+  };
 
-    const addTrip = async() => {
-        let trip = tripInfo;
-        console.log(trip);
-         axios.post("http://localhost:8080/identity/api/add/trip", trip)
-            .then((res) => {
-                alert ("thanh cong ")
+  // const AddTrip = (e) => {
+  //     e.preventDefault();
+  //
+  // };
+  //
+  // useEffect(() => {
+  //     {
+  //
+  //         axios.post("http://localhost:8080/api/admin/add/trip", tripInfo).then((res) => {
+  //             alert(res.data.message);
+  //
+  //
+  //         });
+  //     }
+  // }, []);
 
-            })
-        setButtonPopup(false);
-        setTripInfo({
-            startprovince: {
-                pid: "",
-                pname: ""
-            },
-            endprovince: {
-                pid: "",
-                pname: ""
-            },
-            starttime: "",
-            endtime: "",
-            licenseplate: ""
-        })
-    }
+  const Trips = [
+    {
+      id: 1,
+      seatType: 45,
+      remainingSeat: 12,
+      startTime: "5:15",
+      endTime: "6:45",
+      startPlace: "Hà Lội",
+      endPlace: "Nha Chang",
+      startDate: "",
+      endDate: "",
+    },
+    {
+      id: 2,
+      seatType: 15,
+      remainingSeat: 3,
+      startTime: "5:15",
+      endTime: "6:45",
+      startPlace: "Hà Lội",
+      endPlace: "Nha Chang",
+      startDate: "",
+      endDate: "",
+    },
+    {
+      id: 3,
+      seatType: 15,
+      remainingSeat: 5,
+      startTime: "5:15",
+      endTime: "6:45",
+      startPlace: "Hà Lội",
+      endPlace: "Xài Gòn",
+      startDate: "",
+      endDate: "",
+    },
+    {
+      id: 4,
+      seatType: 45,
+      remainingSeat: 14,
+      startTime: "5:15",
+      endTime: "6:45",
+      startPlace: "Xài Gòn",
+      endPlace: "Lam Định",
+      startDate: "",
+      endDate: "",
+    },
+  ];
 
+  return (
+    <div>
+      <button
+        className={`${styles.addTripButton} ${styles.buttons}`}
+        onClick={() => setButtonPopup(true)}
+      >
+        Thêm chuyến xe
+        <span></span>
+      </button>
 
-    // const AddTrip = (e) => {
-    //     e.preventDefault();
-    //
-    // };
-    //
-    // useEffect(() => {
-    //     {
-    //
-    //         axios.post("http://localhost:8080/api/admin/add/trip", tripInfo).then((res) => {
-    //             alert(res.data.message);
-    //
-    //
-    //         });
-    //     }
-    // }, []);
+      <TripForm trigger={buttonPopup} setTrigger={setButtonPopup}>
+        <div style={{ width: "100%" }}>
+          <div className={styles.infoBoxWrapper}>
+            <div className={styles.infoBoxTitle}>Thông tin chuyến xe</div>
+            <form className={styles.infoBoxForm}>
+              <div className={styles.places}>
+                <div className={styles.inputContainer}>
+                  <label className={styles.title}>Ma Tinh Di</label>
+                  <input
+                    type={"text"}
+                    className={styles.input}
+                    name="startprovince"
+                    onChange={handleChange}
+                    value={tripInfo.startprovince.pid}
+                  ></input>
+                </div>
 
-    const Trips = [
-        {
-            id: 1,
-            seatType: 45,
-            remainingSeat: 12,
-            startTime: "5:15",
-            endTime: "6:45",
-            startPlace: "Hà Lội",
-            endPlace: "Nha Chang",
-            startDate: "",
-            endDate: ""
-        },
-        {
-            id: 2,
-            seatType: 15,
-            remainingSeat: 3,
-            startTime: "5:15",
-            endTime: "6:45",
-            startPlace: "Hà Lội",
-            endPlace: "Nha Chang",
-            startDate: "",
-            endDate: ""
-        },
-        {
-            id: 3,
-            seatType: 15,
-            remainingSeat: 5,
-            startTime: "5:15",
-            endTime: "6:45",
-            startPlace: "Hà Lội",
-            endPlace: "Xài Gòn",
-            startDate: "",
-            endDate: ""
-        },
-        {
-            id: 4,
-            seatType: 45,
-            remainingSeat: 14,
-            startTime: "5:15",
-            endTime: "6:45",
-            startPlace: "Xài Gòn",
-            endPlace: "Lam Định",
-            startDate: "",
-            endDate: ""
-        }
-    ]
+                <div className={styles.inputContainer}>
+                  <label className={styles.title}>Ten Tinh Di</label>
+                  <input
+                    type={"text"}
+                    className={styles.input}
+                    name="startprovince"
+                    onChange={handleChange}
+                    value={tripInfo.startprovince.pname}
+                  ></input>
+                </div>
 
-    return (
-        <div>
-            <button className={`${styles.addTripButton} ${styles.buttons}`} onClick={() => setButtonPopup(true)}>
-                Thêm chuyến xe
+                <div className={styles.inputContainer}>
+                  <label className={styles.title}>Ma Tinh Den</label>
+                  <input
+                    type={"text"}
+                    className={styles.input}
+                    name="endprovince"
+                    onChange={handleChange}
+                    value={tripInfo.endprovince.pid}
+                  ></input>
+                </div>
+
+                <div className={styles.inputContainer}>
+                  <label className={styles.title}>Ten Tinh Den</label>
+                  <input
+                    type={"text"}
+                    className={styles.input}
+                    name="endprovince"
+                    onChange={handleChange}
+                    value={tripInfo.endprovince.pname}
+                  ></input>
+                </div>
+              </div>
+
+              <div className={styles.times}>
+                <div className={styles.inputContainer}>
+                  <label className={styles.title}>Thoi Gian Di</label>
+                  <input
+                    type={"date"}
+                    className={styles.input}
+                    name="starttime"
+                    onChange={handleChange}
+                    value={tripInfo.starttime}
+                  ></input>
+                </div>
+
+                <div className={styles.inputContainer}>
+                  <label className={styles.title}>Thoi Gian Den</label>
+                  <input
+                    type={"date"}
+                    className={styles.input}
+                    name="endtime"
+                    onChange={handleChange}
+                    value={tripInfo.endtime}
+                  ></input>
+                </div>
+              </div>
+
+              <div className={styles.types}>
+                <div className={styles.inputContainer}>
+                  <label className={styles.title}>Bien So Xe</label>
+                  <input
+                    type={"text"}
+                    className={styles.input}
+                    name="licenseplate"
+                    onChange={handleChange}
+                    value={tripInfo.licenseplate}
+                  ></input>
+                </div>
+              </div>
+            </form>
+
+            <div className={styles.searchButton}>
+              <button
+                className={styles.buttons}
+                id={styles.searchButton}
+                onClick={addTrip}
+              >
+                Tạo chuyến xe
                 <span></span>
-            </button>
-
-            <TripForm trigger={buttonPopup} setTrigger={setButtonPopup}>
-
-                <div style={{width: "100%"}}>
-                    <div className={styles.infoBoxWrapper}>
-                        <div className={styles.infoBoxTitle}>Thông tin chuyến xe</div>
-                        <form className={styles.infoBoxForm}>
-                            <div className={styles.places}>
-                                <div className={styles.inputContainer}>
-                                    <label className={styles.title}>
-                                        Ma Tinh Di
-                                    </label>
-                                    <input type={"text"} className={styles.input} name='startprovince' onChange={handleChange} value={tripInfo.startprovince.pid}></input>
-                                </div>
-
-                                <div className={styles.inputContainer}>
-                                <label className={styles.title}>
-                                    Ten Tinh Di
-                                </label>
-                                <input type={"text"} className={styles.input} name='startprovince' onChange={handleChange} value={tripInfo.startprovince.pname}></input>
-                            </div>
-
-                                <div className={styles.inputContainer}>
-                                    <label className={styles.title}>
-                                        Ma Tinh Den
-                                    </label>
-                                    <input type={"text"} className={styles.input} name='endprovince' onChange={handleChange} value={tripInfo.endprovince.pid}></input>
-                                </div>
-
-                                <div className={styles.inputContainer}>
-                                    <label className={styles.title}>
-                                        Ten Tinh Den
-                                    </label>
-                                    <input type={"text"} className={styles.input} name='endprovince' onChange={handleChange} value={tripInfo.endprovince.pname}></input>
-                                </div>
-                            </div>
-
-                            <div className={styles.times}>
-                                <div className={styles.inputContainer}>
-                                    <label className={styles.title}>
-                                        Thoi Gian Di
-                                    </label>
-                                    <input type={"date"} className={styles.input} name='starttime' onChange={handleChange} value={tripInfo.starttime}></input>
-                                </div>
-
-                                <div className={styles.inputContainer}>
-                                    <label className={styles.title}>
-                                        Thoi Gian Den
-                                    </label>
-                                    <input type={"date"} className={styles.input} name='endtime' onChange={handleChange} value={tripInfo.endtime}></input>
-                                </div>
-                            </div>
-
-                            <div className={styles.types}>
-
-
-                                <div className={styles.inputContainer}>
-                                    <label className={styles.title}>
-                                        Bien So Xe
-                                    </label>
-                                    <input type={"text"} className={styles.input} name='licenseplate' onChange={handleChange} value={tripInfo.licenseplate}></input>
-                                </div>
-                            </div>
-                        </form>
-
-                        <div className={styles.searchButton}>
-                            <button className={styles.buttons} id={styles.searchButton} onClick={addTrip} >
-                                Tạo chuyến xe
-                                <span></span>
-                            </button>
-                        </div>
-
-                    </div>
-                </div>
-
-            </TripForm>
-
-            <div className={styles.navbar}>
-                <div className={styles.headerLeft}>
-
-                </div>
-                <ul className={styles.headerRight}>
-                <div style={{display: "flex", flexDirection: "column"}}>
-                    <li>Bạn đang đăng nhập dưới tư cách</li>
-                    <li style={{fontSize: "16px", color: "#FFD333"}}>NHÀ XE {coachName}</li>
-                </div>
-                <div className={styles.signInButton}>
-                    <button className={styles.buttons}>
-                    <i className="material-icons-round">phone</i>
-                    Hotline 24/7
-                    <span></span>
-                    </button>
-                    <Link to='/homepage'>
-                    <button className={styles.buttons}>
-                        Đăng xuất
-                        <span></span>
-                    </button>
-                    </Link>
-                </div>
-                </ul>
+              </button>
             </div>
-
-            <div style={{display: "flex", justifyContent: "center"}}>
-                <div style={{width: "1000px"}}>
-                    <div style={{display: "flex", justifyContent: "space-between", marginTop: "40px"}}>
-                        <div style={{display: "flex", gap: "40px", flexDirection: "column"}}>
-                            {Trips.map((trip, i) => {
-                                return <Trip
-                                    key={i}
-                                    // id={trip.id}
-                                    // seatType={trip.seatType}
-                                    // remainingSeat={trip.remainingSeat}
-                                    // startTime={trip.startTime}
-                                    // endTime={trip.endTime}
-                                    // startPlace={trip.startPlace}
-                                    // endPlace={trip.endPlace}
-                                    trip={trip}
-                                    />
-                            })}
-                        </div>
-                        <div className={styles.money}>
-                            <div className={styles.moneyWrapper}>
-                                <div className={styles.tripTitle}>Thống kê chuyến đi</div>
-                                <p>{Trips.length}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+          </div>
         </div>
-    )
-}
+      </TripForm>
+
+      <div className={styles.navbar}>
+        <div className={styles.headerLeft}></div>
+        <ul className={styles.headerRight}>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <li>Bạn đang đăng nhập dưới tư cách</li>
+            <li style={{ fontSize: "16px", color: "#FFD333" }}>
+              NHÀ XE {coachName}
+            </li>
+          </div>
+          <div className={styles.signInButton}>
+            <button className={styles.buttons}>
+              <i className="material-icons-round">phone</i>
+              Hotline 24/7
+              <span></span>
+            </button>
+            <Link to="/homepage">
+              <button className={styles.buttons}>
+                Đăng xuất
+                <span></span>
+              </button>
+            </Link>
+          </div>
+        </ul>
+      </div>
+
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <div style={{ width: "1000px" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "40px",
+            }}
+          >
+            <div
+              style={{ display: "flex", gap: "40px", flexDirection: "column" }}
+            >
+              {Trips.map((trip, i) => {
+                return (
+                  <Trip
+                    key={i}
+                    // id={trip.id}
+                    // seatType={trip.seatType}
+                    // remainingSeat={trip.remainingSeat}
+                    // startTime={trip.startTime}
+                    // endTime={trip.endTime}
+                    // startPlace={trip.startPlace}
+                    // endPlace={trip.endPlace}
+                    trip={trip}
+                  />
+                );
+              })}
+            </div>
+            <div className={styles.money}>
+              <div className={styles.moneyWrapper}>
+                <div className={styles.tripTitle}>Thống kê chuyến đi</div>
+                <p>{Trips.length}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Coach;
