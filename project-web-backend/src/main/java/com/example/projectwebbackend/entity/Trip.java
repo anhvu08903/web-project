@@ -19,11 +19,11 @@ public class Trip {
     @Column(name = "ThoiGianDen")
     private Date endtime;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "MaTinhDi")
     private Province startprovince;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "MaTinhDen")
     private Province endprovince;
 
