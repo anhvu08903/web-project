@@ -14,6 +14,7 @@ import com.example.projectwebbackend.repository.AdminCoachRepossitory;
 import com.example.projectwebbackend.repository.TripRepository;
 import com.example.projectwebbackend.service.AdminService;
 import com.example.projectwebbackend.service.AdminTicketPromptService;
+import com.example.projectwebbackend.service.AdminTripService;
 import com.example.projectwebbackend.service.CoachService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,8 @@ public class AdminController {
     @Autowired private TripRepository tripRepository;
 
     @Autowired private AdminTicketPromptService adminTicketPromptService;
+
+    @Autowired private AdminTripService adminTripService;
 
 
 
@@ -153,12 +156,12 @@ public class AdminController {
         adminTicketPromptService.DenyTicket(id);
     }
 
+// danh sachchuyen xe
+    @GetMapping("/trip")
+    public List<Trip> getAllTrip(){
+        return  adminTripService.getAllTrip();
 
-//    @GetMapping
-//    public List<Trip> getAllTrip(){
-//        return  tripRepository.get();
-//
-//    }
+    }
 }
 
 
