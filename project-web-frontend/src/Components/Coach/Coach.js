@@ -5,23 +5,11 @@ import Trip from "./Trip";
 import TripForm from "./TripForm";
 import axios from "axios";
 
-// function convertToStandardDateFormat(datetimeLocal) {
-//   // Tạo một đối tượng Date từ chuỗi datetime-local
-//   var date = new Date(datetimeLocal);
-
-//   // Lấy các thành phần ngày, tháng, năm, giờ, phút, giây từ đối tượng Date
-//   var year = date.getFullYear();
-//   var month = ("0" + (date.getMonth() + 1)).slice(-2); // Tháng bắt đầu từ 0 nên cần cộng thêm 1
-//   var day = ("0" + date.getDate()).slice(-2);
-//   var hour = ("0" + date.getHours()).slice(-2);
-//   var minute = ("0" + date.getMinutes()).slice(-2);
-//   var second = ("0" + date.getSeconds()).slice(-2);
-
-//   // Trả về định dạng chuẩn của Date
-//   return (
-//     year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second
-//   );
-// }
+function convertToStandardDateFormat(datetimeLocal) {
+  var standardDate = `${datetimeLocal}:00`;
+  console.log(standardDate);
+  return standardDate;
+}
 
 const Coach = () => {
   const coachName = "{Placeholder}";
@@ -39,11 +27,32 @@ const Coach = () => {
       pid: "",
       pname: "",
     },
-    licenseplate: "",
+    coach: {
+      licenseplate: "",
+    },
   });
 
   const handleChange = (e) => {
     setTripInfo({ ...tripInfo, [e.target.name]: e.target.value });
+    if (e.target.name == "starttime") {
+      setTripInfo({
+        ...tripInfo,
+        starttime: convertToStandardDateFormat(e.target.value),
+      });
+      console.log(convertToStandardDateFormat(e.target.value));
+    }
+    if (e.target.name == "endtime")
+      setTripInfo({
+        ...tripInfo,
+        endtime: convertToStandardDateFormat(e.target.value),
+      });
+    if (e.target.name == "licenseplate")
+      setTripInfo({
+        ...tripInfo,
+        coach: {
+          licenseplate: e.target.value,
+        },
+      });
     if (e.target.name == "startprovince-pid")
       setTripInfo({
         ...tripInfo,
@@ -80,29 +89,8 @@ const Coach = () => {
   };
 
   const addTrip = async () => {
-    // var startdatetimeLocal = document.getElementsByName("starttime").value;
-    // var startstandardDate = convertToStandardDateFormat(startdatetimeLocal);
-    // var enddatetimeLocal = document.getElementsByName("endtime").value;
-    // var endstandardDate = convertToStandardDateFormat(enddatetimeLocal);
     axios
-      .post(
-        "http://localhost:8080/identity/api/admin/add/trip",
-        tripInfo
-
-        // {
-        //   startprovince: {
-        //     pid: tripInfo.startprovince.pid,
-        //     pname: tripInfo.startprovince.pname,
-        //   },
-        //   endprovince: {
-        //     pid: tripInfo.endprovince.pid,
-        //     pname: tripInfo.endprovince.pname,
-        //   },
-        //   starttime: startstandardDate ? startstandardDate : "",
-        //   endtime: endstandardDate ? endstandardDate : "",
-        //   licenseplate: tripInfo.licenseplate,
-        // }
-      )
+      .post("http://localhost:8080/identity/api/admin/add/trip", tripInfo)
       .then((res) => {
         alert("thanh cong ");
       });
@@ -119,7 +107,9 @@ const Coach = () => {
         pid: "",
         pname: "",
       },
-      licenseplate: "",
+      coach: {
+        licenseplate: "",
+      },
     });
   };
 
@@ -251,7 +241,7 @@ const Coach = () => {
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Thoi Gian Di</label>
                   <input
-                    type="text"
+                    type="datetime-local"
                     className={styles.input}
                     name="starttime"
                     onChange={handleChange}
@@ -262,7 +252,7 @@ const Coach = () => {
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Thoi Gian Den</label>
                   <input
-                    type="text"
+                    type="datetime-local"
                     className={styles.input}
                     name="endtime"
                     onChange={handleChange}
@@ -279,7 +269,7 @@ const Coach = () => {
                     className={styles.input}
                     name="licenseplate"
                     onChange={handleChange}
-                    value={tripInfo.licenseplate}
+                    value={tripInfo.coach.licenseplate}
                   ></input>
                 </div>
               </div>

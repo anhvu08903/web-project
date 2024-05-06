@@ -20,17 +20,16 @@ public class Trip {
     private Date endtime;
 
     @ManyToOne
-    @JoinColumn(name = "MaTinhDi")
+    @JoinColumn(name = "MaTinhDi", unique = false)
     private Province startprovince;
 
     @ManyToOne
-    @JoinColumn(name = "MaTinhDen")
+    @JoinColumn(name = "MaTinhDen", unique = false)
     private Province endprovince;
 
     @ManyToOne
     @JoinColumn(name = "BienSoXe")
     @JsonBackReference
-    @JsonIgnore
     private Coach coach;
 
     public Long getTripid() {
