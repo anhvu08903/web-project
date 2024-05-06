@@ -85,27 +85,12 @@ const Coach = () => {
     // var enddatetimeLocal = document.getElementsByName("endtime").value;
     // var endstandardDate = convertToStandardDateFormat(enddatetimeLocal);
     axios
-      .post(
-        "http://localhost:8080/identity/api/admin/add/trip",
-        tripInfo
-
-        // {
-        //   startprovince: {
-        //     pid: tripInfo.startprovince.pid,
-        //     pname: tripInfo.startprovince.pname,
-        //   },
-        //   endprovince: {
-        //     pid: tripInfo.endprovince.pid,
-        //     pname: tripInfo.endprovince.pname,
-        //   },
-        //   starttime: startstandardDate ? startstandardDate : "",
-        //   endtime: endstandardDate ? endstandardDate : "",
-        //   licenseplate: tripInfo.licenseplate,
-        // }
-      )
+      .post("http://localhost:8080/identity/api/admin/add/trip", tripInfo)
       .then((res) => {
         alert("thanh cong ");
       });
+
+    console.log(tripInfo);
     setButtonPopup(false);
     setTripInfo({
       starttime: "",
