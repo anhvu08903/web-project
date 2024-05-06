@@ -9,7 +9,7 @@ const Register = () => {
   const navigate = useNavigate();
 
   const [formErrors, setFormErrors] = useState({});
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [user, setUserDetails] = useState({
     name: "",
     email: "",
@@ -20,7 +20,7 @@ const Register = () => {
 
   const handleConfirmPasswordChange = (event) => {
     setConfirmPassword(event.target.value);
-}
+  };
 
   const changeHandler = (e) => {
     const { name, value } = e.target;
@@ -55,9 +55,8 @@ const Register = () => {
     }
 
     if (user.password !== confirmPassword) {
-        errors.confirmPassword = "Confirmpassword and password must be the same"
+      errors.confirmPassword = "Confirmpassword and password must be the same";
     }
-
 
     return errors;
   };
@@ -68,9 +67,10 @@ const Register = () => {
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      axios.post("http://localhost:8080/identity/users/dangky", user)
+      axios
+        .post("http://localhost:8080/identity/users/dangky", user)
         .then((res) => {
-          alert('Tạo tài khoản thành công');
+          alert("Tạo tài khoản thành công");
           navigate("/login", { replace: true });
         })
         .catch((error) => {
@@ -85,7 +85,7 @@ const Register = () => {
       <div className={registerstyle.register}>
         <form>
           <h1>Create your account</h1>
-          
+
           <input
             type="text"
             name="name"
