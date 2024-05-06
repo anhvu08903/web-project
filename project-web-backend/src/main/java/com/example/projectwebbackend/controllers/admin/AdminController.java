@@ -11,6 +11,7 @@ import com.example.projectwebbackend.entity.Trip;
 import com.example.projectwebbackend.entity.User;
 import com.example.projectwebbackend.repository.AdminRepository;
 import com.example.projectwebbackend.repository.AdminCoachRepossitory;
+import com.example.projectwebbackend.repository.CoachRepository;
 import com.example.projectwebbackend.repository.TripRepository;
 import com.example.projectwebbackend.service.AdminService;
 import com.example.projectwebbackend.service.AdminTicketPromptService;
@@ -41,6 +42,8 @@ public class AdminController {
     @Autowired private TripRepository tripRepository;
 
     @Autowired private AdminTicketPromptService adminTicketPromptService;
+
+    @Autowired private CoachRepository coachRepository;
 
 
 
@@ -132,6 +135,9 @@ public class AdminController {
     @PostMapping("/add/trip")
     public ResponseEntity<Trip> addTrip( @RequestBody Trip trip){
 
+//Coach coach = new Coach();
+//coach=coachRepository.findByLicenseplate(trip.getCoach().getLicenseplate());
+//trip.setCoach(coach);
         tripRepository.save(trip);
         return new ResponseEntity<>(trip, HttpStatus.CREATED);
     }
