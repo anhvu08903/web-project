@@ -94,6 +94,8 @@ const Coach = () => {
       .then((res) => {
         alert("thanh cong ");
       });
+
+    console.log(tripInfo);
     setButtonPopup(false);
     setTripInfo({
       starttime: "",
