@@ -77,11 +77,23 @@ const Booking = () => {
     filterBookings(timeRange, priceVal);
   }, [timeVal, priceVal, sortOption, selectedNhaXe]);
 
+  const booking1 = axios.get(`http://localhost:8080/identity/api/admin/trip`);
+  console.log(booking1);
+
+  var dateString = "2024-05-06T12:30:45.678+07:00";
+  var dateObj = new Date(dateString);
+
+  var hour = dateObj.getHours();
+  var minute = dateObj.getMinutes();
+
+  console.log("Giờ: " + hour);
+  console.log("Phút: " + minute);
+
   const bookings = [
     {
       id: 1,
-      departureTime: "9:45",
-      arrivalTime: "12:20",
+      starttime: "2024-01-01T08:30:45+07:00",
+      endtime: "2024-02-02T12:30:45+07:00",
       price: 50,
       rating: 3,
       nhaXe: "peo1",
@@ -89,8 +101,8 @@ const Booking = () => {
     },
     {
       id: 2,
-      departureTime: "12:15",
-      arrivalTime: "14:30",
+      starttime: "2024-02-02T12:30:45+07:00",
+      endtime: "14:30",
       price: 60,
       rating: 1,
       nhaXe: "peo2",
@@ -98,8 +110,8 @@ const Booking = () => {
     },
     {
       id: 3,
-      departureTime: "15:00",
-      arrivalTime: "17:45",
+      starttime: "15:00",
+      endtime: "17:45",
       price: 70,
       rating: 5,
       nhaXe: "peo3",
@@ -107,8 +119,8 @@ const Booking = () => {
     },
     {
       id: 4,
-      departureTime: "16:30",
-      arrivalTime: "19:40",
+      starttime: "16:30",
+      endtime: "19:40",
       price: 90,
       rating: 4,
       nhaXe: "peo4",
@@ -141,19 +153,30 @@ const Booking = () => {
     }
   };
 
+  const getHourAndMinute = (dateTimeString) => {
+    const dateObj = new Date(dateTimeString);
+    const hour = dateObj.getHours();
+    const minute = dateObj.getMinutes();
+    return { hour: hour, minute: minute };
+  };
+
   const sortBookings = (option, list) => {
     switch (option) {
       case "earliest":
         return list.slice().sort((a, b) => {
-          const timeA = parseInt(a.departureTime.replace(":", ""));
-          const timeB = parseInt(b.departureTime.replace(":", ""));
-          return timeA - timeB;
+          const timeA = getHourAndMinute(a.starttime);
+          const timeB = getHourAndMinute(b.starttime);
+          return (
+            timeA.hour * 60 + timeA.minute - (timeB.hour * 60 + timeB.minute)
+          );
         });
       case "latest":
         return list.slice().sort((a, b) => {
-          const timeA = parseInt(a.departureTime.replace(":", ""));
-          const timeB = parseInt(b.departureTime.replace(":", ""));
-          return timeB - timeA;
+          const timeA = getHourAndMinute(a.starttime);
+          const timeB = getHourAndMinute(b.starttime);
+          return (
+            timeB.hour * 60 + timeB.minute - (timeA.hour * 60 + timeA.minute)
+          );
         });
       case "highest":
         return list.slice().sort((a, b) => b.rating - a.rating);
@@ -186,13 +209,12 @@ const Booking = () => {
         booking.price <= priceRange[1]
       ) {
         if (
-          parseInt(booking.departureTime.split(":")[0]) >= timeRange[0] &&
-          parseInt(booking.arrivalTime.split(":")[0]) <= timeRange[1]
+          parseInt(booking.starttime.split(":")[0]) >= timeRange[0] &&
+          parseInt(booking.endtime.split(":")[0]) <= timeRange[1]
         ) {
-          if (parseInt(booking.arrivalTime.split(":")[0]) < timeRange[1]) {
+          if (parseInt(booking.endtime.split(":")[0]) < timeRange[1]) {
             return true;
-          } else if (parseInt(booking.arrivalTime.split(":")[1]) === 0)
-            return true;
+          } else if (parseInt(booking.endtime.split(":")[1]) === 0) return true;
           else return false;
         } else return false;
       } else {
@@ -345,8 +367,8 @@ const Booking = () => {
           <ul>
             {filteredAndSortedBookings.map((booking) => (
               <li key={booking.id}>
-                <strong>Giờ đi:</strong> {booking.departureTime} <br />
-                <strong>Giờ đón:</strong> {booking.arrivalTime} <br />
+                <strong>Giờ đi:</strong> {booking.starttime} <br />
+                <strong>Giờ đón:</strong> {booking.endtime} <br />
                 <strong>Giá vé:</strong> ${booking.price} <br />
                 <strong>Đánh giá:</strong> {booking.rating} sao <br />
                 <strong>Nhà xe:</strong> {booking.nhaXe} <br />
