@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./Coach.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import Trip from "./Trip";
+import Car from "./Car"
 import TripForm from "./TripForm";
 import axios from "axios";
 
@@ -15,6 +16,7 @@ const Coach = () => {
   const coachName = "{Placeholder}";
 
   const [buttonPopup, setButtonPopup] = useState(false);
+  const [addCarPopup, setAddCarPopup] = useState(false);
 
   const [tripInfo, setTripInfo] = useState({
     starttime: "",
@@ -172,6 +174,25 @@ const Coach = () => {
     },
   ];
 
+  const Cars = [
+    {
+      licenseplate: "29-12345",
+      type: "45"
+    },
+    {
+      licenseplate: "47-45678",
+      type: "15"
+    },
+    {
+      licenseplate: "36-01234",
+      type: "30"
+    },
+    {
+      licenseplate: "29-34567",
+      type: "45"
+    },
+  ];
+
   return (
     <div>
       <button
@@ -320,11 +341,40 @@ const Coach = () => {
                 );
               })}
             </div>
-            <div className={styles.money}>
-              <div className={styles.moneyWrapper}>
-                <div className={styles.tripTitle}>Thống kê chuyến đi</div>
-                <div>Số chuyến đi hiện có:&nbsp;{Trips.length}</div>
+            <div className={styles.rightWrapper}>
+              <div className={styles.money}>
+                <div className={styles.moneyWrapper}>
+                  <div className={styles.tripTitle}>Thống kê nhà xe</div>
+                  <div style={{display: "flex", justifyContent: "space-between"}}>Số chuyến đi hiện có <div style={{fontWeight: "bold"}}>{Trips.length} chuyến</div></div>
+                  <div style={{display: "flex", justifyContent: "space-between"}}>Số xe hiện có <div style={{fontWeight: "bold"}}>{"placeholder"} xe</div></div> 
+                </div>
               </div>
+
+              <div className={styles.money}>
+                <div className={styles.moneyWrapper}>
+                  <div className={styles.tripTitle}>Các xe khách hiện có</div>
+
+                  <div>
+                    {Cars.map((car, i) => {
+                      return (
+                        <Car
+                          key={i}
+                          car={car}
+                        />
+                      );
+                    })}
+                  </div>
+                  
+                  <button
+                    className={`${styles.addCoachButton} ${styles.buttons}`}
+                    onClick={() => setAddCarPopup(true)}
+                  >
+                    Thêm xe khách
+                    <span></span>
+                  </button>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
