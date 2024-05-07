@@ -89,6 +89,10 @@ const Coach = () => {
   };
 
   const addTrip = async () => {
+    // var startdatetimeLocal = document.getElementsByName("starttime").value;
+    // var startstandardDate = convertToStandardDateFormat(startdatetimeLocal);
+    // var enddatetimeLocal = document.getElementsByName("endtime").value;
+    // var endstandardDate = convertToStandardDateFormat(enddatetimeLocal);
     axios
       .post("http://localhost:8080/identity/api/admin/add/trip", tripInfo)
       .then((res) => {
@@ -214,7 +218,7 @@ const Coach = () => {
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Thời gian đi*</label>
                   <input
-                    type="datetime-local"
+                    type="text"
                     className={styles.input}
                     name="starttime"
                     onChange={handleChange}
@@ -225,7 +229,7 @@ const Coach = () => {
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Thời gian đến*</label>
                   <input
-                    type="datetime-local"
+                    type="text"
                     className={styles.input}
                     name="endtime"
                     onChange={handleChange}
@@ -242,7 +246,7 @@ const Coach = () => {
                     className={styles.input}
                     name="licenseplate"
                     onChange={handleChange}
-                    value={tripInfo.coach.licenseplate}
+                    value={tripInfo.licenseplate}
                   ></input>
                 </div>
               </div>

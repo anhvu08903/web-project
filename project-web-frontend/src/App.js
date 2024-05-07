@@ -10,6 +10,8 @@ import Payment from "./Components/Payment/Payment";
 import Coach from "./Components/Coach/Coach";
 import LoginCoach from "./Components/Login/LoginCoach";
 import RegisterCoach from "./Components/Register/RegisterCoach";
+import AdminLogin from "./Components/Login/AdminLogin";
+import AdminRegister from "./Components/Register/AdmibRegister";
 
 // function App() {
 //   const [userState, setUserState] = useState({});
@@ -55,7 +57,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />}/>
+          <Route path="/adminlogin" element={<AdminLogin />}/>
           <Route path="/signup" element={<Register />}></Route>
+          <Route path="/adminsignup" element={<AdminRegister />}></Route>
           <Route path="/booking" element={<Booking />}></Route>
           <Route path="/homepage" element={<Homepage />}></Route>
           <Route path="/payment" element={<Payment />}></Route>
