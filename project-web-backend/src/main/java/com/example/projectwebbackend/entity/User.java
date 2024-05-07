@@ -1,5 +1,6 @@
 package com.example.projectwebbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 @Table(name = "NguoiDung")
@@ -20,6 +21,18 @@ public class User {
     private String phone;
     @Column(name = "Email")
     private String email;
+
+    @JsonIgnore
+    @Column(name = "Token")
+    private String token;
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
+    }
 
     public long getId() {
         return id;
@@ -68,4 +81,5 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }

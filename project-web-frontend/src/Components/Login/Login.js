@@ -49,12 +49,12 @@ const Login = () => {
         .then((res) => {
           alert("Dang nhap thanh cong!");
           if (typeof window !== "undefined")
-            sessionStorage.setItem("token", res.data.token);
+            localStorage.setItem("token", res.data);
           navigate("/Homepage", { replace: true });
         });
     }
   }, [formErrors]);
-  
+
   return (
     <div className={loginstyle.container}>
       <div className={loginstyle.login}>
