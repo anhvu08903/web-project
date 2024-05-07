@@ -1,8 +1,5 @@
 package com.example.projectwebbackend.controllers.admin;
-import com.example.projectwebbackend.dto.Admin.AdminCoach;
-import com.example.projectwebbackend.dto.Admin.AdminSignInRequest;
-import com.example.projectwebbackend.dto.Admin.AdminSignUpRequest;
-import com.example.projectwebbackend.dto.Admin.AdminTicketPrompt;
+import com.example.projectwebbackend.dto.Admin.*;
 import com.example.projectwebbackend.dto.UserCreationRequest;
 import com.example.projectwebbackend.dto.UserSigninRequest;
 import com.example.projectwebbackend.entity.Admin;
@@ -15,6 +12,7 @@ import com.example.projectwebbackend.repository.CoachRepository;
 import com.example.projectwebbackend.repository.TripRepository;
 import com.example.projectwebbackend.service.AdminService;
 import com.example.projectwebbackend.service.AdminTicketPromptService;
+import com.example.projectwebbackend.service.AdminTripDTOService;
 import com.example.projectwebbackend.service.CoachService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +44,8 @@ public class AdminController {
 
     @Autowired private CoachRepository coachRepository;
 
+    @Autowired private AdminTripDTOService adminTripDTOService;
+
 
 
 
@@ -61,7 +62,6 @@ public class AdminController {
         //dang ki
     @PostMapping("/signup")
     Admin signUpAdmin(@RequestBody @Valid AdminSignUpRequest request) {
-
         return adminService.adminSignUp(request);
     }
 
@@ -69,9 +69,16 @@ public class AdminController {
     @PostMapping("/signin")
     public ResponseEntity<Admin> signinAdmin(@RequestBody @Valid AdminSignInRequest request){
         return adminService.signInAdmin(request.getAdminaccount(), request.getAdminpassword());
-
+//        String adminAccount = request.getAdminaccount();
+//        String adminPassword = request.getAdminpassword();
+        // Kiểm tra thông tin đăng nhập của admin và tạo token
+//        if (adminAccount.equals("admin") && adminPassword.equals("adminpassword")) {
+//            String token = tokenService.generateToken(adminAccount);
+//            return ResponseEntity.ok(token);
+//        } else {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//        }
     }
-
 
         //them tai khoan admin
     @PostMapping("/add")
@@ -160,12 +167,29 @@ public class AdminController {
     }
 
 
-    @GetMapping("/trip")
-    public List<Trip> getAllTrip(){
-        return  tripRepository.findAll();
+        @GetMapping("/trip")
+        public List<Trip> getAllTrip(){
+            List<Trip> trips = tripRepository.findAll();
+            System.out.println(trips);
+
+        return  trips;
 
     }
     //
+
+    @GetMapping("/coach/{licenseplate}")
+    public Coach getByLicenseplate(@PathVariable String licenseplate ){
+        return  coachRepository.findByLicenseplate(licenseplate);
+
+    }
+
+    //lay tat ca thong tin chuyen di ghe ngoi gia ve
+    @GetMapping("tripseat")
+    public List<AdminTripDTO> getAllTripInfo(){
+            List<AdminTripDTO> adminTripDTOS = adminTripDTOService.getAllSeatInfo();
+        return  adminTripDTOService.getAllSeatInfo();
+
+    }
 }
 
 
