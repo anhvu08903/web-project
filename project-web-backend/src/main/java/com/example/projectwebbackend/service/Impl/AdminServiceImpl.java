@@ -53,7 +53,8 @@ public class AdminServiceImpl implements AdminService {
         admin.setAdminaccount(request.getAdminaccount());
         admin.setAdminpassword(request.getAdminpassword());
         admin.setAdminphone(request.getAdminphone());
-            admin.setAdminemail(request.getAdminemail());
+        admin.setAdminemail(request.getAdminemail());
+        admin.setAdminaddress(request.getAdminaddress());
 
         return adminRepository.save(admin);
 

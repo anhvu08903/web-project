@@ -29,7 +29,7 @@ public class Trip {
 
     @ManyToOne
     @JoinColumn(name = "BienSoXe")
-    @JsonBackReference
+
     private Coach coach;
 
     public Long getTripid() {
