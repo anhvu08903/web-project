@@ -2,18 +2,9 @@ package com.example.projectwebbackend.controllers.admin;
 import com.example.projectwebbackend.dto.Admin.*;
 import com.example.projectwebbackend.dto.UserCreationRequest;
 import com.example.projectwebbackend.dto.UserSigninRequest;
-import com.example.projectwebbackend.entity.Admin;
-import com.example.projectwebbackend.entity.Coach;
-import com.example.projectwebbackend.entity.Trip;
-import com.example.projectwebbackend.entity.User;
-import com.example.projectwebbackend.repository.AdminRepository;
-import com.example.projectwebbackend.repository.AdminCoachRepossitory;
-import com.example.projectwebbackend.repository.CoachRepository;
-import com.example.projectwebbackend.repository.TripRepository;
-import com.example.projectwebbackend.service.AdminService;
-import com.example.projectwebbackend.service.AdminTicketPromptService;
-import com.example.projectwebbackend.service.AdminTripDTOService;
-import com.example.projectwebbackend.service.CoachService;
+import com.example.projectwebbackend.entity.*;
+import com.example.projectwebbackend.repository.*;
+import com.example.projectwebbackend.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,6 +36,14 @@ public class AdminController {
     @Autowired private CoachRepository coachRepository;
 
     @Autowired private AdminTripDTOService adminTripDTOService;
+
+    @Autowired private ProvinceService provinceService;
+
+    @Autowired private ReturnAddressService returnAddressService;
+
+    @Autowired private PickAddressService pickAddressService;
+
+    @Autowired private PickAddressRepository pickAddressRepository;
 
 
 
@@ -190,6 +189,45 @@ public class AdminController {
         return  adminTripDTOService.getAllSeatInfo();
 
     }
+
+    @GetMapping("province")
+    public List<Province> getAllProvinnce(){
+            return provinceService.getAllProvince();
+    }
+
+    @GetMapping("/pickaddress")
+    public List<PickAddress> getAllPickAddress(){
+            return pickAddressService.getALlPickAddress();
+    }
+
+    @DeleteMapping("/pickaddress/{id}")
+    public ResponseEntity<String> deletePickAddress(@PathVariable Long id) {
+        // Kiem tra xem co ton tai nha xe khong
+        PickAddress existing = pickAddressRepository.findById(id).orElse(null);
+        if (existing == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("PickAddress not found");
+        }
+
+
+        pickAddressService.deletePickAddress(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body("PickAddress deleted successfully");
+    }
+
+    @PostMapping("/pickaddress/update/{id}")
+    public ResponseEntity<String> editPickAddress(@PathVariable Long id, @RequestBody PickAddress pickAddress) {
+
+        pickAddressService.editPickAddress(pickAddress);
+        return ResponseEntity.status(HttpStatus.OK).body("PickAddress deleted successfully");
+    }
+
+    @GetMapping ("/pickaddress{id}")
+    public PickAddress getPickAddressById(Long id){
+            return pickAddressService.findPickAddressByIs(id);
+    }
+
+
+
 }
 
 
