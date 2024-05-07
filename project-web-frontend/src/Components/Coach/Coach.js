@@ -20,11 +20,9 @@ const Coach = () => {
     starttime: "",
     endtime: "",
     startprovince: {
-      pid: "",
       pname: "",
     },
     endprovince: {
-      pid: "",
       pname: "",
     },
     coach: {
@@ -199,6 +197,7 @@ const Coach = () => {
                     name="startprovince-pname"
                     onChange={handleChange}
                     value={tripInfo.startprovince.pname}
+                    style={{width: "200px"}}
                   ></input>
                 </div>
 
@@ -210,6 +209,7 @@ const Coach = () => {
                     name="endprovince-pname"
                     onChange={handleChange}
                     value={tripInfo.endprovince.pname}
+                    style={{width: "200px"}}
                   ></input>
                 </div>
               </div>
@@ -218,7 +218,7 @@ const Coach = () => {
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Thời gian đi*</label>
                   <input
-                    type="text"
+                    type="datetime-local"
                     className={styles.input}
                     name="starttime"
                     onChange={handleChange}
@@ -229,7 +229,7 @@ const Coach = () => {
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Thời gian đến*</label>
                   <input
-                    type="text"
+                    type="datetime-local"
                     className={styles.input}
                     name="endtime"
                     onChange={handleChange}
@@ -247,6 +247,7 @@ const Coach = () => {
                     name="licenseplate"
                     onChange={handleChange}
                     value={tripInfo.licenseplate}
+                    style={{width: "400px"}}
                   ></input>
                 </div>
               </div>
@@ -322,7 +323,7 @@ const Coach = () => {
             <div className={styles.money}>
               <div className={styles.moneyWrapper}>
                 <div className={styles.tripTitle}>Thống kê chuyến đi</div>
-                <p>{Trips.length}</p>
+                <div>Số chuyến đi hiện có:&nbsp;{Trips.length}</div>
               </div>
             </div>
           </div>
