@@ -3,15 +3,14 @@ package com.example.projectwebbackend.service;
 import com.example.projectwebbackend.dto.*;
 import com.example.projectwebbackend.entity.*;
 import com.example.projectwebbackend.repository.*;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
 @Service
 public class UserService {
     @Autowired
@@ -50,13 +49,36 @@ public class UserService {
         return userRepository.save(user);
 
     }
-    public ResponseEntity<User> signinUser(String account, String password){
+    public static String generateRandomString(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder randomString = new StringBuilder();
+
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            randomString.append(characters.charAt(index));
+        }
+
+        return randomString.toString();
+    }
+    public ResponseEntity<String> signinUser(String account, String password){
         User user =  userRepository.findByAccount(account);
         if(user == null) {
             throw  new RuntimeException("User's not existed.");
         }
         if(!user.getPassword().equals(password)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        return ResponseEntity.ok(user);
+        String token = generateRandomString(30);
+        user.setToken(token);
+        userRepository.save(user);
+        return ResponseEntity.ok(token);
+    }
+
+    public User getUserbyToken(String token){
+        User user =  userRepository.findByToken(token);
+        if(user == null) {
+            throw  new RuntimeException("User's not existed.");
+        }
+        return user;
     }
 
     public ResponseEntity<User> updatePassword(String account, String newpassword, String renewpassword){
@@ -125,10 +147,10 @@ public class UserService {
         ticketRepository.save(ticket);
         return ResponseEntity.status(HttpStatus.OK).body("Them ve thanh cong");
 }
-    public  ResponseEntity<String> payBill(Long id, UserPaymentRequest request){
+    public  ResponseEntity<String> payBill(String token, UserPaymentRequest request){
         Payment payment = new Payment();
         long totalbill = 0;
-        User user = userRepository.findById(id).orElse(null);
+        User user = userRepository.findByToken(token);
         if (user == null){
             ResponseEntity.status(HttpStatus.NOT_FOUND).body("Khong tim thay nguoi dung");
         }

@@ -3,8 +3,10 @@ package com.example.projectwebbackend.controllers.user;
 import com.example.projectwebbackend.dto.*;
 import com.example.projectwebbackend.entity.*;
 import com.example.projectwebbackend.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping("/dangnhap")
-    public ResponseEntity<User> signinUser(@RequestBody @Valid UserSigninRequest request){
+    public ResponseEntity<String> signinUser(@RequestBody @Valid UserSigninRequest request){
         return userService.signinUser(request.getAccount(), request.getPassword());
     }
 
@@ -56,10 +58,18 @@ public class UserController {
         return userService.bookTicket(request);
     }
 
-    @PostMapping("/thanhtoan/{id}")
-    public  ResponseEntity<String> payBill(@PathVariable Long id, @RequestBody UserPaymentRequest request){
-        return userService.payBill(id, request);
+    @PostMapping("/thanhtoan")
+    public ResponseEntity<String> payBill(HttpServletRequest httpServletRequest, @RequestBody UserPaymentRequest request) {
+        String authorizationHeader = httpServletRequest.getHeader("Authorization");
+        if (authorizationHeader != null) {
+            String token = authorizationHeader.substring(0);
+                return userService.payBill(token, request);
+            } else {
+                // Token không hợp lệ, trả về lỗi 401 Unauthorized
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token not found or invalid");
+            }
     }
+
 
     @GetMapping("/lichsudatve/{id}")
     public  ResponseEntity<List<Payment>> getAllTicketBookings(@PathVariable Long id){
