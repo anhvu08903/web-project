@@ -134,47 +134,39 @@ const Coach = () => {
   const Trips = [
     {
       id: 1,
-      seatType: 45,
+      licenseplate: "29-12345",
       remainingSeat: 12,
-      startTime: "5:15",
-      endTime: "6:45",
+      startTime: "2024-05-07T05:15:00",
+      endTime: "2024-05-07T06:45:00",
       startPlace: "Hà Lội",
       endPlace: "Nha Chang",
-      startDate: "",
-      endDate: "",
     },
     {
       id: 2,
-      seatType: 15,
+      licenseplate: "47-12345",
       remainingSeat: 3,
-      startTime: "5:15",
-      endTime: "6:45",
+      startTime: "2024-05-07T05:15:00",
+      endTime: "2024-05-07T06:45:00",
       startPlace: "Hà Lội",
       endPlace: "Nha Chang",
-      startDate: "",
-      endDate: "",
     },
     {
       id: 3,
-      seatType: 15,
+      licenseplate: "29-45678",
       remainingSeat: 5,
-      startTime: "5:15",
-      endTime: "6:45",
+      startTime: "2024-05-07T05:15:00",
+      endTime: "2024-05-07T06:45:00",
       startPlace: "Hà Lội",
       endPlace: "Xài Gòn",
-      startDate: "",
-      endDate: "",
     },
     {
       id: 4,
-      seatType: 45,
+      licenseplate: "29-12345",
       remainingSeat: 14,
-      startTime: "5:15",
-      endTime: "6:45",
+      startTime: "2024-05-07T05:15:00",
+      endTime: "2024-05-07T06:45:00",
       startPlace: "Xài Gòn",
       endPlace: "Lam Định",
-      startDate: "",
-      endDate: "",
     },
   ];
 
@@ -194,19 +186,9 @@ const Coach = () => {
             <div className={styles.infoBoxTitle}>Thông tin chuyến xe</div>
             <form className={styles.infoBoxForm}>
               <div className={styles.places}>
-                <div className={styles.inputContainer}>
-                  <label className={styles.title}>Ma Tinh Di</label>
-                  <input
-                    type="text"
-                    className={styles.input}
-                    name="startprovince-pid"
-                    onChange={handleChange}
-                    value={tripInfo.startprovince.pid}
-                  ></input>
-                </div>
 
                 <div className={styles.inputContainer}>
-                  <label className={styles.title}>Ten Tinh Di</label>
+                  <label className={styles.title}>Tên tỉnh đi*</label>
                   <input
                     type="text"
                     className={styles.input}
@@ -217,18 +199,7 @@ const Coach = () => {
                 </div>
 
                 <div className={styles.inputContainer}>
-                  <label className={styles.title}>Ma Tinh Den</label>
-                  <input
-                    type="text"
-                    className={styles.input}
-                    name="endprovince-pid"
-                    onChange={handleChange}
-                    value={tripInfo.endprovince.pid}
-                  ></input>
-                </div>
-
-                <div className={styles.inputContainer}>
-                  <label className={styles.title}>Ten Tinh Den</label>
+                  <label className={styles.title}>Tên tỉnh đến*</label>
                   <input
                     type="text"
                     className={styles.input}
@@ -241,7 +212,7 @@ const Coach = () => {
 
               <div className={styles.times}>
                 <div className={styles.inputContainer}>
-                  <label className={styles.title}>Thoi Gian Di</label>
+                  <label className={styles.title}>Thời gian đi*</label>
                   <input
                     type="datetime-local"
                     className={styles.input}
@@ -252,7 +223,7 @@ const Coach = () => {
                 </div>
 
                 <div className={styles.inputContainer}>
-                  <label className={styles.title}>Thoi Gian Den</label>
+                  <label className={styles.title}>Thời gian đến*</label>
                   <input
                     type="datetime-local"
                     className={styles.input}
@@ -265,7 +236,7 @@ const Coach = () => {
 
               <div className={styles.types}>
                 <div className={styles.inputContainer}>
-                  <label className={styles.title}>Bien So Xe</label>
+                  <label className={styles.title}>Biển số xe*</label>
                   <input
                     type="text"
                     className={styles.input}
