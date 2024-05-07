@@ -2,18 +2,12 @@ package com.example.projectwebbackend.controllers.admin;
 import com.example.projectwebbackend.dto.Admin.*;
 import com.example.projectwebbackend.dto.UserCreationRequest;
 import com.example.projectwebbackend.dto.UserSigninRequest;
-import com.example.projectwebbackend.entity.Admin;
-import com.example.projectwebbackend.entity.Coach;
-import com.example.projectwebbackend.entity.Trip;
-import com.example.projectwebbackend.entity.User;
+import com.example.projectwebbackend.entity.*;
 import com.example.projectwebbackend.repository.AdminRepository;
 import com.example.projectwebbackend.repository.AdminCoachRepossitory;
 import com.example.projectwebbackend.repository.CoachRepository;
 import com.example.projectwebbackend.repository.TripRepository;
-import com.example.projectwebbackend.service.AdminService;
-import com.example.projectwebbackend.service.AdminTicketPromptService;
-import com.example.projectwebbackend.service.AdminTripDTOService;
-import com.example.projectwebbackend.service.CoachService;
+import com.example.projectwebbackend.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,6 +39,8 @@ public class AdminController {
     @Autowired private CoachRepository coachRepository;
 
     @Autowired private AdminTripDTOService adminTripDTOService;
+
+    @Autowired private ProvinceService provinceService;
 
 
 
@@ -189,6 +185,11 @@ public class AdminController {
             List<AdminTripDTO> adminTripDTOS = adminTripDTOService.getAllSeatInfo();
         return  adminTripDTOService.getAllSeatInfo();
 
+    }
+
+    @GetMapping("province")
+    public List<Province> getAllProvinnce(){
+            return provinceService.getAllProvince();
     }
 }
 

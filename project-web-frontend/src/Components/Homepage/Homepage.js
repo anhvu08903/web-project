@@ -26,7 +26,7 @@ const Homepage = () => {
 
         </div>
         <ul className={styles.headerRight}>
-          <Link to='/logincoach' style={{color: "white"}}>
+          <Link to='/adminregister' style={{color: "white"}}>
             <li>Đăng ký mở bán vé</li>
           </Link>
           <div className={styles.signInButton}>
