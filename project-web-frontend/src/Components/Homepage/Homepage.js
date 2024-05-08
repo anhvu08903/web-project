@@ -38,12 +38,12 @@ const Homepage = () => {
             {
               localStorage.getItem('token') ?
                 <div>
-                  <button className={styles.buttons} onClick={() => {
+                  <button className={styles.buttons} style={{paddingRight: "15px"}} onClick={() => {
                     localStorage.removeItem('token');
                     window.location.replace('/');
                   }}>
                     Đăng xuất
-                    <span></span>
+                  
                   </button> 
                 </div> :
                 <Link to='/login'>
