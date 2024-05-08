@@ -11,11 +11,13 @@ import java.util.Optional;
 public interface AdminService {
     List<Admin> getAllAdmin();
 
+    Admin findById(Long id);
+
     void saveAdmin(Admin admin);
 
     void deleteAdmin(Long id);
 
-    Optional<Admin> findAdminById(Long id);
+    Admin findAdminById(Long id);
 
     Admin addAdmin(Admin admins);
 

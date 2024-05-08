@@ -14,6 +14,7 @@ const AdminRegister = () => {
         adminemail: "",
         adminpassword: "",
         adminconfirmPassword: "",
+        adminaddress: "",
     });
 
     const [formErrors, setFormErrors] = useState({});
@@ -134,7 +135,14 @@ const AdminRegister = () => {
                         onChange={handleInputChange}
                         value={adminCredentials.adminconfirmPassword}
                     />
-                    <p className={basestyle.error}>{formErrors.adminconfirmPassword}</p>
+                    <p className={basestyle.error}>{formErrors.adminconfirmPassword}</p>  <input
+                    type="address"
+                    name="adminaddress"
+                    placeholder="Address"
+                    onChange={handleInputChange}
+                    value={adminCredentials.adminadress}
+                />
+                    <p className={basestyle.error}>{formErrors.adminadress}</p>
 
                     <button className={basestyle.button_common} type="submit">
                         Register

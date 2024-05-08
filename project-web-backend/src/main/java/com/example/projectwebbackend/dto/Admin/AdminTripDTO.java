@@ -1,5 +1,6 @@
 package com.example.projectwebbackend.dto.Admin;
 
+import com.example.projectwebbackend.entity.Admin;
 import com.example.projectwebbackend.entity.Coach;
 import com.example.projectwebbackend.entity.Seat;
 import com.example.projectwebbackend.entity.Trip;
@@ -7,7 +8,7 @@ import com.example.projectwebbackend.entity.Trip;
 public class AdminTripDTO {
     private Trip trip;
 
-
+private Admin admin;
 
     private Seat seat;
 
@@ -19,6 +20,13 @@ public class AdminTripDTO {
         this.trip = trip;
     }
 
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
 
     public Seat getSeat() {
         return seat;
@@ -28,9 +36,9 @@ public class AdminTripDTO {
         this.seat = seat;
     }
 
-    public AdminTripDTO(Trip trip,  Seat seat) {
+    public AdminTripDTO(Trip trip, Admin admin, Seat seat) {
         this.trip = trip;
-
+        this.admin = admin;
         this.seat = seat;
     }
 
