@@ -9,4 +9,5 @@ public interface AdminRepository extends CrudRepository<Admin, Long> {
     boolean existsAdminByAdminphone(String AdminPhone);
 
     Admin findAdminByAdminaccount(String admin);
+    Admin findAdminByAdminid(Long id);
 }

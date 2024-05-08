@@ -45,7 +45,7 @@ public class AdminController {
 
     @Autowired private PickAddressRepository pickAddressRepository;
 
-
+    @Autowired private CommentService commentService;
 
 
     private List<Admin> admins = new ArrayList<>();
@@ -127,7 +127,7 @@ public class AdminController {
     public ResponseEntity<AdminCoach> addCoach(@PathVariable Long id, @RequestBody Coach coach) {
         AdminCoach adminCoach = new AdminCoach();
 
-        adminCoach.setAdmin(adminService.findAdminById(id).orElse(null));
+        adminCoach.setAdmin(adminService.findAdminById(id));
         if (adminCoach == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -169,8 +169,6 @@ public class AdminController {
         @GetMapping("/trip")
         public List<Trip> getAllTrip(){
             List<Trip> trips = tripRepository.findAll();
-            System.out.println(trips);
-
         return  trips;
 
     }
@@ -226,8 +224,17 @@ public class AdminController {
             return pickAddressService.findPickAddressByIs(id);
     }
 
+@GetMapping("/comment")
+    public List<Comment> getAllComment()
+{
+    return commentService.getAllComment();
+}
 
 
+//@GetMapping("/comment/")
+//    public List<Comment> findCommnetByCommenId(Long id){
+//            return commentService.getCommentByAdminId();
+//}
 }
 
 

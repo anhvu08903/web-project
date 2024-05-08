@@ -22,6 +22,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public Admin findById(Long id) {
+        return adminRepository.findAdminByAdminid(id);
+    }
+
+    @Override
     public void saveAdmin(Admin admin) {
         adminRepository.save(admin);
     }
@@ -32,8 +37,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Optional<Admin> findAdminById(Long id) {
-        return adminRepository.findById(id);
+    public Admin findAdminById(Long id) {
+        return adminRepository.findAdminByAdminid(id);
     }
 
     @Override

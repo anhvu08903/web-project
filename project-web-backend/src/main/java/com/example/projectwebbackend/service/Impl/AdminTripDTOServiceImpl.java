@@ -7,6 +7,7 @@ import com.example.projectwebbackend.entity.Seat;
 import com.example.projectwebbackend.entity.Trip;
 import com.example.projectwebbackend.repository.SeatRepository;
 import com.example.projectwebbackend.repository.TripRepository;
+import com.example.projectwebbackend.service.AdminService;
 import com.example.projectwebbackend.service.AdminTripDTOService;
 import com.example.projectwebbackend.service.CoachService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class AdminTripDTOServiceImpl implements AdminTripDTOService {
 
     @Autowired private SeatRepository seatRepository;
 
+    @Autowired private AdminService adminService;
+
 
 
     @Override
@@ -35,12 +38,12 @@ public class AdminTripDTOServiceImpl implements AdminTripDTOService {
             AdminTripDTO adminTripDTO= new AdminTripDTO();
             adminTripDTO.setTrip(trip);
             adminTripDTO.setSeat(seatRepository.findSeatByCoach_Licenseplate(trip.getCoach().getLicenseplate()));
+            adminTripDTO.setAdmin(trip.getCoach().getAdmin());
+
             adminTripDTOS.add(adminTripDTO);
+
+
         }
-
-
-
-
 
         return adminTripDTOS;
     }
