@@ -5,12 +5,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByAccount(String account);
     boolean existsByPhone(String phone);
 
     User findByAccount(String account);
+
+    User findByToken(String token);
 
 
 }
