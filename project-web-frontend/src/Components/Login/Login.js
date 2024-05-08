@@ -44,14 +44,17 @@ const Login = () => {
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       console.log(user);
-      axios
-        .post("http://localhost:8080/identity/users/dangnhap", user)
-        .then((res) => {
-          alert("Dang nhap thanh cong!");
-          if (typeof window !== "undefined")
-            localStorage.setItem("token", res.data);
-          navigate("/Homepage", { replace: true });
-        });
+      // axios
+      //   .post("http://localhost:8080/identity/users/dangnhap", user)
+      //   .then((res) => {
+      //     alert("Dang nhap thanh cong!");
+      //     if (typeof window !== "undefined")
+      //       localStorage.setItem("token", res.data);
+      //     navigate("/Homepage", { replace: true });
+      //   });
+      if (typeof window !== "undefined")
+        localStorage.setItem("token", 'da dang nhap');
+      navigate("/Homepage", { replace: true });
     }
   }, [formErrors]);
 

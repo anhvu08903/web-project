@@ -35,12 +35,24 @@ const Homepage = () => {
               Hotline 24/7
               <span></span>
             </button>
-            <Link to='/login'>
-              <button className={styles.buttons}>
-                Đăng nhập
-                <span></span>
-              </button>
-            </Link>
+            {
+              localStorage.getItem('token') ?
+                <div>
+                  <button className={styles.buttons} onClick={() => {
+                    localStorage.removeItem('token');
+                    window.location.replace('/');
+                  }}>
+                    Đăng xuất
+                    <span></span>
+                  </button> 
+                </div> :
+                <Link to='/login'>
+                  <button className={styles.buttons}>
+                    Đăng nhập
+                    <span></span>
+                  </button>
+                </Link>
+            }
           </div>
         </ul>
       </div>
