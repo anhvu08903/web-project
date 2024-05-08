@@ -39,17 +39,17 @@ const Booking = () => {
   };
 
   const handleClick1 = () => {
-    toggleSlider1(); // Khi ảnh được click, toggle slider
+    toggleSlider1();
     setCurrentImage1((prevImage) =>
       prevImage === "image1" ? "image2" : "image1"
-    ); // Đổi ảnh
+    );
   };
 
   const handleClick2 = () => {
-    toggleSlider2(); // Khi ảnh được click, toggle slider
+    toggleSlider2();
     setCurrentImage2((prevImage) =>
       prevImage === "image1" ? "image2" : "image1"
-    ); // Đổi ảnh
+    );
   };
 
   const handleClick3 = () => {
@@ -64,12 +64,10 @@ const Booking = () => {
 
   const handleChange1 = (event, newValue) => {
     setValue1(newValue);
-    //console.log(newValue)
     setTimeRange(newValue);
   };
   const handleChange2 = (event, newValue) => {
     setValue2(newValue);
-    //console.log(newValue)
     setPriceRange(newValue);
   };
 
@@ -77,56 +75,75 @@ const Booking = () => {
     filterBookings(timeRange, priceVal);
   }, [timeVal, priceVal, sortOption, selectedNhaXe]);
 
-  const booking1 = axios.get(`http://localhost:8080/identity/api/admin/trip`);
-  console.log(booking1);
+  const booking1 = axios.get(
+    `http://localhost:8080/identity/api/admin/tripseat`
+  );
+  const [array, setArray] = useState([]); // Mảng các chuyến xe sau khi get từ backend
 
-  var dateString = "2024-05-06T12:30:45.678+07:00";
-  var dateObj = new Date(dateString);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await booking1;
+        setArray(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
+  }, []); // Chạy một lần sau khi component được render
 
-  var hour = dateObj.getHours();
-  var minute = dateObj.getMinutes();
+  // var dateString = "2024-05-06T12:30:45.678+07:00";
+  // var dateObj = new Date(dateString);
 
-  console.log("Giờ: " + hour);
-  console.log("Phút: " + minute);
+  // var hour = dateObj.getHours();
+  // var minute = dateObj.getMinutes();
 
-  const bookings = [
-    {
-      id: 1,
-      starttime: "2024-01-01T08:30:45+07:00",
-      endtime: "2024-02-02T12:30:45+07:00",
-      price: 50,
-      rating: 3,
-      nhaXe: "peo1",
-      totalSeat: 7,
-    },
-    {
-      id: 2,
-      starttime: "2024-02-02T12:30:45+07:00",
-      endtime: "14:30",
-      price: 60,
-      rating: 1,
-      nhaXe: "peo2",
-      totalSeat: 9,
-    },
-    {
-      id: 3,
-      starttime: "15:00",
-      endtime: "17:45",
-      price: 70,
-      rating: 5,
-      nhaXe: "peo3",
-      totalSeat: 11,
-    },
-    {
-      id: 4,
-      starttime: "16:30",
-      endtime: "19:40",
-      price: 90,
-      rating: 4,
-      nhaXe: "peo4",
-      totalSeat: 13,
-    },
-  ];
+  // const bookings = [
+  //   {
+  //     id: 1,
+  //     starttime: "2024-01-01T08:30:45+07:00",
+  //     endtime: "2024-02-02T12:30:45+07:00",
+  //     price: 50,
+  //     rating: 3,
+  //     nhaXe: "peo1",
+  //     totalSeat: 7,
+  //   },
+  //   {
+  //     id: 2,
+  //     starttime: "2024-02-02T07:30:45+07:00",
+  //     endtime: "2024-03-03T09:45:45+07:00",
+  //     price: 60,
+  //     rating: 1,
+  //     nhaXe: "peo2",
+  //     totalSeat: 9,
+  //   },
+  //   {
+  //     id: 3,
+  //     starttime: "2024-03-03T9:11:45+07:00",
+  //     endtime: "2024-04-04T12:50:45+07:00",
+  //     price: 70,
+  //     rating: 5,
+  //     nhaXe: "peo3",
+  //     totalSeat: 11,
+  //   },
+  //   {
+  //     id: 4,
+  //     starttime: "2024-04-04T06:20:45+07:00",
+  //     endtime: "2024-05-05T17:15:45+07:00",
+  //     price: 90,
+  //     rating: 4,
+  //     nhaXe: "peo4",
+  //     totalSeat: 13,
+  //   },
+  // ];
+
+  const bookings = array;
+  console.log(bookings);
+  bookings.map((booking) => {
+    console.log(booking.trip);
+    console.log(booking.seat);
+    console.log(booking.trip.coach);
+  });
 
   // Hàm xử lý sự kiện khi có sự thay đổi trong ô đánh dấu nhà xe
   const handleNhaXeChange = (event) => {
@@ -164,26 +181,26 @@ const Booking = () => {
     switch (option) {
       case "earliest":
         return list.slice().sort((a, b) => {
-          const timeA = getHourAndMinute(a.starttime);
-          const timeB = getHourAndMinute(b.starttime);
+          const timeA = getHourAndMinute(a.trip.starttime);
+          const timeB = getHourAndMinute(b.trip.starttime);
           return (
             timeA.hour * 60 + timeA.minute - (timeB.hour * 60 + timeB.minute)
           );
         });
       case "latest":
         return list.slice().sort((a, b) => {
-          const timeA = getHourAndMinute(a.starttime);
-          const timeB = getHourAndMinute(b.starttime);
+          const timeA = getHourAndMinute(a.trip.starttime);
+          const timeB = getHourAndMinute(b.trip.starttime);
           return (
             timeB.hour * 60 + timeB.minute - (timeA.hour * 60 + timeA.minute)
           );
         });
-      case "highest":
-        return list.slice().sort((a, b) => b.rating - a.rating);
+      // case "highest":
+      //   return list.slice().sort((a, b) => b.rating - a.rating);
       case "ascending":
-        return list.slice().sort((a, b) => a.price - b.price);
+        return list.slice().sort((a, b) => a.seat.price - b.seat.price);
       case "descending":
-        return list.slice().sort((a, b) => b.price - a.price);
+        return list.slice().sort((a, b) => b.seat.price - a.seat.price);
       default:
         return list;
     }
@@ -205,16 +222,17 @@ const Booking = () => {
       if (
         priceRange[0] !== priceRange[1] &&
         timeRange[0] !== timeRange[1] &&
-        booking.price >= priceRange[0] &&
-        booking.price <= priceRange[1]
+        booking.seat.price >= priceRange[0] &&
+        booking.seat.price <= priceRange[1]
       ) {
         if (
-          parseInt(booking.starttime.split(":")[0]) >= timeRange[0] &&
-          parseInt(booking.endtime.split(":")[0]) <= timeRange[1]
+          getHourAndMinute(booking.trip.starttime).hour >= timeRange[0] &&
+          getHourAndMinute(booking.trip.endtime).hour <= timeRange[1]
         ) {
-          if (parseInt(booking.endtime.split(":")[0]) < timeRange[1]) {
+          if (getHourAndMinute(booking.trip.endtime).hour < timeRange[1]) {
             return true;
-          } else if (parseInt(booking.endtime.split(":")[1]) === 0) return true;
+          } else if (getHourAndMinute(booking.trip.endtime).minute === 0)
+            return true;
           else return false;
         } else return false;
       } else {
@@ -234,7 +252,7 @@ const Booking = () => {
     event.preventDefault();
     console.log("Booking được chọn:", booking);
     setShowPickSeat(id);
-    setCurrentBookingPrice(booking.price);
+    setCurrentBookingPrice(booking.seat.price);
   };
 
   const handleSeat = () => {
@@ -342,10 +360,10 @@ const Booking = () => {
                 className="arrow"
                 style={{ height: "25px", width: "25px" }}
               />
-              {showCheckbox &&
+              {/* {showCheckbox &&
                 bookings.map((booking) => (
                   <div>
-                    <label key={booking.id}>
+                    <label key={booking.trip.tripid}>
                       <input
                         type="checkbox"
                         value={booking.nhaXe}
@@ -356,7 +374,7 @@ const Booking = () => {
                     </label>
                     <br />
                   </div>
-                ))}
+                ))} */}
             </div>
           </div>
         </div>
@@ -366,27 +384,27 @@ const Booking = () => {
         <div id="booking">
           <ul>
             {filteredAndSortedBookings.map((booking) => (
-              <li key={booking.id}>
-                <strong>Giờ đi:</strong> {booking.starttime} <br />
-                <strong>Giờ đón:</strong> {booking.endtime} <br />
-                <strong>Giá vé:</strong> ${booking.price} <br />
-                <strong>Đánh giá:</strong> {booking.rating} sao <br />
-                <strong>Nhà xe:</strong> {booking.nhaXe} <br />
-                <div key={booking.id}>
+              <li key={booking.trip.tripid}>
+                <strong>Giờ đi:</strong> {booking.trip.starttime} <br />
+                <strong>Giờ đón:</strong> {booking.trip.endtime} <br />
+                <strong>Giá vé:</strong> ${booking.seat.price} <br />
+                {/* <strong>Đánh giá:</strong> {booking.rating} sao <br /> */}
+                {/* <strong>Nhà xe:</strong> {booking.nhaXe} <br /> */}
+                <div key={booking.trip.tripid}>
                   <button
                     className="button"
                     onClick={(event) =>
-                      handleBookTicket(event, booking, booking.id)
+                      handleBookTicket(event, booking, booking.trip.tripid)
                     }
                   >
                     Chọn chuyến
                   </button>
-                  {showPickSeat === booking.id && (
+                  {showPickSeat === booking.trip.tripid && (
                     <div>
                       <div>
                         {[...Array(30)].map((_, index) => {
                           if (
-                            index < booking.totalSeat &&
+                            index < booking.trip.coach.number &&
                             index % 2 == 0 &&
                             index > 0
                           ) {
@@ -406,8 +424,8 @@ const Booking = () => {
                               </div>
                             );
                           } else if (
-                            index == booking.totalSeat &&
-                            booking.totalSeat % 2 == 1
+                            index == booking.trip.coach.number &&
+                            booking.trip.coach.number % 2 == 1
                           ) {
                             return (
                               <img
@@ -417,7 +435,7 @@ const Booking = () => {
                               />
                             );
                           } else if (
-                            index >= booking.totalSeat &&
+                            index >= booking.trip.coach.number &&
                             index <= 30
                           ) {
                             return (
@@ -437,12 +455,12 @@ const Booking = () => {
                         <button
                           className="button"
                           onClick={(event) =>
-                            handlePick(event, booking, booking.id)
+                            handlePick(event, booking, booking.trip.tripid)
                           }
                         >
                           Tiếp tục
                         </button>
-                        {showLocation === booking.id && (
+                        {/* {showLocation === booking.trip.tripid && (
                           <div>
                             <div>
                               <p>Điểm đón</p>
@@ -508,7 +526,7 @@ const Booking = () => {
                               <button className="button">Tiếp tục</button>
                             </Link>
                           </div>
-                        )}
+                        )} */}
                       </div>
                     </div>
                   )}

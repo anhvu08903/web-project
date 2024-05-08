@@ -35,6 +35,7 @@ public class AdminTripDTOServiceImpl implements AdminTripDTOService {
             AdminTripDTO adminTripDTO= new AdminTripDTO();
             adminTripDTO.setTrip(trip);
             adminTripDTO.setSeat(seatRepository.findSeatByCoach_Licenseplate(trip.getCoach().getLicenseplate()));
+//            adminTripDTO.setAdmin(seatRepository.findAdminByCoach_Licenplate(trip.getCoach().getLicenseplate()));
             adminTripDTOS.add(adminTripDTO);
         }
 
