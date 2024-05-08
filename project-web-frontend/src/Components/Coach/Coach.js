@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Trip from "./Trip";
 import Car from "./Car";
 import TripForm from "./TripForm";
+import CarForm from "./CarForm";
 import axios from "axios";
 
 function convertToStandardDateFormat(datetimeLocal) {
@@ -16,9 +17,11 @@ const Coach = () => {
   const coachName = "{Placeholder}";
 
   const [buttonPopup, setButtonPopup] = useState(false);
-  const [addCarPopup, setAddCarPopup] = useState(false);
+  const [carButtonPopup, setCarButtonPopup] = useState(false);
   const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
+
+  const [carType, setCarType] = useState([]);
 
   const [tripInfo, setTripInfo] = useState({
     starttime: "",
@@ -34,6 +37,33 @@ const Coach = () => {
     },
   });
 
+  function onAddCarButton(){
+    setCarButtonPopup(true)
+
+    // axios
+    //   .get("http://localhost:4000/api/bus/types")
+    //   .then((response) => {
+    //     setCarType(response.data.items);
+    //     console.log(carType);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching options:", error);
+    //   });
+  }
+
+  // API Chọn loại xe
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/api/bus/types")
+      .then((response) => {
+        setCarType(response.data.items);
+        console.log(carType);
+      })
+      .catch((error) => {
+        console.error("Error fetching options:", error);
+      });
+  }, []);
+
   useEffect(() => {
     axios
       .get("http://localhost:8080/identity/api/admin/province")
@@ -45,6 +75,7 @@ const Coach = () => {
         console.error("Error fetching options:", error);
       });
   }, []);
+
   const handleProvinceChange = (e) => {
     const selectedOption = options.find(
       (option) => option.pname === e.target.value
@@ -322,13 +353,49 @@ const Coach = () => {
                 id={styles.searchButton}
                 onClick={addTrip}
               >
-                Tạo chuyến xe
+                Thêm xe
                 <span></span>
               </button>
             </div>
           </div>
         </div>
       </TripForm>
+
+      <CarForm trigger={carButtonPopup} setTrigger={setCarButtonPopup}>
+      <div style={{ width: "100%" }}>
+          <div className={styles.infoBoxWrapper}>
+            <div className={styles.infoBoxTitle}>Thông tin xe</div>
+            <form className={styles.infoBoxForm}>
+              <div className={styles.places}>
+                <div className={styles.inputContainer}>
+                  <label className={styles.title}>Biển số xe*</label>
+                  <input className={styles.input}/>
+                </div>
+              </div>
+
+              <div className={styles.places}>
+                <div className={styles.inputContainer}>
+                  <label className={styles.title}>Loại xe*</label>
+                  <select className={styles.input} options={carType}/>
+
+                </div>
+              </div>
+
+            </form>
+
+            <div className={styles.searchButton}>
+              <button
+                className={styles.buttons}
+                id={styles.searchButton}
+                onClick={addTrip}
+              >
+                Tạo chuyến xe
+                <span></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </CarForm>
 
       <div className={styles.navbar}>
         <div className={styles.headerLeft}></div>
@@ -416,7 +483,7 @@ const Coach = () => {
 
                   <button
                     className={`${styles.addCoachButton} ${styles.buttons}`}
-                    onClick={() => setAddCarPopup(true)}
+                    onClick={() => onAddCarButton()}
                   >
                     Thêm xe khách
                     <span></span>

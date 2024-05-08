@@ -13,9 +13,9 @@ const RegisterCoach = () => {
   const [user, setUserDetails] = useState({
     name: "",
     email: "",
-    phone: "",
+    phoneNumber: "",
     password: "",
-    account: "",
+    address: "",
   });
 
   const handleConfirmPasswordChange = (event) => {
@@ -38,12 +38,12 @@ const RegisterCoach = () => {
       errors.name = "Name is required";
     }
 
-    if (!values.account) {
-      errors.account = "Account is required";
+    if (!values.address) {
+      errors.address = "Address is required";
     }
 
-    if (!values.phone) {
-      errors.phone = "Phone is required";
+    if (!values.phoneNumber) {
+      errors.phoneNumber = "phone number is required";
     }
 
     if (!values.email || !regex.test(values.email)) {
@@ -68,7 +68,7 @@ const RegisterCoach = () => {
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      axios.post("http://localhost:8080/identity/users/dangky", user)
+      axios.post("http://localhost:4000/api/provider/register", user)
         .then((res) => {
           alert('Tạo tài khoản thành công');
           navigate("/login", { replace: true });
@@ -97,22 +97,22 @@ const RegisterCoach = () => {
           <p className={basestyle.error}>{formErrors.name}</p>
           <input
             type="text"
-            name="account"
-            id="account"
-            placeholder="Account"
+            name="address"
+            id="address"
+            placeholder="Address"
             onChange={changeHandler}
-            value={user.account}
+            value={user.address}
           />
-          <p className={basestyle.error}>{formErrors.account}</p>
+          <p className={basestyle.error}>{formErrors.address}</p>
           <input
             type="text"
-            name="phone"
-            id="phone"
+            name="phoneNumber"
+            id="phoneNumber"
             placeholder="Phone Number"
             onChange={changeHandler}
-            value={user.phone}
+            value={user.phoneNumber}
           />
-          <p className={basestyle.error}>{formErrors.phone}</p>
+          <p className={basestyle.error}>{formErrors.phoneNumber}</p>
           <input
             type="email"
             name="email"
