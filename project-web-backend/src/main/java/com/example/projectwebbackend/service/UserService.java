@@ -122,6 +122,23 @@ public class UserService {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    public ResponseEntity<Seat> addSeat(SeatDto dto){
+        try {
+            Seat seat = new Seat();
+            seat.setPrice(dto.getPrice());
+            seat.setSeatLocation(dto.getSeatLocation());
+            seat.setCoach(dto.getCoach());
+            seat.setType(dto.getType());
+
+            seatRepository.save(seat);
+            return ResponseEntity.status(HttpStatus.OK).body(seat);
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+
     public List<Trip> tripList(){
         return tripRepository.findAll();
     }
