@@ -44,7 +44,7 @@ public class UserController {
         return userService.tripList();
     }
 
-    @GetMapping("/danhsachtatcacacghetrenchuyenxe")
+    @GetMapping("/danhsachtatcacacghetrenchuyenxe/{licenseplate}")
     public ResponseEntity<List<Seat>> getAllSeatsOnCoach(@PathVariable String licenseplate ) {
         return userService.getAllSeatsOnCoach(licenseplate);
     }

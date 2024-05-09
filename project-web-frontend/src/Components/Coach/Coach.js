@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./Coach.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import Trip from "./Trip";
-import Car from "./Car"
+import Car from "./Car";
 import TripForm from "./TripForm";
 import axios from "axios";
 
@@ -17,6 +17,8 @@ const Coach = () => {
 
   const [buttonPopup, setButtonPopup] = useState(false);
   const [addCarPopup, setAddCarPopup] = useState(false);
+  const [options, setOptions] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("");
 
   const [tripInfo, setTripInfo] = useState({
     starttime: "",
@@ -31,6 +33,40 @@ const Coach = () => {
       licenseplate: "",
     },
   });
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/identity/api/admin/province")
+      .then((response) => {
+        console.log(response.data);
+        setOptions(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching options:", error);
+      });
+  }, []);
+  const handleProvinceChange = (e) => {
+    const selectedOption = options.find(
+      (option) => option.pname === e.target.value
+    );
+    if (e.target.name === "startprovince") {
+      setTripInfo({
+        ...tripInfo,
+        startprovince: {
+          pname: e.target.value,
+          pid: selectedOption ? selectedOption.pid : "",
+        },
+      });
+    } else if (e.target.name === "endprovince") {
+      setTripInfo({
+        ...tripInfo,
+        endprovince: {
+          pname: e.target.value,
+          pid: selectedOption ? selectedOption.pid : "",
+        },
+      });
+    }
+  };
 
   const handleChange = (e) => {
     setTripInfo({ ...tripInfo, [e.target.name]: e.target.value });
@@ -53,38 +89,38 @@ const Coach = () => {
           licenseplate: e.target.value,
         },
       });
-    if (e.target.name == "startprovince-pid")
-      setTripInfo({
-        ...tripInfo,
-        startprovince: {
-          pid: e.target.value,
-          pname: tripInfo.startprovince.pname,
-        },
-      });
-    if (e.target.name == "startprovince-pname")
-      setTripInfo({
-        ...tripInfo,
-        startprovince: {
-          pname: e.target.value,
-          pid: tripInfo.startprovince.pid,
-        },
-      });
-    if (e.target.name == "endprovince-pid")
-      setTripInfo({
-        ...tripInfo,
-        endprovince: {
-          pid: e.target.value,
-          pname: tripInfo.endprovince.pname,
-        },
-      });
-    if (e.target.name == "endprovince-pname")
-      setTripInfo({
-        ...tripInfo,
-        endprovince: {
-          pname: e.target.value,
-          pid: tripInfo.endprovince.pid,
-        },
-      });
+    // if (e.target.name == "startprovince-pid")
+    //   setTripInfo({
+    //     ...tripInfo,
+    //     startprovince: {
+    //       pid: e.target.value,
+    //       pname: tripInfo.startprovince.pname,
+    //     },
+    //   });
+    // if (e.target.name == "startprovince")
+    //   setTripInfo({
+    //     ...tripInfo,
+    //     startprovince: {
+    //       pname: e.target.value,
+    //       pid: tripInfo.startprovince.pid,
+    //     },
+    //   });
+    // if (e.target.name == "endprovince-pid")
+    //   setTripInfo({
+    //     ...tripInfo,
+    //     endprovince: {
+    //       pid: e.target.value,
+    //       pname: tripInfo.endprovince.pname,
+    //     },
+    //   });
+    // if (e.target.name == "endprovince")
+    //   setTripInfo({
+    //     ...tripInfo,
+    //     endprovince: {
+    //       pname: e.target.value,
+    //       pid: tripInfo.endprovince.pid,
+    //     },
+    //   });
     console.log(tripInfo);
   };
 
@@ -93,6 +129,7 @@ const Coach = () => {
     // var startstandardDate = convertToStandardDateFormat(startdatetimeLocal);
     // var enddatetimeLocal = document.getElementsByName("endtime").value;
     // var endstandardDate = convertToStandardDateFormat(enddatetimeLocal);
+    console.log(tripInfo);
     axios
       .post("http://localhost:8080/identity/api/admin/add/trip", tripInfo)
       .then((res) => {
@@ -177,19 +214,19 @@ const Coach = () => {
   const Cars = [
     {
       licenseplate: "29-12345",
-      type: "45"
+      type: "45",
     },
     {
       licenseplate: "47-45678",
-      type: "15"
+      type: "15",
     },
     {
       licenseplate: "36-01234",
-      type: "30"
+      type: "30",
     },
     {
       licenseplate: "29-34567",
-      type: "45"
+      type: "45",
     },
   ];
 
@@ -209,29 +246,34 @@ const Coach = () => {
             <div className={styles.infoBoxTitle}>Thông tin chuyến xe</div>
             <form className={styles.infoBoxForm}>
               <div className={styles.places}>
-
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Tên tỉnh đi*</label>
-                  <input
-                    type="text"
-                    className={styles.input}
-                    name="startprovince-pname"
-                    onChange={handleChange}
-                    value={tripInfo.startprovince.pname}
-                    style={{width: "200px"}}
-                  ></input>
+                  <select
+                    defaultValue={tripInfo.startprovince.pname}
+                    name="startprovince"
+                    onChange={handleProvinceChange}
+                  >
+                    {options.map((option) => (
+                      <option key={option.pid} value={option.pname}>
+                        {option.pname}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Tên tỉnh đến*</label>
-                  <input
-                    type="text"
-                    className={styles.input}
-                    name="endprovince-pname"
-                    onChange={handleChange}
-                    value={tripInfo.endprovince.pname}
-                    style={{width: "200px"}}
-                  ></input>
+                  <select
+                    defaultValue={tripInfo.endprovince.pname}
+                    name="endprovince"
+                    onChange={handleProvinceChange}
+                  >
+                    {options.map((option) => (
+                      <option key={option.pid} value={option.pname}>
+                        {option.pname}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
@@ -268,7 +310,7 @@ const Coach = () => {
                     name="licenseplate"
                     onChange={handleChange}
                     value={tripInfo.licenseplate}
-                    style={{width: "400px"}}
+                    style={{ width: "400px" }}
                   ></input>
                 </div>
               </div>
@@ -345,8 +387,20 @@ const Coach = () => {
               <div className={styles.money}>
                 <div className={styles.moneyWrapper}>
                   <div className={styles.tripTitle}>Thống kê nhà xe</div>
-                  <div style={{display: "flex", justifyContent: "space-between"}}>Số chuyến đi hiện có <div style={{fontWeight: "bold"}}>{Trips.length} chuyến</div></div>
-                  <div style={{display: "flex", justifyContent: "space-between"}}>Số xe hiện có <div style={{fontWeight: "bold"}}>{"placeholder"} xe</div></div> 
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    Số chuyến đi hiện có{" "}
+                    <div style={{ fontWeight: "bold" }}>
+                      {Trips.length} chuyến
+                    </div>
+                  </div>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    Số xe hiện có{" "}
+                    <div style={{ fontWeight: "bold" }}>{"placeholder"} xe</div>
+                  </div>
                 </div>
               </div>
 
@@ -356,15 +410,10 @@ const Coach = () => {
 
                   <div>
                     {Cars.map((car, i) => {
-                      return (
-                        <Car
-                          key={i}
-                          car={car}
-                        />
-                      );
+                      return <Car key={i} car={car} />;
                     })}
                   </div>
-                  
+
                   <button
                     className={`${styles.addCoachButton} ${styles.buttons}`}
                     onClick={() => setAddCarPopup(true)}
@@ -374,7 +423,6 @@ const Coach = () => {
                   </button>
                 </div>
               </div>
-
             </div>
           </div>
         </div>

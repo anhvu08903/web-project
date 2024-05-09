@@ -52,6 +52,9 @@ const Login = () => {
             localStorage.setItem("token", res.data);
           navigate("/Homepage", { replace: true });
         });
+      // if (typeof window !== "undefined")
+      //   localStorage.setItem("token", 'da dang nhap');
+      // navigate("/Homepage", { replace: true });
     }
   }, [formErrors]);
 
