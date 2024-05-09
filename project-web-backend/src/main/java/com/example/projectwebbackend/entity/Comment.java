@@ -29,6 +29,26 @@ public class Comment {
     @Column(name = "Thoi diem binh luan")
     private Date createdAt;
 
+    @Column(name = "sao")
+    private String star;
+
+    public String getStar() {
+        return star;
+    }
+
+    public void setStar(String star) {
+        this.star = star;
+    }
+
+    public Comment(Long commentid, String content, User user, Admin admin, Date createdAt, String star) {
+        this.commentid = commentid;
+        this.content = content;
+        this.user = user;
+        this.admin = admin;
+        this.createdAt = createdAt;
+        this.star = star;
+    }
+
     public Long getCommentid() {
         return commentid;
     }
@@ -69,13 +89,9 @@ public class Comment {
         this.createdAt = createdAt;
     }
 
-    public Comment(Long commentid, String content, User user, Admin admin, Date createdAt) {
-        this.commentid = commentid;
-        this.content = content;
-        this.user = user;
-        this.admin = admin;
-        this.createdAt = createdAt;
-    }
+
+
+
 
     public Comment() {
     }

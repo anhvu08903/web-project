@@ -5,6 +5,8 @@ import com.example.projectwebbackend.entity.Admin;
 import com.example.projectwebbackend.entity.Coach;
 import com.example.projectwebbackend.entity.Seat;
 import com.example.projectwebbackend.entity.Trip;
+import com.example.projectwebbackend.repository.PickAddressRepository;
+import com.example.projectwebbackend.repository.ReturnAddressRepository;
 import com.example.projectwebbackend.repository.SeatRepository;
 import com.example.projectwebbackend.repository.TripRepository;
 import com.example.projectwebbackend.service.AdminService;
@@ -19,33 +21,36 @@ import java.util.List;
 
 @Service
 public class AdminTripDTOServiceImpl implements AdminTripDTOService {
-    @Autowired private CoachService coachService;
+    @Autowired
+    private CoachService coachService;
 
-    @Autowired private TripRepository tripRepository;
+    @Autowired
+    private TripRepository tripRepository;
 
-    @Autowired private SeatRepository seatRepository;
+    @Autowired
+    private SeatRepository seatRepository;
 
-    @Autowired private AdminService adminService;
+    @Autowired
+    private AdminService adminService;
 
+    @Autowired private PickAddressRepository pickAddressRepository;
+
+    @Autowired private ReturnAddressRepository returnAddressRepository;
 
 
     @Override
     public List<AdminTripDTO> getAllSeatInfo() {
-      List<AdminTripDTO> adminTripDTOS = new ArrayList<>();
+        List<AdminTripDTO> adminTripDTOS = new ArrayList<>();
         List<Trip> trips = tripRepository.findAll();
         for (Trip trip : trips) {
             // Làm cái gì đó với mỗi phần tử trong trips
-            AdminTripDTO adminTripDTO= new AdminTripDTO();
+            AdminTripDTO adminTripDTO = new AdminTripDTO();
             adminTripDTO.setTrip(trip);
             adminTripDTO.setSeat(seatRepository.findSeatByCoach_Licenseplate(trip.getCoach().getLicenseplate()));
-<<<<<<< HEAD
-//            adminTripDTO.setAdmin(seatRepository.findAdminByCoach_Licenplate(trip.getCoach().getLicenseplate()));
-=======
             adminTripDTO.setAdmin(trip.getCoach().getAdmin());
-
->>>>>>> f0934548f125fa291c7d26e548dc03a0d544a846
+            adminTripDTO.setPickAddress(pickAddressRepository.findAllByTrip(trip));
+            adminTripDTO.setReturnAddress(returnAddressRepository.findAllByTrip(trip));
             adminTripDTOS.add(adminTripDTO);
-
 
         }
 
