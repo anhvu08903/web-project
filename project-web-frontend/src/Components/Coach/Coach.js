@@ -57,12 +57,27 @@ const Coach = () => {
       .get("http://localhost:4000/api/bus/types")
       .then((response) => {
         setCarType(response.data.items);
-        console.log(carType);
       })
       .catch((error) => {
         console.error("Error fetching options:", error);
       });
   }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/api/provider", {
+        headers: {
+          'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+        }
+      })
+      .then((response) => {
+        console.log(response.data.item);
+      })
+      .catch((error) => {
+        console.error("Error fetching options:", error);
+      });
+  }, []);
+  
 
   useEffect(() => {
     axios
@@ -376,7 +391,11 @@ const Coach = () => {
               <div className={styles.places}>
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Loại xe*</label>
-                  <select className={styles.input} options={carType}/>
+                  <select className={styles.selectInput}>
+                    {carType.map((car, index) => (
+                      <option key={index} value={car.name}>{car.name}</option>
+                    ))}
+                  </select>
 
                 </div>
               </div>
@@ -413,7 +432,10 @@ const Coach = () => {
               <span></span>
             </button>
             <Link to="/homepage">
-              <button className={styles.buttons}>
+              <button className={styles.buttons} onClick={() => {
+                sessionStorage.removeItem('token');
+                window.location.replace('/');
+              }}>
                 Đăng xuất
                 <span></span>
               </button>

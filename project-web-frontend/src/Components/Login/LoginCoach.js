@@ -50,7 +50,7 @@ const LoginCoach = () => {
         alert(res.data.message);
         if (typeof window !== 'undefined') sessionStorage.setItem('token', res.data.token);
         console.log(res.data.token);
-        navigate("/", { replace: true });
+        navigate("/coach", { replace: true });
       });
     }
   }, [formErrors]);
