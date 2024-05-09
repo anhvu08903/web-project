@@ -43,3 +43,25 @@
     border-radius: 5%;
     margin-left: 10px;
 }
+
+.container {
+    background-color: white;
+    height: 265px;
+    width: 728px;
+    margin-bottom: 30px;
+}
+
+.booking_img {
+    height: 150px;
+    width: 150px;
+}
+
+.show1,
+.show2 {
+    background-color: white;
+    width: 728px;
+    height: 200px;
+    display: block;
+    margin-bottom: 30px;
+
+}

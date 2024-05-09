@@ -127,7 +127,7 @@ public class AdminController {
     public ResponseEntity<AdminCoach> addCoach(@PathVariable Long id, @RequestBody Coach coach) {
         AdminCoach adminCoach = new AdminCoach();
 
-        adminCoach.setAdmin(adminService.findAdminById(id).orElse(null));
+        adminCoach.setAdmin(adminService.findAdminById(id));
         if (adminCoach == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

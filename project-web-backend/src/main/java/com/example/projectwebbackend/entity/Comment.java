@@ -17,10 +17,14 @@ public class Comment {
     private String content;
 
     @ManyToOne
-    @JsonIgnore
-    @JsonBackReference
+
     @JoinColumn(name = "Ma nguoi dung")
     private User user;
+
+    @ManyToOne
+
+    @JoinColumn(name = "Ma nha xe ")
+    private Admin admin;
 
     @Column(name = "Thoi diem binh luan")
     private Date createdAt;
@@ -49,11 +53,30 @@ public class Comment {
         this.user = user;
     }
 
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Comment(Long commentid, String content, User user, Admin admin, Date createdAt) {
+        this.commentid = commentid;
+        this.content = content;
+        this.user = user;
+        this.admin = admin;
+        this.createdAt = createdAt;
+    }
+
+    public Comment() {
     }
 }
