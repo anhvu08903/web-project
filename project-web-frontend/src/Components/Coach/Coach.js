@@ -21,12 +21,11 @@ const Coach = () => {
   const [options, setOptions] = useState([]);
 
 
-
   const [carType, setCarType] = useState(undefined);
   const [carInfo, setCarInfo] = useState({
     licensePlate: "",
-    carType: ""
-  })
+    carType: "",
+  });  
   const [car, setCar] = useState([]);
 
 
@@ -34,9 +33,11 @@ const Coach = () => {
     starttime: "",
     endtime: "",
     startprovince: {
+      pid: "",
       pname: "",
     },
     endprovince: {
+      pid: "",
       pname: "",
     },
     coach: {
@@ -44,13 +45,7 @@ const Coach = () => {
     },
   });
 
-  const carTypeOptions = [
-    "Xe 24 chỗ",
-    "Xe 29 chỗ",
-    "Xe 35 chỗ",
-    "Xe 45 chỗ"
-  ];
-
+  const carTypeOptions = ["Xe 24 chỗ", "Xe 29 chỗ", "Xe 35 chỗ", "Xe 45 chỗ"];
 
   console.log(carType);
 
@@ -77,28 +72,30 @@ const Coach = () => {
         console.error("Error fetching options:", error);
       });
   }, []);
-
-  const handleProvinceChange = (e) => {
+  const handleStartProvinceChange = (e) => {
     const selectedOption = options.find(
       (option) => option.pname === e.target.value
     );
-    if (e.target.name === "startprovince") {
-      setTripInfo({
-        ...tripInfo,
-        startprovince: {
-          pname: e.target.value,
-          pid: selectedOption ? selectedOption.pid : "",
-        },
-      });
-    } else if (e.target.name === "endprovince") {
-      setTripInfo({
-        ...tripInfo,
-        endprovince: {
-          pname: e.target.value,
-          pid: selectedOption ? selectedOption.pid : "",
-        },
-      });
-    }
+    setTripInfo((prevTripInfo) => ({
+      ...prevTripInfo,
+      startprovince: {
+        pname: e.target.value,
+        pid: selectedOption ? selectedOption.pid : "",
+      },
+    }));
+  };
+
+  const handleEndProvinceChange = (e) => {
+    const selectedOption = options.find(
+      (option) => option.pname === e.target.value
+    );
+    setTripInfo((prevTripInfo) => ({
+      ...prevTripInfo,
+      endprovince: {
+        pname: e.target.value,
+        pid: selectedOption ? selectedOption.pid : "",
+      },
+    }));
   };
 
   const handleChange = (e) => {
@@ -210,17 +207,15 @@ const Coach = () => {
 
   const addCar = async () => {
     console.log(carInfo);
-    axios
-      .post("url thêm xe khách vào đây", carInfo)
-      .then((res) => {
-        alert("thanh cong ");
-      });
+    axios.post("url thêm xe khách vào đây", carInfo).then((res) => {
+      alert("thanh cong ");
+    });
 
     console.log(carInfo);
     setCarButtonPopup(false);
     setCarInfo({
       licensePlate: "",
-      carType: ""
+      carType: "",
     });
   };
 
@@ -317,10 +312,11 @@ const Coach = () => {
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Tên tỉnh đi*</label>
                   <select
-                    defaultValue={tripInfo.startprovince.pname}
+                    value={tripInfo.startprovince.pname}
                     name="startprovince"
-                    onChange={handleProvinceChange}
+                    onChange={handleStartProvinceChange}
                   >
+                    <option value="">Chọn tỉnh/thành phố</option>
                     {options.map((option) => (
                       <option key={option.pid} value={option.pname}>
                         {option.pname}
@@ -332,10 +328,11 @@ const Coach = () => {
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Tên tỉnh đến*</label>
                   <select
-                    defaultValue={tripInfo.endprovince.pname}
+                    value={tripInfo.endprovince.pname}
                     name="endprovince"
-                    onChange={handleProvinceChange}
+                    onChange={handleEndProvinceChange}
                   >
+                    <option value="">Chọn tỉnh/thành phố</option>
                     {options.map((option) => (
                       <option key={option.pid} value={option.pname}>
                         {option.pname}
@@ -399,33 +396,35 @@ const Coach = () => {
       </TripForm>
 
       <CarForm trigger={carButtonPopup} setTrigger={setCarButtonPopup}>
-      <div style={{ width: "100%" }}>
+        <div style={{ width: "100%" }}>
           <div className={styles.infoBoxWrapper}>
             <div className={styles.infoBoxTitle}>Thông tin xe</div>
             <form className={styles.infoBoxForm}>
               <div className={styles.places}>
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Biển số xe*</label>
-                  <input className={styles.input} name="licensePlate" onChange={handleCarChange}/>
+                  <input
+                    className={styles.input}
+                    name="licensePlate"
+                    onChange={handleCarChange}
+                  />
                 </div>
               </div>
 
               <div className={styles.places}>
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Loại xe*</label>
-                  <select className={styles.selectInput} onChange={handleCarChange} name="carType">
+                  <select
+                    className={styles.selectInput}
+                    onChange={handleCarChange}
+                    name="carType"
+                  >
                     {carTypeOptions.map((option, index) => {
-                        return (
-                            <option key={index}>
-                                {option}
-                            </option>
-                        );
+                      return <option key={index}>{option}</option>;
                     })}
                   </select>
-
                 </div>
               </div>
-
             </form>
 
             <div className={styles.searchButton}>
@@ -441,7 +440,6 @@ const Coach = () => {
           </div>
         </div>
       </CarForm>
-
 
       <div className={styles.navbar}>
         <div className={styles.headerLeft}></div>
