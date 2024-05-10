@@ -18,4 +18,6 @@ public interface SeatRepository extends JpaRepository<Seat, Long> {
 
     Seat findSeatByCoach_Licenseplate(String licenseplate);
 
+
+
 }
