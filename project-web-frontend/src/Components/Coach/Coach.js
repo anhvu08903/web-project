@@ -24,9 +24,11 @@ const Coach = () => {
     starttime: "",
     endtime: "",
     startprovince: {
+      pid: "",
       pname: "",
     },
     endprovince: {
+      pid: "",
       pname: "",
     },
     coach: {
@@ -45,27 +47,30 @@ const Coach = () => {
         console.error("Error fetching options:", error);
       });
   }, []);
-  const handleProvinceChange = (e) => {
+  const handleStartProvinceChange = (e) => {
     const selectedOption = options.find(
       (option) => option.pname === e.target.value
     );
-    if (e.target.name === "startprovince") {
-      setTripInfo({
-        ...tripInfo,
-        startprovince: {
-          pname: e.target.value,
-          pid: selectedOption ? selectedOption.pid : "",
-        },
-      });
-    } else if (e.target.name === "endprovince") {
-      setTripInfo({
-        ...tripInfo,
-        endprovince: {
-          pname: e.target.value,
-          pid: selectedOption ? selectedOption.pid : "",
-        },
-      });
-    }
+    setTripInfo((prevTripInfo) => ({
+      ...prevTripInfo,
+      startprovince: {
+        pname: e.target.value,
+        pid: selectedOption ? selectedOption.pid : "",
+      },
+    }));
+  };
+
+  const handleEndProvinceChange = (e) => {
+    const selectedOption = options.find(
+      (option) => option.pname === e.target.value
+    );
+    setTripInfo((prevTripInfo) => ({
+      ...prevTripInfo,
+      endprovince: {
+        pname: e.target.value,
+        pid: selectedOption ? selectedOption.pid : "",
+      },
+    }));
   };
 
   const handleChange = (e) => {
@@ -249,10 +254,11 @@ const Coach = () => {
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Tên tỉnh đi*</label>
                   <select
-                    defaultValue={tripInfo.startprovince.pname}
+                    value={tripInfo.startprovince.pname}
                     name="startprovince"
-                    onChange={handleProvinceChange}
+                    onChange={handleStartProvinceChange}
                   >
+                    <option value="">Chọn tỉnh/thành phố</option>
                     {options.map((option) => (
                       <option key={option.pid} value={option.pname}>
                         {option.pname}
@@ -264,10 +270,11 @@ const Coach = () => {
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Tên tỉnh đến*</label>
                   <select
-                    defaultValue={tripInfo.endprovince.pname}
+                    value={tripInfo.endprovince.pname}
                     name="endprovince"
-                    onChange={handleProvinceChange}
+                    onChange={handleEndProvinceChange}
                   >
+                    <option value="">Chọn tỉnh/thành phố</option>
                     {options.map((option) => (
                       <option key={option.pid} value={option.pname}>
                         {option.pname}

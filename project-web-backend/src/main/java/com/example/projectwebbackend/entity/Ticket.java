@@ -14,7 +14,7 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ticketid;
     @ManyToOne
-    @JoinColumn(name = "MaChuyenXe")
+    @JoinColumn(name = "MaChuyenXe", unique = false)
     private Trip trip;
 
     @OneToMany
@@ -23,11 +23,11 @@ public class Ticket {
     private List<Seat> seatList;
 
     @OneToOne
-    @JoinColumn(name = "MaDiemDon")
+    @JoinColumn(name = "MaDiemDon", unique = false)
     private PickAddress pickAddress;
 
     @OneToOne
-    @JoinColumn(name = "MaDiemTra")
+    @JoinColumn(name = "MaDiemTra", unique = false)
     private ReturnAddress returnAddress;
 
     public Long getTicketid() {
