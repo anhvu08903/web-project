@@ -20,6 +20,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<Comment> getCommentByAdminId(Long id) {
 //        return (List<Comment>) commentRepository.findAllByCommentid(id);
-        return null;
+        return (List<Comment>) commentRepository.findAllByAdmin_Adminid(id);
+
     }
 }

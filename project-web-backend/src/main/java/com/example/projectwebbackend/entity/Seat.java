@@ -18,7 +18,6 @@ public class Seat {
     @ManyToOne
     @JoinColumn(name = "BienSoXe")
     @JsonBackReference
-    @JsonIgnore
     private Coach coach;
 
     @Column(name = "LoaiGhe")
@@ -27,7 +26,6 @@ public class Seat {
     @ManyToOne
     @JoinColumn(name = "MaViTri")
     @JsonBackReference
-    @JsonIgnore
     private SeatLocation seatLocation;
 
     public Long getSeatid() {

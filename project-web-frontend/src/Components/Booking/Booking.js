@@ -5,6 +5,11 @@ import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import { number } from "prop-types";
 
 const Booking = () => {
   // const token = sessionStorage.getItem('token');
@@ -39,17 +44,17 @@ const Booking = () => {
   };
 
   const handleClick1 = () => {
-    toggleSlider1(); // Khi ảnh được click, toggle slider
+    toggleSlider1();
     setCurrentImage1((prevImage) =>
       prevImage === "image1" ? "image2" : "image1"
-    ); // Đổi ảnh
+    );
   };
 
   const handleClick2 = () => {
-    toggleSlider2(); // Khi ảnh được click, toggle slider
+    toggleSlider2();
     setCurrentImage2((prevImage) =>
       prevImage === "image1" ? "image2" : "image1"
-    ); // Đổi ảnh
+    );
   };
 
   const handleClick3 = () => {
@@ -64,12 +69,10 @@ const Booking = () => {
 
   const handleChange1 = (event, newValue) => {
     setValue1(newValue);
-    //console.log(newValue)
     setTimeRange(newValue);
   };
   const handleChange2 = (event, newValue) => {
     setValue2(newValue);
-    //console.log(newValue)
     setPriceRange(newValue);
   };
 
@@ -77,44 +80,49 @@ const Booking = () => {
     filterBookings(timeRange, priceVal);
   }, [timeVal, priceVal, sortOption, selectedNhaXe]);
 
-  const bookings = [
-    {
-      id: 1,
-      departureTime: "9:45",
-      arrivalTime: "12:20",
-      price: 50,
-      rating: 3,
-      nhaXe: "peo1",
-      totalSeat: 7,
-    },
-    {
-      id: 2,
-      departureTime: "12:15",
-      arrivalTime: "14:30",
-      price: 60,
-      rating: 1,
-      nhaXe: "peo2",
-      totalSeat: 9,
-    },
-    {
-      id: 3,
-      departureTime: "15:00",
-      arrivalTime: "17:45",
-      price: 70,
-      rating: 5,
-      nhaXe: "peo3",
-      totalSeat: 11,
-    },
-    {
-      id: 4,
-      departureTime: "16:30",
-      arrivalTime: "19:40",
-      price: 90,
-      rating: 4,
-      nhaXe: "peo4",
-      totalSeat: 13,
-    },
-  ];
+  const booking1 = axios.get(
+    `http://localhost:8080/identity/api/admin/tripseat`
+  );
+  const [array, setArray] = useState([]); // Mảng các chuyến xe sau khi get từ backend
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await booking1;
+        setArray(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
+  }, []); // Chạy một lần sau khi component được render
+
+  const bookings = array;
+
+  const [ratings, setRatings] = useState({});
+
+  async function fetchDataAndRender(adminId) {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/identity/api/admin/comment/rate/${adminId}`
+      );
+      const data = response.data;
+      setRatings((prevRatings) => ({ ...prevRatings, [adminId]: data }));
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  useEffect(() => {
+    // Fetch and render ratings for all admins
+    const fetchData = () => {
+      filteredAndSortedBookings.forEach(async (booking) => {
+        await fetchDataAndRender(booking.admin.adminid);
+      });
+    };
+
+    fetchData();
+  }, [filteredAndSortedBookings]);
 
   // Hàm xử lý sự kiện khi có sự thay đổi trong ô đánh dấu nhà xe
   const handleNhaXeChange = (event) => {
@@ -137,30 +145,45 @@ const Booking = () => {
       return list;
     } else {
       // Lọc danh sách chuyến đi sao cho nhà xe nằm trong danh sách nhà xe được chọn
-      return list.filter((booking) => selectedNhaXe.includes(booking.nhaXe));
+      return list.filter((booking) =>
+        selectedNhaXe.includes(booking.admin.adminname)
+      );
     }
+  };
+
+  const getHourAndMinute = (dateTimeString) => {
+    const dateObj = new Date(dateTimeString);
+    const hour = dateObj.getHours();
+    const minute = dateObj.getMinutes();
+    return { hour: hour, minute: minute };
   };
 
   const sortBookings = (option, list) => {
     switch (option) {
       case "earliest":
         return list.slice().sort((a, b) => {
-          const timeA = parseInt(a.departureTime.replace(":", ""));
-          const timeB = parseInt(b.departureTime.replace(":", ""));
-          return timeA - timeB;
+          const timeA = getHourAndMinute(a.trip.starttime);
+          const timeB = getHourAndMinute(b.trip.starttime);
+          return (
+            timeA.hour * 60 + timeA.minute - (timeB.hour * 60 + timeB.minute)
+          );
         });
       case "latest":
         return list.slice().sort((a, b) => {
-          const timeA = parseInt(a.departureTime.replace(":", ""));
-          const timeB = parseInt(b.departureTime.replace(":", ""));
-          return timeB - timeA;
+          const timeA = getHourAndMinute(a.trip.starttime);
+          const timeB = getHourAndMinute(b.trip.starttime);
+          return (
+            timeB.hour * 60 + timeB.minute - (timeA.hour * 60 + timeA.minute)
+          );
         });
       case "highest":
-        return list.slice().sort((a, b) => b.rating - a.rating);
+        return list
+          .slice()
+          .sort((a, b) => ratings[b.admin.adminid] - ratings[a.admin.adminid]);
       case "ascending":
-        return list.slice().sort((a, b) => a.price - b.price);
+        return list.slice().sort((a, b) => a.seat.price - b.seat.price);
       case "descending":
-        return list.slice().sort((a, b) => b.price - a.price);
+        return list.slice().sort((a, b) => b.seat.price - a.seat.price);
       default:
         return list;
     }
@@ -176,22 +199,20 @@ const Booking = () => {
   // Hàm lọc danh sách đặt phòng dựa trên cả hai tiêu chí: giờ đi và giá vé
   const filterBookings = (timeRange, priceRange) => {
     const filtered1 = bookings.filter((booking) => {
-      //return (priceRange[0] != priceRange[1]);
-
       // Kiểm tra nếu giờ đi của đặt phòng nằm trong khoảng thời gian và giá vé nằm trong khoảng giá trị
       if (
         priceRange[0] !== priceRange[1] &&
         timeRange[0] !== timeRange[1] &&
-        booking.price >= priceRange[0] &&
-        booking.price <= priceRange[1]
+        booking.seat.price >= priceRange[0] &&
+        booking.seat.price <= priceRange[1]
       ) {
         if (
-          parseInt(booking.departureTime.split(":")[0]) >= timeRange[0] &&
-          parseInt(booking.arrivalTime.split(":")[0]) <= timeRange[1]
+          getHourAndMinute(booking.trip.starttime).hour >= timeRange[0] &&
+          getHourAndMinute(booking.trip.endtime).hour <= timeRange[1]
         ) {
-          if (parseInt(booking.arrivalTime.split(":")[0]) < timeRange[1]) {
+          if (getHourAndMinute(booking.trip.endtime).hour < timeRange[1]) {
             return true;
-          } else if (parseInt(booking.arrivalTime.split(":")[1]) === 0)
+          } else if (getHourAndMinute(booking.trip.endtime).minute === 0)
             return true;
           else return false;
         } else return false;
@@ -210,33 +231,50 @@ const Booking = () => {
 
   const handleBookTicket = (event, booking, id) => {
     event.preventDefault();
-    console.log("Booking được chọn:", booking);
+    // console.log("Booking được chọn:", booking);
     setShowPickSeat(id);
-    setCurrentBookingPrice(booking.price);
+    setCurrentBookingPrice(booking.seat.price);
   };
 
-  const handleSeat = () => {
-    console.log(currentBookingPrice);
-  };
-
-  const PickUp = [
-    { id: 1, list1: ["point a", "point b", "point c"] },
-    { id: 2, list1: ["point d", "point e", "point f"] },
-    { id: 3, list1: ["point g", "point h", "point i"] },
-    { id: 4, list1: ["point j", "point k", "point l"] },
-  ];
-  const Destination = [
-    { id: 1, list2: ["Point A", "Point B", "Point C"] },
-    { id: 2, list2: ["Point D", "Point E", "Point F"] },
-    { id: 3, list2: ["Point G", "Point H", "Point I"] },
-    { id: 4, list2: ["Point J", "Point K", "Point L"] },
-  ];
+  // const handleSeat = () => {
+  //   console.log(currentBookingPrice);
+  // };
 
   const [showLocation, setShowLocation] = useState(null); //State quản lý div điểm đón điểm trả
   const handlePick = (event, booking, id) => {
     event.preventDefault();
     setShowLocation(id);
   };
+
+  const renderSeatNumbers = (booking) => {
+    return Array.from(
+      { length: booking.trip.coach.number },
+      (_, index) => index + 1
+    );
+  };
+
+  const [picticket, setPickTicKet] = useState("");
+
+  const handlePickTicketChange = (event) => {
+    setPickTicKet(event.target.value);
+  };
+  const [pickup, setPickUp] = useState([]);
+
+  const handlePickupPointChange = (event) => {
+    setPickUp(event.target.value);
+  };
+
+  async function getTrip() {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/identity/users/danhsachtatcacacghetrenchuyenxe}`
+      );
+      const data = response.data;
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
 
   return (
     <div className="background">
@@ -323,14 +361,16 @@ const Booking = () => {
               {showCheckbox &&
                 bookings.map((booking) => (
                   <div>
-                    <label key={booking.id}>
+                    <label key={booking.trip.tripid}>
                       <input
                         type="checkbox"
-                        value={booking.nhaXe}
+                        value={booking.admin.adminname}
                         onChange={handleNhaXeChange}
-                        checked={selectedNhaXe.includes(booking.nhaXe)}
+                        checked={selectedNhaXe.includes(
+                          booking.admin.adminname
+                        )}
                       />
-                      {booking.nhaXe}
+                      {booking.admin.adminname}
                     </label>
                     <br />
                   </div>
@@ -344,150 +384,119 @@ const Booking = () => {
         <div id="booking">
           <ul>
             {filteredAndSortedBookings.map((booking) => (
-              <li key={booking.id}>
-                <strong>Giờ đi:</strong> {booking.departureTime} <br />
-                <strong>Giờ đón:</strong> {booking.arrivalTime} <br />
-                <strong>Giá vé:</strong> ${booking.price} <br />
-                <strong>Đánh giá:</strong> {booking.rating} sao <br />
-                <strong>Nhà xe:</strong> {booking.nhaXe} <br />
-                <div key={booking.id}>
-                  <button
-                    className="button"
-                    onClick={(event) =>
-                      handleBookTicket(event, booking, booking.id)
-                    }
-                  >
-                    Chọn chuyến
-                  </button>
-                  {showPickSeat === booking.id && (
+              <li key={booking.trip.tripid}>
+                <div>
+                  <div className="container">
+                    <img
+                      src="https://static.vexere.com/production/images/1690435601693.jpeg?w=250&h=250"
+                      className="booking_img"
+                    ></img>
+                    <strong>Nhà xe:</strong> {booking.admin.adminname} <br />
+                    <strong>Giờ đi:</strong> {booking.trip.starttime} <br />
+                    <strong>Giờ đón:</strong> {booking.trip.endtime} <br />
+                    <strong>Giá vé:</strong> ${booking.seat.price} <br />
+                    <strong>Đánh giá:</strong> {ratings[booking.admin.adminid]}{" "}
+                    sao
+                    <br />
+                    <button
+                      className="button"
+                      onClick={(event) =>
+                        handleBookTicket(event, booking, booking.trip.tripid)
+                      }
+                    >
+                      Chọn chuyến
+                    </button>
+                  </div>
+                  {showPickSeat === booking.trip.tripid && (
                     <div>
-                      <div>
-                        {[...Array(30)].map((_, index) => {
-                          if (
-                            index < booking.totalSeat &&
-                            index % 2 == 0 &&
-                            index > 0
-                          ) {
-                            // Hiển thị ảnh 1
-                            return (
-                              <div>
-                                <img
-                                  src="https://cdn-icons-png.flaticon.com/512/1683/1683758.png"
-                                  className="seat"
-                                  onClick={handleSeat}
-                                />
-                                <img
-                                  src="https://cdn-icons-png.flaticon.com/512/1683/1683758.png"
-                                  className="seat"
-                                  onClick={handleSeat}
-                                />
-                              </div>
-                            );
-                          } else if (
-                            index == booking.totalSeat &&
-                            booking.totalSeat % 2 == 1
-                          ) {
-                            return (
-                              <img
-                                src="https://cdn-icons-png.flaticon.com/512/1683/1683758.png"
-                                className="seat"
-                                onClick={handleSeat}
-                              />
-                            );
-                          } else if (
-                            index >= booking.totalSeat &&
-                            index <= 30
-                          ) {
-                            return (
-                              <img
-                                src="https://cdn.iconscout.com/icon/premium/png-256-thumb/car-seat-1616720-1372229.png"
-                                className="seat"
-                                onClick={handleSeat}
-                              />
-                            );
-                          } else {
-                            // Trường hợp còn lại, không hiển thị
-                            return null;
-                          }
-                        })}
-                      </div>
-                      <div>
+                      <div className="show1">
+                        <p>Còn{booking.trip.coach.number} chỗ</p>
+                        <p>Chọn ghế:</p>
+                        {renderSeatNumbers(booking).map((number) => (
+                          <div key={number}>
+                            <input
+                              type="checkbox"
+                              id={`seat-${number}`}
+                              value={number}
+                            />
+                            <label htmlFor={`seat-${number}`}>
+                              Ghế {number}
+                            </label>
+                          </div>
+                        ))}
+
                         <button
                           className="button"
                           onClick={(event) =>
-                            handlePick(event, booking, booking.id)
+                            handlePick(event, booking, booking.trip.tripid)
                           }
                         >
                           Tiếp tục
                         </button>
-                        {showLocation === booking.id && (
-                          <div>
-                            <div>
-                              <p>Điểm đón</p>
-                              <div
-                                style={{
-                                  overflowY: "scroll",
-                                  height: "100px",
-                                  width: "100px",
-                                  border: "1px solid #ccc",
-                                  padding: "10px",
-                                }}
-                              >
-                                {PickUp.map(
-                                  (pickup) =>
-                                    pickup.id === booking.id &&
-                                    pickup.list1.map((point, index) => (
-                                      <div key={index}>
-                                        <input
-                                          type="radio"
-                                          id={`radio-${index}`}
-                                          name="pickup-point"
-                                          value={point}
-                                        />
-                                        <label htmlFor={`radio-${index}`}>
-                                          {point}
-                                        </label>
-                                      </div>
-                                    ))
-                                )}
-                              </div>
-                            </div>
-                            <div>
-                              <p>Điểm trả</p>
-                              <div
-                                style={{
-                                  overflowY: "scroll",
-                                  height: "100px",
-                                  width: "100px",
-                                  border: "1px solid #ccc",
-                                  padding: "10px",
-                                }}
-                              >
-                                {Destination.map(
-                                  (des) =>
-                                    des.id === booking.id &&
-                                    des.list2.map((point, index) => (
-                                      <div key={index}>
-                                        <input
-                                          type="radio"
-                                          id={`radio-${index}`}
-                                          name="des-point"
-                                          value={point}
-                                        />
-                                        <label htmlFor={`radio-${index}`}>
-                                          {point}
-                                        </label>
-                                      </div>
-                                    ))
-                                )}
-                              </div>
-                            </div>
-                            <Link to={"/payment"}>
-                              <button className="button">Tiếp tục</button>
-                            </Link>
-                          </div>
-                        )}
                       </div>
+                      {showLocation === booking.trip.tripid && (
+                        <div className="show2">
+                          <div>
+                            <p>Điểm đón</p>
+                            <div>
+                              <Box sx={{ minWidth: 120 }}>
+                                <FormControl style={{ width: "200px" }}>
+                                  <InputLabel id="pick-up">Điểm đón</InputLabel>
+                                  <Select
+                                    labelId="pick-up"
+                                    id="pick-up"
+                                    label="Điểm đón"
+                                    onChange={(event) => {
+                                      handlePickupPointChange(event);
+                                      // console.log(
+                                      //   `Giá trị được chọn: ${event.target.value}`
+                                      // );
+                                    }}
+                                  >
+                                    {booking.pickAddress.map((pick) => (
+                                      <MenuItem value={pick.pickname}>
+                                        {pick.pickname}
+                                      </MenuItem>
+                                    ))}
+                                  </Select>
+                                </FormControl>
+                              </Box>
+                            </div>
+                          </div>
+                          <div>
+                            <p>Điểm trả</p>
+                            <div>
+                              <Box sx={{ minWidth: 120 }}>
+                                <FormControl style={{ width: "200px" }}>
+                                  <InputLabel id="drop-off">
+                                    Điểm trả
+                                  </InputLabel>
+                                  <Select
+                                    labelId="drop-off"
+                                    id="drop-off"
+                                    label="Điểm trả"
+                                    onChange={(event) => {
+                                      handlePickupPointChange(event);
+                                      // console.log(
+                                      //   `Giá trị được chọn: ${event.target.value}`
+                                      // );
+                                    }}
+                                  >
+                                    {booking.returnAddress.map((dropoff) => (
+                                      <MenuItem value={dropoff.returnaddress}>
+                                        {dropoff.returnaddress}
+                                      </MenuItem>
+                                    ))}
+                                  </Select>
+                                </FormControl>
+                              </Box>
+                            </div>
+                          </div>
+                          <Link to={"/payment"}>
+                            <button className="button">Tiếp tục</button>
+                          </Link>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>

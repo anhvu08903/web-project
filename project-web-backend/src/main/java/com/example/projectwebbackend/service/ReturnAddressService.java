@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface ReturnAddressService {
 
-    List<ReturnAddress> getALlPickAddress();
+    List<ReturnAddress> getALlReturnAddress();
 
-    ReturnAddress addPickAdress(ReturnAddress returnAddress);
+    ReturnAddress addReturnAddress(ReturnAddress returnAddress);
 
     void editReturnAddress(ReturnAddress returnAddress);
 

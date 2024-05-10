@@ -13,13 +13,12 @@ public class Ticket {
     @Column(name = "MaVeXe")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ticketid;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "MaChuyenXe")
     private Trip trip;
 
     @OneToMany
     @JsonBackReference
-    @JsonIgnore
     @JoinColumn(name = "MaGhe")
     private List<Seat> seatList;
 

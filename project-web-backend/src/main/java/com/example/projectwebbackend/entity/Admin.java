@@ -1,5 +1,6 @@
 package com.example.projectwebbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -27,6 +28,32 @@ public class Admin {
 
     @Column(name = "DiaChi")
     private String adminaddress;
+
+    @JsonIgnore
+    @Column(name = "Token")
+    private String token;
+
+    public Admin() {
+    }
+
+    public Admin(Long adminid, String adminname, String adminaccount, String adminpassword, String adminphone, String adminemail, String adminaddress, String token) {
+        this.adminid = adminid;
+        this.adminname = adminname;
+        this.adminaccount = adminaccount;
+        this.adminpassword = adminpassword;
+        this.adminphone = adminphone;
+        this.adminemail = adminemail;
+        this.adminaddress = adminaddress;
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public Long getAdminid() {
         return adminid;
