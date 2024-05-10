@@ -21,11 +21,13 @@ const Coach = () => {
   const [options, setOptions] = useState([]);
 
 
+
   const [carType, setCarType] = useState(undefined);
   const [carInfo, setCarInfo] = useState({
     licensePlate: "",
     carType: ""
   })
+  const [car, setCar] = useState([]);
 
 
   const [tripInfo, setTripInfo] = useState({
@@ -51,6 +53,18 @@ const Coach = () => {
 
 
   console.log(carType);
+
+  useEffect(() => {
+    axios
+      .get(" url nhận thông tin xe vào đây ")
+      .then((response) => {
+        console.log(response.data);
+        setCar(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching options:", error);
+      });
+  }, []);
 
   useEffect(() => {
     axios
