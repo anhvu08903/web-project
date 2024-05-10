@@ -10,7 +10,9 @@ import java.util.Optional;
 public interface CoachService {
     List<Coach> getAllCoach();
 
-    Coach addCoach(Long id, Coach coach);
+    Coach addCoachById(Long id, Coach coach);
+    Coach addCoach(Coach coach);
+
 
     void deleteCoach(Long id);
 
