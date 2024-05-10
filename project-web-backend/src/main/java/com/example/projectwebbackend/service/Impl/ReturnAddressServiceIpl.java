@@ -11,12 +11,12 @@ import java.util.List;
 public class ReturnAddressServiceIpl implements ReturnAddressService {
     @Autowired private ReturnAddressRepository returnAddressRepository;
     @Override
-    public List<ReturnAddress> getALlPickAddress() {
+    public List<ReturnAddress> getALlReturnAddress() {
         return (List<ReturnAddress>) returnAddressRepository.findAll();
     }
 
     @Override
-    public ReturnAddress addPickAdress(ReturnAddress returnAddress) {
+    public ReturnAddress addReturnAddress(ReturnAddress returnAddress) {
         return returnAddressRepository.save(returnAddress);
     }
 

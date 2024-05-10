@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Trip from "./Trip";
 import Car from "./Car";
 import TripForm from "./TripForm";
+import CarForm from "./CarForm";
 import axios from "axios";
 
 function convertToStandardDateFormat(datetimeLocal) {
@@ -16,9 +17,14 @@ const Coach = () => {
   const coachName = "{Placeholder}";
 
   const [buttonPopup, setButtonPopup] = useState(false);
-  const [addCarPopup, setAddCarPopup] = useState(false);
+  const [carButtonPopup, setCarButtonPopup] = useState(false);
   const [options, setOptions] = useState([]);
-  const [selectedOption, setSelectedOption] = useState("");
+
+  const [carType, setCarType] = useState(undefined);
+  const [carInfo, setCarInfo] = useState({
+    licensePlate: "",
+    carType: "",
+  });
 
   const [tripInfo, setTripInfo] = useState({
     starttime: "",
@@ -35,6 +41,10 @@ const Coach = () => {
       licenseplate: "",
     },
   });
+
+  const carTypeOptions = ["Xe 24 chỗ", "Xe 29 chỗ", "Xe 35 chỗ", "Xe 45 chỗ"];
+
+  console.log(carType);
 
   useEffect(() => {
     axios
@@ -158,6 +168,39 @@ const Coach = () => {
       coach: {
         licenseplate: "",
       },
+    });
+  };
+
+  const handleCarChange = (e) => {
+    setCarInfo({ ...carInfo, [e.target.name]: e.target.value });
+    if (e.target.name === "licensePlate") {
+      setCarInfo({
+        ...carInfo,
+        licensePlate: e.target.value,
+      });
+    }
+
+    if (e.target.name === "carType") {
+      setCarInfo({
+        ...carInfo,
+        carType: e.target.value,
+      });
+    }
+
+    console.log(carInfo);
+  };
+
+  const addCar = async () => {
+    console.log(carInfo);
+    axios.post("url thêm xe khách vào đây", carInfo).then((res) => {
+      alert("thanh cong ");
+    });
+
+    console.log(carInfo);
+    setCarButtonPopup(false);
+    setCarInfo({
+      licensePlate: "",
+      carType: "",
     });
   };
 
@@ -337,6 +380,52 @@ const Coach = () => {
         </div>
       </TripForm>
 
+      <CarForm trigger={carButtonPopup} setTrigger={setCarButtonPopup}>
+        <div style={{ width: "100%" }}>
+          <div className={styles.infoBoxWrapper}>
+            <div className={styles.infoBoxTitle}>Thông tin xe</div>
+            <form className={styles.infoBoxForm}>
+              <div className={styles.places}>
+                <div className={styles.inputContainer}>
+                  <label className={styles.title}>Biển số xe*</label>
+                  <input
+                    className={styles.input}
+                    name="licensePlate"
+                    onChange={handleCarChange}
+                  />
+                </div>
+              </div>
+
+              <div className={styles.places}>
+                <div className={styles.inputContainer}>
+                  <label className={styles.title}>Loại xe*</label>
+                  <select
+                    className={styles.selectInput}
+                    onChange={handleCarChange}
+                    name="carType"
+                  >
+                    {carTypeOptions.map((option, index) => {
+                      return <option key={index}>{option}</option>;
+                    })}
+                  </select>
+                </div>
+              </div>
+            </form>
+
+            <div className={styles.searchButton}>
+              <button
+                className={styles.buttons}
+                id={styles.searchButton}
+                onClick={addCar}
+              >
+                Tạo xe mới
+                <span></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </CarForm>
+
       <div className={styles.navbar}>
         <div className={styles.headerLeft}></div>
         <ul className={styles.headerRight}>
@@ -423,7 +512,7 @@ const Coach = () => {
 
                   <button
                     className={`${styles.addCoachButton} ${styles.buttons}`}
-                    onClick={() => setAddCarPopup(true)}
+                    onClick={() => setCarButtonPopup(true)}
                   >
                     Thêm xe khách
                     <span></span>
