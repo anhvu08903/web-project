@@ -9,25 +9,25 @@ import lombok.AllArgsConstructor;
 import java.util.List;
 @AllArgsConstructor
 public class UserTicketBookingRequest {
-    private Trip trip;
-    private List<Seat> seatList;
+    private Long tripid;
+    private List<Long> seatid;
     private PickAddress pickAddress;
     private ReturnAddress returnAddress;
 
-    public Trip getTrip() {
-        return trip;
+    public Long getTripid() {
+        return tripid;
     }
 
-    public void setTrip(Trip trip) {
-        this.trip = trip;
+    public void setTripid(Long tripid) {
+        this.tripid = tripid;
     }
 
-    public List<Seat> getSeatList() {
-        return seatList;
+    public List<Long> getSeatid() {
+        return seatid;
     }
 
-    public void setSeatList(List<Seat> seatList) {
-        this.seatList = seatList;
+    public void setSeatid(List<Long> seatid) {
+        this.seatid = seatid;
     }
 
     public PickAddress getPickAddress() {
