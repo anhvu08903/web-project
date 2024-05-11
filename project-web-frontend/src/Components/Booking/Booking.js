@@ -236,10 +236,6 @@ const Booking = () => {
     setCurrentBookingPrice(booking.seat.price);
   };
 
-  // const handleSeat = () => {
-  //   console.log(currentBookingPrice);
-  // };
-
   const [showLocation, setShowLocation] = useState(null); //State quản lý div điểm đón điểm trả
   const handlePick = (event, booking, id) => {
     event.preventDefault();
@@ -258,23 +254,32 @@ const Booking = () => {
   const handlePickTicketChange = (event) => {
     setPickTicKet(event.target.value);
   };
-  const [pickup, setPickUp] = useState([]);
 
+  const [pickup, setPickUp] = useState("");
   const handlePickupPointChange = (event) => {
     setPickUp(event.target.value);
+    console.log(event.target.value);
   };
 
-  async function getTrip() {
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/identity/users/danhsachtatcacacghetrenchuyenxe}`
-      );
-      const data = response.data;
-      console.log(data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
+  const [drop, setDrop] = useState("");
+  const handleDropOffPointChange = (event) => {
+    setDrop(event.target.value);
+    console.log(event.target.value);
+  };
+
+  const handleSendTrip = () => {};
+
+  // async function getTrip() {
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:8080/identity/users/danhsachtatcacacghetrenchuyenxe`
+  //     );
+  //     const data = response.data;
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // }
 
   return (
     <div className="background">
@@ -476,7 +481,7 @@ const Booking = () => {
                                     id="drop-off"
                                     label="Điểm trả"
                                     onChange={(event) => {
-                                      handlePickupPointChange(event);
+                                      handleDropOffPointChange(event);
                                       // console.log(
                                       //   `Giá trị được chọn: ${event.target.value}`
                                       // );
@@ -493,7 +498,9 @@ const Booking = () => {
                             </div>
                           </div>
                           <Link to={"/payment"}>
-                            <button className="button">Tiếp tục</button>
+                            <button className="button" onClick={handleSendTrip}>
+                              Tiếp tục
+                            </button>
                           </Link>
                         </div>
                       )}

@@ -24,9 +24,11 @@ const Coach = () => {
     starttime: "",
     endtime: "",
     startprovince: {
+      pid: "",
       pname: "",
     },
     endprovince: {
+      pid: "",
       pname: "",
     },
     coach: {
@@ -57,7 +59,8 @@ const Coach = () => {
           pid: selectedOption ? selectedOption.pid : "",
         },
       });
-    } else if (e.target.name === "endprovince") {
+    }
+    if (e.target.name === "endprovince") {
       setTripInfo({
         ...tripInfo,
         endprovince: {
