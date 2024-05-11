@@ -21,10 +21,10 @@ const Coach = () => {
   const [options, setOptions] = useState([]);
 
 
-  const [carType, setCarType] = useState(undefined);
   const [carInfo, setCarInfo] = useState({
-    licensePlate: "",
-    carType: "",
+    licenseplate: "",
+    coachtype: "",
+    number: 0,
   });  
   const [car, setCar] = useState([]);
 
@@ -47,11 +47,9 @@ const Coach = () => {
 
   const carTypeOptions = ["Xe 24 chỗ", "Xe 29 chỗ", "Xe 35 chỗ", "Xe 45 chỗ"];
 
-  console.log(carType);
-
   useEffect(() => {
     axios
-      .get(" url nhận thông tin xe vào đây ")
+      .get("http://localhost:8080/identity/api/coach")
       .then((response) => {
         console.log(response.data);
         setCar(response.data);
@@ -188,17 +186,18 @@ const Coach = () => {
 
   const handleCarChange = (e) => {
     setCarInfo({ ...carInfo, [e.target.name]: e.target.value });
-    if (e.target.name === "licensePlate") {
+    if (e.target.name === "licenseplate") {
       setCarInfo({
         ...carInfo,
-        licensePlate: e.target.value,
+        licenseplate: e.target.value,
       });
     }
 
-    if (e.target.name === "carType") {
+    if (e.target.name === "coachtype") {
       setCarInfo({
         ...carInfo,
-        carType: e.target.value,
+        coachtype: e.target.value,
+        number: parseInt(e.target.value.slice(3,5)),
       });
     }
 
@@ -207,15 +206,16 @@ const Coach = () => {
 
   const addCar = async () => {
     console.log(carInfo);
-    axios.post("url thêm xe khách vào đây", carInfo).then((res) => {
+    axios.post("http://localhost:8080/identity/api/coach/add", carInfo).then((res) => {
       alert("thanh cong ");
     });
 
     console.log(carInfo);
     setCarButtonPopup(false);
     setCarInfo({
-      licensePlate: "",
-      carType: "",
+      licenseplate: "",
+      coachtype: "",
+      number: 0
     });
   };
 
@@ -405,7 +405,7 @@ const Coach = () => {
                   <label className={styles.title}>Biển số xe*</label>
                   <input
                     className={styles.input}
-                    name="licensePlate"
+                    name="licenseplate"
                     onChange={handleCarChange}
                   />
                 </div>
@@ -417,7 +417,7 @@ const Coach = () => {
                   <select
                     className={styles.selectInput}
                     onChange={handleCarChange}
-                    name="carType"
+                    name="coachtype"
                   >
                     {carTypeOptions.map((option, index) => {
                       return <option key={index}>{option}</option>;
