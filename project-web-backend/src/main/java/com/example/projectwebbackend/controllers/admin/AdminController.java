@@ -176,15 +176,14 @@ public class AdminController {
             System.out.println(trips);
 
         return  trips;
-
     }
     //
 
     @GetMapping("/coach/{licenseplate}")
     public Coach getByLicenseplate(@PathVariable String licenseplate ){
         return  coachRepository.findByLicenseplate(licenseplate);
-
     }
+
 
     //lay tat ca thong tin chuyen di ghe ngoi gia ve
     @GetMapping("tripseat")

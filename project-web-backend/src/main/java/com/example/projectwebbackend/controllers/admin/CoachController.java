@@ -25,11 +25,17 @@ public class CoachController {
         return coachService.getAllCoach();
     }
 
+//    them theo id nhaxe
     @PostMapping("/add/{id}")
-    public Coach addCoach(@RequestParam Long id, @RequestBody Coach coach){
-        return coachService.addCoach(id, coach);
+    public Coach addCoachById(@RequestParam Long id, @RequestBody Coach coach){
+        return coachService.addCoachById(id, coach);
     }
 
+//them xe
+    @PostMapping("/add")
+    public Coach addCoach(@RequestBody Coach coach){
+        return  coachService.addCoach(coach);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
