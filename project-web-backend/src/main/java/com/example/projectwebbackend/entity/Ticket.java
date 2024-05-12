@@ -22,11 +22,11 @@ public class Ticket {
     @JoinColumn(name = "MaGhe")
     private List<Seat> seatList;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "MaDiemDon", unique = false)
     private PickAddress pickAddress;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "MaDiemTra", unique = false)
     private ReturnAddress returnAddress;
 

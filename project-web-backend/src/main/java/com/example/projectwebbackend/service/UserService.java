@@ -157,10 +157,22 @@ public class UserService {
 
     public ResponseEntity<String> bookTicket(UserTicketBookingRequest request){
         Ticket ticket = new Ticket();
-        ticket.setTrip(ticket.getTrip());
-        ticket.setPickAddress(ticket.getPickAddress());
-        ticket.setReturnAddress(ticket.getReturnAddress());
-        ticket.setSeatList(ticket.getSeatList());
+        Trip trip = tripRepository.findByTripid(request.getTripid());
+        if (trip == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        ticket.setTrip(trip);
+        ticket.setPickAddress(request.getPickAddress());
+        ticket.setReturnAddress(request.getReturnAddress());
+        List<Long> seatids = request.getSeatid();
+        List<Seat> seats = new ArrayList<>();
+        for (Long seatid : seatids){
+            Seat seat2 = seatRepository.findBySeatid(seatid);
+            if (seat2 != null) {
+                seats.add(seat2);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Khong tim thay ghe");
+            }
+        }
+        ticket.setSeatList(seats);
         ticketRepository.save(ticket);
         return ResponseEntity.status(HttpStatus.OK).body("Them ve thanh cong");
 }
@@ -172,12 +184,10 @@ public class UserService {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body("Khong tim thay nguoi dung");
         }
 
-        Ticket ticket = new Ticket();
-        ticket.setTrip(request.getUserBookTicketRequest().getTrip());
-        ticket.setPickAddress(request.getUserBookTicketRequest().getPickAddress());
-        ticket.setReturnAddress(request.getUserBookTicketRequest().getReturnAddress());
-        ticket.setSeatList(request.getUserBookTicketRequest().getSeatList());
-        ticketRepository.save(ticket);
+        Ticket ticket = ticketRepository.findByTicketid(request.getTicketid());
+        if (ticket == null){
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body("Khong tim thay ve");
+        }
 
         List<Seat> seats = ticket.getSeatList();
         for (Seat seat : seats) {
@@ -189,7 +199,7 @@ public class UserService {
         payment.setTotalprice(totalbill);
         paymentRepository.save(payment);
 
-        return ResponseEntity.status(HttpStatus.OK).body("don dat ve thanh cong");
+        return ResponseEntity.status(HttpStatus.OK).body("don thanh toan hien thi thanh cong");
     }
 
     public ResponseEntity<List<Payment>> getAllTicketBookings(Long id) {
