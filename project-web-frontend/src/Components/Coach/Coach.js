@@ -44,6 +44,7 @@ const Coach = () => {
       licenseplate: "",
     },
   });
+  const [trip, setTrip] = useState([]);
 
   const carTypeOptions = ["Xe 24 chỗ", "Xe 29 chỗ", "Xe 35 chỗ", "Xe 45 chỗ"];
 
@@ -61,6 +62,18 @@ const Coach = () => {
 
   useEffect(() => {
     axios
+      .get("api get trip vào đây")
+      .then((response) => {
+        console.log(response.data);
+        setTrip(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching options:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
       .get("http://localhost:8080/identity/api/admin/province")
       .then((response) => {
         console.log(response.data);
@@ -70,6 +83,7 @@ const Coach = () => {
         console.error("Error fetching options:", error);
       });
   }, []);
+
   const handleStartProvinceChange = (e) => {
     const selectedOption = options.find(
       (option) => option.pname === e.target.value
@@ -478,7 +492,7 @@ const Coach = () => {
             <div
               style={{ display: "flex", gap: "40px", flexDirection: "column" }}
             >
-              {Trips.map((trip, i) => {
+              {trip.map((t, i) => {
                 return (
                   <Trip
                     key={i}
@@ -489,7 +503,7 @@ const Coach = () => {
                     // endTime={trip.endTime}
                     // startPlace={trip.startPlace}
                     // endPlace={trip.endPlace}
-                    trip={trip}
+                    t={t}
                   />
                 );
               })}
@@ -520,8 +534,8 @@ const Coach = () => {
                   <div className={styles.tripTitle}>Các xe khách hiện có</div>
 
                   <div>
-                    {Cars.map((car, i) => {
-                      return <Car key={i} car={car} />;
+                    {car.map((c, i) => {
+                      return <Car key={i} car={c} />;
                     })}
                   </div>
 
