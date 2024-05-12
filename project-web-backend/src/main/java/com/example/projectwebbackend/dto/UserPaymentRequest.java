@@ -5,27 +5,16 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class UserPaymentRequest {
-    private User user;
-    private UserTicketBookingRequest userTicketBookingRequest;
+    private Long ticketid;
     private Long totalprice;
 
-    public UserTicketBookingRequest getUserBookTicketRequest() {
-        return userTicketBookingRequest;
+    public Long getTicketid() {
+        return ticketid;
     }
 
-    public void setUserBookTicketRequest(UserTicketBookingRequest userTicketBookingRequest) {
-        this.userTicketBookingRequest = userTicketBookingRequest;
+    public void setTicketid(Long ticketid) {
+        this.ticketid = ticketid;
     }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-
 
     public Long getTotalprice() {
         return totalprice;

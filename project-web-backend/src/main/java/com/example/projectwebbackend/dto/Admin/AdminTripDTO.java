@@ -13,6 +13,8 @@ public class AdminTripDTO {
 
     private Seat seat;
 
+    private SeatLocation seatLocation;
+
     private List<PickAddress> pickAddress;
 
     private List<ReturnAddress> returnAddress;
@@ -26,10 +28,39 @@ public class AdminTripDTO {
         this.returnAddress = returnAddress;
     }
 
-    public AdminTripDTO(Trip trip, Admin admin, Seat seat, List<PickAddress> pickAddress, List<ReturnAddress> returnAddress) {
+    public Trip getTrip() {
+        return trip;
+    }
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public Seat getSeat() {
+        return seat;
+    }
+
+    public SeatLocation getSeatLocation() {
+        return seatLocation;
+    }
+
+    public void setSeatLocation(SeatLocation seatLocation) {
+        this.seatLocation = seatLocation;
+    }
+
+    public List<PickAddress> getPickAddress() {
+        return pickAddress;
+    }
+
+    public List<ReturnAddress> getReturnAddress() {
+        return returnAddress;
+    }
+
+    public AdminTripDTO(Trip trip, Admin admin, Seat seat, SeatLocation seatLocation, List<PickAddress> pickAddress, List<ReturnAddress> returnAddress) {
         this.trip = trip;
         this.admin = admin;
         this.seat = seat;
+        this.seatLocation = seatLocation;
         this.pickAddress = pickAddress;
         this.returnAddress = returnAddress;
     }

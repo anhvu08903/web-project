@@ -21,12 +21,18 @@ public class CoachServiceImpl implements CoachService {
         return (List<Coach>) adminCoachRepossitory.findAll();
     }
 
+
     @Override
-    public Coach  addCoach(Long id, Coach coach) {
+    public Coach  addCoachById(Long id, Coach coach) {
         Admin admin = new Admin();
         admin.setAdminid(id);
         coach.setAdmin(admin);
         return  adminCoachRepossitory.save(coach);
+    }
+
+    @Override
+    public Coach addCoach(Coach coach) {
+        return adminCoachRepossitory.save(coach);
     }
 
     @Override

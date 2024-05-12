@@ -43,7 +43,10 @@ public class UserController {
     public List<Trip> tripList() {
         return userService.tripList();
     }
-
+    @PostMapping("/themghe")
+    public ResponseEntity<Seat> addSeat(@RequestBody SeatDto dto){
+        return userService.addSeat(dto);
+    }
     @GetMapping("/danhsachtatcacacghetrenchuyenxe/{licenseplate}")
     public ResponseEntity<List<Seat>> getAllSeatsOnCoach(@PathVariable String licenseplate ) {
         return userService.getAllSeatsOnCoach(licenseplate);

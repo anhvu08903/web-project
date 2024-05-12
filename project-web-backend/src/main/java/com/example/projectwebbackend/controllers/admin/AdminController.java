@@ -45,10 +45,12 @@ public class AdminController {
 
     @Autowired private PickAddressRepository pickAddressRepository;
 
-
     @Autowired private SeatRepository seatRepository;
 
     @Autowired private CommentService commentService;
+
+
+
 
     private List<Admin> admins = new ArrayList<>();
 
@@ -174,15 +176,14 @@ public class AdminController {
             System.out.println(trips);
 
         return  trips;
-
     }
     //
 
     @GetMapping("/coach/{licenseplate}")
     public Coach getByLicenseplate(@PathVariable String licenseplate ){
         return  coachRepository.findByLicenseplate(licenseplate);
-
     }
+
 
     //lay tat ca thong tin chuyen di ghe ngoi gia ve
     @GetMapping("tripseat")
@@ -192,7 +193,7 @@ public class AdminController {
 
     }
 
-    @GetMapping("province")
+    @GetMapping("/province")
     public List<Province> getAllProvinnce(){
             return provinceService.getAllProvince();
     }
@@ -200,6 +201,11 @@ public class AdminController {
     @GetMapping("/pickaddress")
     public List<PickAddress> getAllPickAddress(){
             return pickAddressService.getALlPickAddress();
+    }
+
+    @GetMapping("/returnaddress")
+    public List<ReturnAddress> getAllReturnAddress(){
+        return returnAddressService.getALlReturnAddress();
     }
 
     @DeleteMapping("/pickaddress/{id}")
@@ -228,15 +234,16 @@ public class AdminController {
             return pickAddressService.findPickAddressByIs(id);
     }
 
+
     @GetMapping("/seat")
     public List<Seat> getAllSeat(){
-        return (List<Seat>) seatRepository.findAll();
+            return (List<Seat>) seatRepository.findAll();
     }
 
     @GetMapping("/comment")
     public List<Comment> getAllComment(){
 
-        return commentService.getAllComment();
+            return commentService.getAllComment();
     }
 
     @GetMapping("/comment/{id}")
@@ -245,31 +252,30 @@ public class AdminController {
         return commentService.getCommentByAdminId(id);
     }
 
-    @GetMapping("/comment/rate/{id}")
+@GetMapping("/comment/rate/{id}")
     public Double rateComment(@PathVariable Long id){
-        List<Comment> comments = commentService.getCommentByAdminId(id);
+            List<Comment> comments = commentService.getCommentByAdminId(id);
 
-        if (comments == null || comments.isEmpty()) {
-            return 0.0;
-        }
-
-        int totalStars = 0;
-        int numberOfRatings = 0;
-        for (Comment comment : comments) {
-            String star = comment.getStar();
-            if (star != null && !star.isEmpty()) {
-                totalStars += Integer.parseInt(star);
-                numberOfRatings++;
-            }
-
-        }
-
-        if (numberOfRatings == 0) {
-            return 0.0;
-        }
-
-        return (double) totalStars / numberOfRatings;
+    if (comments == null || comments.isEmpty()) {
+        return 0.0;
     }
+
+    int totalStars = 0;
+    int numberOfRatings = 0;
+    for (Comment comment : comments) {
+        String star = comment.getStar();
+        if (star != null && !star.isEmpty()) {
+            totalStars += Integer.parseInt(star);
+            numberOfRatings++;
+        }
+    }
+
+    if (numberOfRatings == 0) {
+        return 0.0;
+    }
+
+    return (double) totalStars / numberOfRatings;
+}
 }
 
 

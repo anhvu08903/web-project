@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Trip from "./Trip";
 import Car from "./Car";
 import TripForm from "./TripForm";
+import CarForm from "./CarForm";
 import axios from "axios";
 
 function convertToStandardDateFormat(datetimeLocal) {
@@ -16,18 +17,26 @@ const Coach = () => {
   const coachName = "{Placeholder}";
 
   const [buttonPopup, setButtonPopup] = useState(false);
-  const [addCarPopup, setAddCarPopup] = useState(false);
+  const [carButtonPopup, setCarButtonPopup] = useState(false);
   const [options, setOptions] = useState([]);
-  const [selectedOption, setSelectedOption] = useState("");
+
+  const [carInfo, setCarInfo] = useState({
+    licenseplate: "",
+    coachtype: "",
+    number: 0,
+  });
+  const [car, setCar] = useState([]);
 
   const [tripInfo, setTripInfo] = useState({
     starttime: "",
     endtime: "",
     startprovince: {
       pid: "",
+      pid: "",
       pname: "",
     },
     endprovince: {
+      pid: "",
       pid: "",
       pname: "",
     },
@@ -35,6 +44,33 @@ const Coach = () => {
       licenseplate: "",
     },
   });
+  const [trip, setTrip] = useState([]);
+
+  const carTypeOptions = ["Xe 24 chỗ", "Xe 29 chỗ", "Xe 35 chỗ", "Xe 45 chỗ"];
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/identity/api/coach")
+      .then((response) => {
+        console.log(response.data);
+        setCar(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching options:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("api get trip vào đây")
+      .then((response) => {
+        console.log(response.data);
+        setTrip(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching options:", error);
+      });
+  }, []);
 
   useEffect(() => {
     axios
@@ -47,28 +83,31 @@ const Coach = () => {
         console.error("Error fetching options:", error);
       });
   }, []);
-  const handleProvinceChange = (e) => {
+
+  const handleStartProvinceChange = (e) => {
     const selectedOption = options.find(
       (option) => option.pname === e.target.value
     );
-    if (e.target.name === "startprovince") {
-      setTripInfo({
-        ...tripInfo,
-        startprovince: {
-          pname: e.target.value,
-          pid: selectedOption ? selectedOption.pid : "",
-        },
-      });
-    }
-    if (e.target.name === "endprovince") {
-      setTripInfo({
-        ...tripInfo,
-        endprovince: {
-          pname: e.target.value,
-          pid: selectedOption ? selectedOption.pid : "",
-        },
-      });
-    }
+    setTripInfo((prevTripInfo) => ({
+      ...prevTripInfo,
+      startprovince: {
+        pname: e.target.value,
+        pid: selectedOption ? selectedOption.pid : "",
+      },
+    }));
+  };
+
+  const handleEndProvinceChange = (e) => {
+    const selectedOption = options.find(
+      (option) => option.pname === e.target.value
+    );
+    setTripInfo((prevTripInfo) => ({
+      ...prevTripInfo,
+      endprovince: {
+        pname: e.target.value,
+        pid: selectedOption ? selectedOption.pid : "",
+      },
+    }));
   };
 
   const handleChange = (e) => {
@@ -156,6 +195,43 @@ const Coach = () => {
       coach: {
         licenseplate: "",
       },
+    });
+  };
+
+  const handleCarChange = (e) => {
+    setCarInfo({ ...carInfo, [e.target.name]: e.target.value });
+    if (e.target.name === "licenseplate") {
+      setCarInfo({
+        ...carInfo,
+        licenseplate: e.target.value,
+      });
+    }
+
+    if (e.target.name === "coachtype") {
+      setCarInfo({
+        ...carInfo,
+        coachtype: e.target.value,
+        number: parseInt(e.target.value.slice(3, 5)),
+      });
+    }
+
+    console.log(carInfo);
+  };
+
+  const addCar = async () => {
+    console.log(carInfo);
+    axios
+      .post("http://localhost:8080/identity/api/coach/add", carInfo)
+      .then((res) => {
+        alert("thanh cong ");
+      });
+
+    console.log(carInfo);
+    setCarButtonPopup(false);
+    setCarInfo({
+      licenseplate: "",
+      coachtype: "",
+      number: 0,
     });
   };
 
@@ -252,10 +328,11 @@ const Coach = () => {
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Tên tỉnh đi*</label>
                   <select
-                    defaultValue={tripInfo.startprovince.pname}
+                    value={tripInfo.startprovince.pname}
                     name="startprovince"
-                    onChange={handleProvinceChange}
+                    onChange={handleStartProvinceChange}
                   >
+                    <option value="">Chọn tỉnh/thành phố</option>
                     {options.map((option) => (
                       <option key={option.pid} value={option.pname}>
                         {option.pname}
@@ -267,10 +344,11 @@ const Coach = () => {
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Tên tỉnh đến*</label>
                   <select
-                    defaultValue={tripInfo.endprovince.pname}
+                    value={tripInfo.endprovince.pname}
                     name="endprovince"
-                    onChange={handleProvinceChange}
+                    onChange={handleEndProvinceChange}
                   >
+                    <option value="">Chọn tỉnh/thành phố</option>
                     {options.map((option) => (
                       <option key={option.pid} value={option.pname}>
                         {option.pname}
@@ -333,6 +411,52 @@ const Coach = () => {
         </div>
       </TripForm>
 
+      <CarForm trigger={carButtonPopup} setTrigger={setCarButtonPopup}>
+        <div style={{ width: "100%" }}>
+          <div className={styles.infoBoxWrapper}>
+            <div className={styles.infoBoxTitle}>Thông tin xe</div>
+            <form className={styles.infoBoxForm}>
+              <div className={styles.places}>
+                <div className={styles.inputContainer}>
+                  <label className={styles.title}>Biển số xe*</label>
+                  <input
+                    className={styles.input}
+                    name="licenseplate"
+                    onChange={handleCarChange}
+                  />
+                </div>
+              </div>
+
+              <div className={styles.places}>
+                <div className={styles.inputContainer}>
+                  <label className={styles.title}>Loại xe*</label>
+                  <select
+                    className={styles.selectInput}
+                    onChange={handleCarChange}
+                    name="coachtype"
+                  >
+                    {carTypeOptions.map((option, index) => {
+                      return <option key={index}>{option}</option>;
+                    })}
+                  </select>
+                </div>
+              </div>
+            </form>
+
+            <div className={styles.searchButton}>
+              <button
+                className={styles.buttons}
+                id={styles.searchButton}
+                onClick={addCar}
+              >
+                Tạo xe mới
+                <span></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </CarForm>
+
       <div className={styles.navbar}>
         <div className={styles.headerLeft}></div>
         <ul className={styles.headerRight}>
@@ -370,7 +494,7 @@ const Coach = () => {
             <div
               style={{ display: "flex", gap: "40px", flexDirection: "column" }}
             >
-              {Trips.map((trip, i) => {
+              {trip.map((t, i) => {
                 return (
                   <Trip
                     key={i}
@@ -381,7 +505,7 @@ const Coach = () => {
                     // endTime={trip.endTime}
                     // startPlace={trip.startPlace}
                     // endPlace={trip.endPlace}
-                    trip={trip}
+                    t={t}
                   />
                 );
               })}
@@ -412,14 +536,14 @@ const Coach = () => {
                   <div className={styles.tripTitle}>Các xe khách hiện có</div>
 
                   <div>
-                    {Cars.map((car, i) => {
-                      return <Car key={i} car={car} />;
+                    {car.map((c, i) => {
+                      return <Car key={i} car={c} />;
                     })}
                   </div>
 
                   <button
                     className={`${styles.addCoachButton} ${styles.buttons}`}
-                    onClick={() => setAddCarPopup(true)}
+                    onClick={() => setCarButtonPopup(true)}
                   >
                     Thêm xe khách
                     <span></span>

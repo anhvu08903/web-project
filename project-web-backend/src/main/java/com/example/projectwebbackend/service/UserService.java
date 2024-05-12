@@ -16,7 +16,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private  TripRepository tripRepository;
+    private TripRepository tripRepository;
     @Autowired
     private ProvinceRepository provinceRepository;
     @Autowired
@@ -32,11 +32,11 @@ public class UserService {
     @Autowired
     private CommentRepository commentRepository;
 
-    public User createUser(UserCreationRequest request){
-        if (userRepository.existsByAccount(request.getAccount())){
+    public User createUser(UserCreationRequest request) {
+        if (userRepository.existsByAccount(request.getAccount())) {
             throw new RuntimeException("User existed.");
         }
-        if (userRepository.existsByPhone(request.getPhone())){
+        if (userRepository.existsByPhone(request.getPhone())) {
             throw new RuntimeException("Phone number existed.");
         }
         User user = new User();
@@ -49,6 +49,7 @@ public class UserService {
         return userRepository.save(user);
 
     }
+
     public static String generateRandomString(int length) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         StringBuilder randomString = new StringBuilder();
@@ -61,42 +62,43 @@ public class UserService {
 
         return randomString.toString();
     }
-    public ResponseEntity<String> signinUser(String account, String password){
-        User user =  userRepository.findByAccount(account);
-        if(user == null) {
-            throw  new RuntimeException("User's not existed.");
+
+    public ResponseEntity<String> signinUser(String account, String password) {
+        User user = userRepository.findByAccount(account);
+        if (user == null) {
+            throw new RuntimeException("User's not existed.");
         }
-        if(!user.getPassword().equals(password)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        if (!user.getPassword().equals(password))
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         String token = generateRandomString(30);
         user.setToken(token);
         userRepository.save(user);
         return ResponseEntity.ok(token);
     }
 
-    public User getUserbyToken(String token){
-        User user =  userRepository.findByToken(token);
-        if(user == null) {
-            throw  new RuntimeException("User's not existed.");
+    public User getUserbyToken(String token) {
+        User user = userRepository.findByToken(token);
+        if (user == null) {
+            throw new RuntimeException("User's not existed.");
         }
         return user;
     }
 
-    public ResponseEntity<User> updatePassword(String account, String newpassword, String renewpassword){
+    public ResponseEntity<User> updatePassword(String account, String newpassword, String renewpassword) {
         User user = userRepository.findByAccount(account);
-        if(user == null) {
-            throw  new RuntimeException("User's not existed.");
+        if (user == null) {
+            throw new RuntimeException("User's not existed.");
         }
-        if (!newpassword.equals(renewpassword)){
-            throw  new RuntimeException("Nhap lai mat khau moi khong dung.");
-        }
-        else {
+        if (!newpassword.equals(renewpassword)) {
+            throw new RuntimeException("Nhap lai mat khau moi khong dung.");
+        } else {
             user.setPassword(newpassword);
             userRepository.save(user);
             return ResponseEntity.status(HttpStatus.OK).body(user);
         }
     }
 
-    public ResponseEntity<Comment> createComment(UserCommentationRequest request){
+    public ResponseEntity<Comment> createComment(UserCommentationRequest request) {
         try {
             Comment comment = new Comment();
             comment.setUser(request.getUser());
@@ -104,14 +106,14 @@ public class UserService {
             comment.setCreatedAt(request.getCreatedAt());
             commentRepository.save(comment);
             return ResponseEntity.status(HttpStatus.OK).body(comment);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
     public ResponseEntity<List<Seat>> getAllSeatsOnCoach(String licenseplate) {
         Coach coach = coachRepository.findByLicenseplate(licenseplate);
-        if (coach != null){
+        if (coach != null) {
             List<Seat> seats = seatRepository.findAllByCoach(coach);
             if (!seats.isEmpty()) {
                 return new ResponseEntity<>(seats, HttpStatus.OK);
@@ -122,7 +124,22 @@ public class UserService {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    public List<Trip> tripList(){
+    public ResponseEntity<Seat> addSeat(SeatDto dto) {
+        try {
+            Seat seat = new Seat();
+            seat.setPrice(dto.getPrice());
+            seat.setSeatLocation(dto.getSeatLocation());
+            seat.setCoach(dto.getCoach());
+            seat.setType(dto.getType());
+
+            seatRepository.save(seat);
+            return ResponseEntity.status(HttpStatus.OK).body(seat);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    public List<Trip> tripList() {
         return tripRepository.findAll();
     }
 
@@ -138,33 +155,45 @@ public class UserService {
         return Collections.emptyList();
     }
 
-    public ResponseEntity<String> bookTicket(UserTicketBookingRequest request){
+    public ResponseEntity<String> bookTicket(UserTicketBookingRequest request) {
         Ticket ticket = new Ticket();
-        ticket.setTrip(request.getTrip());
+        Trip trip = tripRepository.findByTripid(request.getTripid());
+        if (trip == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        ticket.setTrip(trip);
         ticket.setPickAddress(request.getPickAddress());
         ticket.setReturnAddress(request.getReturnAddress());
-        ticket.setSeatList(request.getSeatList());
+        List<Long> seatids = request.getSeatid();
+        List<Seat> seats = new ArrayList<>();
+        for (Long seatid : seatids) {
+            Seat seat2 = seatRepository.findBySeatid(seatid);
+            if (seat2 != null) {
+                seats.add(seat2);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Khong tim thay ghe");
+            }
+        }
+        ticket.setSeatList(seats);
         ticketRepository.save(ticket);
         return ResponseEntity.status(HttpStatus.OK).body("Them ve thanh cong");
-}
-    public  ResponseEntity<String> payBill(String token, UserPaymentRequest request){
+    }
+
+    public ResponseEntity<String> payBill(String token, UserPaymentRequest request) {
         Payment payment = new Payment();
         long totalbill = 0;
         User user = userRepository.findByToken(token);
-        if (user == null){
+        if (user == null) {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body("Khong tim thay nguoi dung");
         }
 
-        Ticket ticket = new Ticket();
-        ticket.setTrip(request.getUserBookTicketRequest().getTrip());
-        ticket.setPickAddress(request.getUserBookTicketRequest().getPickAddress());
-        ticket.setReturnAddress(request.getUserBookTicketRequest().getReturnAddress());
-        ticket.setSeatList(request.getUserBookTicketRequest().getSeatList());
-        ticketRepository.save(ticket);
+        Ticket ticket = ticketRepository.findByTicketid(request.getTicketid());
+        if (ticket == null) {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body("Khong tim thay ve");
+        }
 
         List<Seat> seats = ticket.getSeatList();
         for (Seat seat : seats) {
-            Seat seat1 = seatRepository.findBySeatid( seat.getSeatid());
+            Seat seat1 = seatRepository.findBySeatid(seat.getSeatid());
             totalbill += seat1.getPrice();
         }
         payment.setUser(user);
@@ -172,7 +201,7 @@ public class UserService {
         payment.setTotalprice(totalbill);
         paymentRepository.save(payment);
 
-        return ResponseEntity.status(HttpStatus.OK).body("don dat ve thanh cong");
+        return ResponseEntity.status(HttpStatus.OK).body("don thanh toan hien thi thanh cong");
     }
 
     public ResponseEntity<List<Payment>> getAllTicketBookings(Long id) {
@@ -189,15 +218,16 @@ public class UserService {
             return ResponseEntity.notFound().build();
         }
     }
-    public List<User> getUsers(){
+
+    public List<User> getUsers() {
         return userRepository.findAll();
-     }
+    }
 
-     public User getUser(Long id){
+    public User getUser(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-     }
+    }
 
-     public User updateUser(Long id, UserUpdateRequest request){
+    public User updateUser(Long id, UserUpdateRequest request) {
         User user = getUser(id);
         user.setName(request.getName());
         user.setEmail(request.getEmail());
@@ -205,9 +235,9 @@ public class UserService {
         user.setPassword(request.getPassword());
 
         return userRepository.save(user);
-     }
+    }
 
-     public void deleteUser(Long id){
+    public void deleteUser(Long id) {
         userRepository.deleteById(id);
-     }
+    }
 }
