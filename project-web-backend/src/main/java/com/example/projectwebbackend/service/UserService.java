@@ -140,10 +140,10 @@ public class UserService {
 
     public ResponseEntity<String> bookTicket(UserTicketBookingRequest request){
         Ticket ticket = new Ticket();
-        ticket.setTrip(ticket.getTrip());
-        ticket.setPickAddress(ticket.getPickAddress());
-        ticket.setReturnAddress(ticket.getReturnAddress());
-        ticket.setSeatList(ticket.getSeatList());
+        ticket.setTrip(request.getTrip());
+        ticket.setPickAddress(request.getPickAddress());
+        ticket.setReturnAddress(request.getReturnAddress());
+        ticket.setSeatList(request.getSeatList());
         ticketRepository.save(ticket);
         return ResponseEntity.status(HttpStatus.OK).body("Them ve thanh cong");
 }

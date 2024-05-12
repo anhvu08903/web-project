@@ -13,22 +13,21 @@ public class Ticket {
     @Column(name = "MaVeXe")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ticketid;
-    @OneToOne
-    @JoinColumn(name = "MaChuyenXe")
+    @ManyToOne
+    @JoinColumn(name = "MaChuyenXe", unique = false, nullable = true)
     private Trip trip;
 
     @OneToMany
     @JsonBackReference
-    @JsonIgnore
     @JoinColumn(name = "MaGhe")
     private List<Seat> seatList;
 
-    @OneToOne
-    @JoinColumn(name = "MaDiemDon")
+    @ManyToOne
+    @JoinColumn(name = "MaDiemDon", unique = false, nullable = true)
     private PickAddress pickAddress;
 
-    @OneToOne
-    @JoinColumn(name = "MaDiemTra")
+    @ManyToOne
+    @JoinColumn(name = "MaDiemTra", unique = false, nullable = true)
     private ReturnAddress returnAddress;
 
     public Long getTicketid() {
