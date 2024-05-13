@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Homepage.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import Enddate from "./Enddate";
+import axios from "axios";
 
 const Homepage = () => {
   // const navigate = useNavigate();
@@ -9,9 +10,23 @@ const Homepage = () => {
   // const handleLoginButtonClick = () => {
   //   navigate('/login');
   // };
+  
 
-  const [startPointValue, setStartPointValue] = useState("Hà Nội");
-  const [endPointValue, setEndPointValue] = useState("TP. HCM");
+  const [startPointValue, setStartPointValue] = useState();
+  const [endPointValue, setEndPointValue] = useState();
+  const [provinceOption, setProvinceOption] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/identity/api/admin/province")
+      .then((response) => {
+        console.log(response.data);
+        setProvinceOption(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching options:", error);
+      });
+  }, []);
 
   const handleSwitch = () => {
     setEndPointValue(startPointValue);
@@ -82,11 +97,17 @@ const Homepage = () => {
                   </div>
                   <div className={styles.inputPointContainer}>
                     <label className={styles.titlePoint}>Nơi xuất phát</label>
-                    <input
+                    <select
                       className={styles.inputPoint}
                       value={startPointValue}
                       onChange={(e) => setStartPointValue(e.target.value)}
-                    ></input>
+                    >
+                      {provinceOption.map((option) => (
+                      <option key={option.pid} value={option.pname}>
+                        {option.pname}
+                      </option>
+                    ))}
+                    </select>
                   </div>
                 </div>
               </div>
@@ -100,11 +121,17 @@ const Homepage = () => {
                   </div>
                   <div className={styles.inputPointContainer}>
                     <label className={styles.titlePoint}>Nơi đến</label>
-                    <input
+                    <select
                       className={styles.inputPoint}
                       value={endPointValue}
                       onChange={(e) => setEndPointValue(e.target.value)}
-                    ></input>
+                    >
+                      {provinceOption.map((option) => (
+                      <option key={option.pid} value={option.pname}>
+                        {option.pname}
+                      </option>
+                    ))}
+                    </select>
                   </div>
                 </div>
               </div>
@@ -120,7 +147,7 @@ const Homepage = () => {
                     <label className={styles.titlePoint}>Ngày đi</label>
                     <input
                       className={styles.inputPoint}
-                      value="Ngày nào đó"
+                      type="date"
                     ></input>
                   </div>
                 </div>
