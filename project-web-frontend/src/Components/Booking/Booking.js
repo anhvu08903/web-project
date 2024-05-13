@@ -10,6 +10,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { number } from "prop-types";
+import styles from "./Booking.module.css";
 
 const Booking = () => {
   // const token = sessionStorage.getItem('token');
@@ -331,254 +332,289 @@ const Booking = () => {
   const [seat, setSeat] = useState("");
 
   return (
-    <div className="background">
-      <div className="box left">
-        <div>
-          <SortOptions
-            sortOption={sortOption}
-            handleSortChange={handleSortChange}
-          />
-        </div>
-        <div className="loc">
-          <h1>Lọc</h1>
+    <div>
+      <div className={styles.navbar}>
+        <div className={styles.headerLeft}></div>
+        <ul className={styles.headerRight}>
+          <Link to="/adminsignup" style={{ color: "white" }}>
+            <li>Đăng ký mở bán vé</li>
+          </Link>
+          <div className={styles.signInButton}>
+            <button className={styles.buttons}>
+              <i className="material-icons-round">phone</i>
+              Hotline 24/7
+              <span></span>
+            </button>
+            {
+              localStorage.getItem('token') ?
+                <div>
+                  <button className={styles.buttons} style={{paddingRight: "15px"}} onClick={() => {
+                    localStorage.removeItem('token');
+                    window.location.replace('/');
+                  }}>
+                    Đăng xuất
+                  
+                  </button> 
+                </div> :
+                <Link to='/login'>
+                  <button className={styles.buttons}>
+                    Đăng nhập
+                    <span></span>
+                  </button>
+                </Link>
+            }
+          </div>
+        </ul>
+      </div>
+      <div className="background">
+        <div className="box left">
           <div>
-            <div className="sliderOption">
-              <div className="sliderTag">
-                <p>Giờ đi</p>
-                <img
-                  src={
-                    currentImage1 === "image1"
-                      ? "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Ic_keyboard_arrow_down_48px.svg/768px-Ic_keyboard_arrow_down_48px.svg.png"
-                      : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Ic_keyboard_arrow_up_48px.svg/768px-Ic_keyboard_arrow_up_48px.svg.png"
-                  }
-                  alt="Toggle Image"
-                  onClick={handleClick1} // Sử dụng handleClick khi ảnh được click
-                  className="arrow"
-                  style={{ height: "25px", width: "25px" }}
-                />
+            <SortOptions
+              sortOption={sortOption}
+              handleSortChange={handleSortChange}
+            />
+          </div>
+          <div className="loc">
+            <h1>Lọc</h1>
+            <div>
+              <div className="sliderOption">
+                <div className="sliderTag">
+                  <p>Giờ đi</p>
+                  <img
+                    src={
+                      currentImage1 === "image1"
+                        ? "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Ic_keyboard_arrow_down_48px.svg/768px-Ic_keyboard_arrow_down_48px.svg.png"
+                        : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Ic_keyboard_arrow_up_48px.svg/768px-Ic_keyboard_arrow_up_48px.svg.png"
+                    }
+                    alt="Toggle Image"
+                    onClick={handleClick1} // Sử dụng handleClick khi ảnh được click
+                    className="arrow"
+                    style={{ height: "25px", width: "25px" }}
+                  />
+                </div>
+                <div>
+                  {/* Hiển thị slider nếu showSlider1 là true */}
+                  {showSlider1 && (
+                    <Box>
+                      <Slider
+                        className="slider"
+                        getAriaLabel={() => "Time range"}
+                        value={timeVal}
+                        min={0}
+                        max={24}
+                        onChange={handleChange1}
+                        valueLabelDisplay="auto"
+                        valueLabelFormat={(timeVal) => `${timeVal}:00`}
+                      />
+                    </Box>
+                  )}
+                </div>
               </div>
-              <div>
-                {/* Hiển thị slider nếu showSlider1 là true */}
-                {showSlider1 && (
+              <div className="sliderOption">
+                <div className="sliderTag">
+                  <p>Giá vé</p>
+                  <img
+                    src={
+                      currentImage2 === "image1"
+                        ? "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Ic_keyboard_arrow_down_48px.svg/768px-Ic_keyboard_arrow_down_48px.svg.png"
+                        : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Ic_keyboard_arrow_up_48px.svg/768px-Ic_keyboard_arrow_up_48px.svg.png"
+                    }
+                    alt="Toggle Image"
+                    onClick={handleClick2} // Sử dụng handleClick khi ảnh được click
+                    className="arrow"
+                    style={{ height: "25px", width: "25px" }}
+                  />
+                </div>
+                {showSlider2 && (
                   <Box>
                     <Slider
                       className="slider"
-                      getAriaLabel={() => "Time range"}
-                      value={timeVal}
+                      getAriaLabel={() => "Price range"}
+                      value={priceVal}
                       min={0}
-                      max={24}
-                      onChange={handleChange1}
+                      max={100}
+                      step={10}
+                      onChange={handleChange2}
                       valueLabelDisplay="auto"
-                      valueLabelFormat={(timeVal) => `${timeVal}:00`}
                     />
                   </Box>
                 )}
               </div>
-            </div>
-            <div className="sliderOption">
-              <div className="sliderTag">
-                <p>Giá vé</p>
-                <img
-                  src={
-                    currentImage2 === "image1"
-                      ? "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Ic_keyboard_arrow_down_48px.svg/768px-Ic_keyboard_arrow_down_48px.svg.png"
-                      : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Ic_keyboard_arrow_up_48px.svg/768px-Ic_keyboard_arrow_up_48px.svg.png"
-                  }
-                  alt="Toggle Image"
-                  onClick={handleClick2} // Sử dụng handleClick khi ảnh được click
-                  className="arrow"
-                  style={{ height: "25px", width: "25px" }}
-                />
-              </div>
-              {showSlider2 && (
-                <Box>
-                  <Slider
-                    className="slider"
-                    getAriaLabel={() => "Price range"}
-                    value={priceVal}
-                    min={0}
-                    max={100}
-                    step={10}
-                    onChange={handleChange2}
-                    valueLabelDisplay="auto"
+              <div className="sliderOption">
+                <div className="sliderTag">
+                  <p>Nhà xe</p>
+                  <img
+                    src={
+                      currentImage3 === "image1"
+                        ? "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Ic_keyboard_arrow_down_48px.svg/768px-Ic_keyboard_arrow_down_48px.svg.png"
+                        : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Ic_keyboard_arrow_up_48px.svg/768px-Ic_keyboard_arrow_up_48px.svg.png"
+                    }
+                    alt="Toggle Image"
+                    onClick={handleClick3} // Sử dụng handleClick khi ảnh được click
+                    className="arrow"
+                    style={{ height: "25px", width: "25px" }}
                   />
-                </Box>
-              )}
-            </div>
-            <div className="sliderOption">
-              <div className="sliderTag">
-                <p>Nhà xe</p>
-                <img
-                  src={
-                    currentImage3 === "image1"
-                      ? "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Ic_keyboard_arrow_down_48px.svg/768px-Ic_keyboard_arrow_down_48px.svg.png"
-                      : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Ic_keyboard_arrow_up_48px.svg/768px-Ic_keyboard_arrow_up_48px.svg.png"
-                  }
-                  alt="Toggle Image"
-                  onClick={handleClick3} // Sử dụng handleClick khi ảnh được click
-                  className="arrow"
-                  style={{ height: "25px", width: "25px" }}
-                />
+                </div>
+                {showCheckbox &&
+                  bookings.map((booking) => (
+                    <div>
+                      <label key={booking.trip.tripid}>
+                        <input
+                          type="checkbox"
+                          value={booking.admin.adminname}
+                          onChange={handleNhaXeChange}
+                          checked={selectedNhaXe.includes(
+                            booking.admin.adminname
+                          )}
+                        />
+                        {booking.admin.adminname}
+                      </label>
+                      <br />
+                    </div>
+                  ))}
               </div>
-              {showCheckbox &&
-                bookings.map((booking) => (
-                  <div>
-                    <label key={booking.trip.tripid}>
-                      <input
-                        type="checkbox"
-                        value={booking.admin.adminname}
-                        onChange={handleNhaXeChange}
-                        checked={selectedNhaXe.includes(
-                          booking.admin.adminname
-                        )}
-                      />
-                      {booking.admin.adminname}
-                    </label>
-                    <br />
-                  </div>
-                ))}
             </div>
           </div>
         </div>
-      </div>
-      <div className="box right">
-        <h1>Danh sách chuyến đi</h1>
-        <div id="booking">
-          <ul>
-            {filteredAndSortedBookings.map((booking) => (
-              <li key={booking.trip.tripid}>
-                <div>
-                  <div className="container">
-                    <img
-                      src="https://static.vexere.com/production/images/1690435601693.jpeg?w=250&h=250"
-                      className="booking_img"
-                    />
-                    <div className="info">
-                      <strong>Nhà xe:</strong> {booking.admin.adminname} <br />
-                      <strong>Giờ đi:</strong> {booking.trip.starttime} <br />
-                      <strong>Giờ đón:</strong> {booking.trip.endtime} <br />
-                      <strong>Giá vé:</strong> ${booking.seat.price} <br />
-                      <strong>Đánh giá:</strong>{" "}
-                      {ratings[booking.admin.adminid]} sao
-                      <br />
-                      <button
-                        className="button"
-                        onClick={(event) =>
-                          handleBookTicket(event, booking, booking.trip.tripid)
-                        }
-                      >
-                        Chọn chuyến
-                      </button>
-                    </div>
-                  </div>
-                  {showPickSeat === booking.trip.tripid && (
-                    <div>
-                      <div className="show1">
-                        <p>Còn{booking.trip.coach.number} chỗ</p>
-                        <p>Chọn ghế:</p>
-                        {renderSeatNumbers(booking).map((number) => (
-                          <div key={number}>
-                            <input
-                              type="checkbox"
-                              id={`seat-${number}`}
-                              value={number}
-                              onClick={(event) => {
-                                console.log(event.target.value);
-                                setSeat(event.target.value);
-                              }}
-                            />
-                            <label htmlFor={`seat-${number}`}>
-                              Ghế {number}
-                            </label>
-                          </div>
-                        ))}
-
+        <div className="box right">
+          <h1>Danh sách chuyến đi</h1>
+          <div id="booking">
+            <ul>
+              {filteredAndSortedBookings.map((booking) => (
+                <li key={booking.trip.tripid}>
+                  <div>
+                    <div className="container">
+                      <img
+                        src="https://static.vexere.com/production/images/1690435601693.jpeg?w=250&h=250"
+                        className="booking_img"
+                      />
+                      <div className="info">
+                        <strong>Nhà xe:</strong> {booking.admin.adminname} <br />
+                        <strong>Giờ đi:</strong> {booking.trip.starttime} <br />
+                        <strong>Giờ đón:</strong> {booking.trip.endtime} <br />
+                        <strong>Giá vé:</strong> ${booking.seat.price} <br />
+                        <strong>Đánh giá:</strong>{" "}
+                        {ratings[booking.admin.adminid]} sao
+                        <br />
                         <button
                           className="button"
                           onClick={(event) =>
-                            handlePick(event, booking, booking.trip.tripid)
+                            handleBookTicket(event, booking, booking.trip.tripid)
                           }
                         >
-                          Tiếp tục
+                          Chọn chuyến
                         </button>
                       </div>
-                      {showLocation === booking.trip.tripid && (
-                        <div className="show2">
-                          <div>
-                            <p>Điểm đón</p>
-                            <div>
-                              <Box sx={{ minWidth: 120 }}>
-                                <FormControl style={{ width: "200px" }}>
-                                  <InputLabel id="pick-up">Điểm đón</InputLabel>
-                                  <Select
-                                    labelId="pick-up"
-                                    id="pick-up"
-                                    label="Điểm đón"
-                                    onChange={(event) => {
-                                      handlePickupPointChange(event);
-                                      console.log(
-                                        typeof event.target.value
-                                        // `Giá trị được chọn: ${event.target.value}`
-                                      );
-                                    }}
-                                  >
-                                    {booking.pickAddress.map((pick) => (
-                                      <MenuItem value={pick.pickname}>
-                                        {pick.pickname}
-                                      </MenuItem>
-                                    ))}
-                                  </Select>
-                                </FormControl>
-                              </Box>
-                            </div>
-                          </div>
-                          <div>
-                            <p>Điểm trả</p>
-                            <div>
-                              <Box sx={{ minWidth: 120 }}>
-                                <FormControl style={{ width: "200px" }}>
-                                  <InputLabel id="drop-off">
-                                    Điểm trả
-                                  </InputLabel>
-                                  <Select
-                                    labelId="drop-off"
-                                    id="drop-off"
-                                    label="Điểm trả"
-                                    onChange={(event) => {
-                                      handleDropOffPointChange(event);
-                                      // console.log(
-                                      //   `Giá trị được chọn: ${event.target.value}`
-                                      // );
-                                    }}
-                                  >
-                                    {booking.returnAddress.map((dropoff) => (
-                                      <MenuItem value={dropoff.returnaddress}>
-                                        {dropoff.returnaddress}
-                                      </MenuItem>
-                                    ))}
-                                  </Select>
-                                </FormControl>
-                              </Box>
-                            </div>
-                          </div>
-                          <Link to={"/payment"}>
-                            <button
-                              className="button"
-                              onClick={() => {
-                                postData();
-                              }}
-                            >
-                              Tiếp tục
-                            </button>
-                          </Link>
-                        </div>
-                      )}
                     </div>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
+                    {showPickSeat === booking.trip.tripid && (
+                      <div>
+                        <div className="show1">
+                          <p>Còn{booking.trip.coach.number} chỗ</p>
+                          <p>Chọn ghế:</p>
+                          {renderSeatNumbers(booking).map((number) => (
+                            <div key={number}>
+                              <input
+                                type="checkbox"
+                                id={`seat-${number}`}
+                                value={number}
+                                onClick={(event) => {
+                                  console.log(event.target.value);
+                                  setSeat(event.target.value);
+                                }}
+                              />
+                              <label htmlFor={`seat-${number}`}>
+                                Ghế {number}
+                              </label>
+                            </div>
+                          ))}
+
+                          <button
+                            className="button"
+                            onClick={(event) =>
+                              handlePick(event, booking, booking.trip.tripid)
+                            }
+                          >
+                            Tiếp tục
+                          </button>
+                        </div>
+                        {showLocation === booking.trip.tripid && (
+                          <div className="show2">
+                            <div>
+                              <p>Điểm đón</p>
+                              <div>
+                                <Box sx={{ minWidth: 120 }}>
+                                  <FormControl style={{ width: "200px" }}>
+                                    <InputLabel id="pick-up">Điểm đón</InputLabel>
+                                    <Select
+                                      labelId="pick-up"
+                                      id="pick-up"
+                                      label="Điểm đón"
+                                      onChange={(event) => {
+                                        handlePickupPointChange(event);
+                                        console.log(
+                                          typeof event.target.value
+                                          // `Giá trị được chọn: ${event.target.value}`
+                                        );
+                                      }}
+                                    >
+                                      {booking.pickAddress.map((pick) => (
+                                        <MenuItem value={pick.pickname}>
+                                          {pick.pickname}
+                                        </MenuItem>
+                                      ))}
+                                    </Select>
+                                  </FormControl>
+                                </Box>
+                              </div>
+                            </div>
+                            <div>
+                              <p>Điểm trả</p>
+                              <div>
+                                <Box sx={{ minWidth: 120 }}>
+                                  <FormControl style={{ width: "200px" }}>
+                                    <InputLabel id="drop-off">
+                                      Điểm trả
+                                    </InputLabel>
+                                    <Select
+                                      labelId="drop-off"
+                                      id="drop-off"
+                                      label="Điểm trả"
+                                      onChange={(event) => {
+                                        handleDropOffPointChange(event);
+                                        // console.log(
+                                        //   `Giá trị được chọn: ${event.target.value}`
+                                        // );
+                                      }}
+                                    >
+                                      {booking.returnAddress.map((dropoff) => (
+                                        <MenuItem value={dropoff.returnaddress}>
+                                          {dropoff.returnaddress}
+                                        </MenuItem>
+                                      ))}
+                                    </Select>
+                                  </FormControl>
+                                </Box>
+                              </div>
+                            </div>
+                            <Link to={"/payment"}>
+                              <button
+                                className="button"
+                                onClick={() => {
+                                  postData();
+                                }}
+                              >
+                                Tiếp tục
+                              </button>
+                            </Link>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
