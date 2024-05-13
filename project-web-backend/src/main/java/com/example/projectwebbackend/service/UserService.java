@@ -31,6 +31,9 @@ public class UserService {
     private SeatLocationRepository seatLocationRepository;
     @Autowired
     private CommentRepository commentRepository;
+    @Autowired private PickAddressRepository pickAddressRepository;
+
+    @Autowired private ReturnAddressRepository returnAddressRepository;
 
     public User createUser(UserCreationRequest request) {
         if (userRepository.existsByAccount(request.getAccount())) {
@@ -161,8 +164,10 @@ public class UserService {
         if (trip == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         ticket.setTrip(trip);
-        ticket.setPickAddress(request.getPickAddress());
-        ticket.setReturnAddress(request.getReturnAddress());
+        PickAddress pickAddress = pickAddressRepository.findByPickname(request.getPickAddress().getPickname());
+        ReturnAddress returnAddress = returnAddressRepository.findByReturnaddress(request.getReturnAddress().getReturnaddress());
+        ticket.setPickAddress(pickAddress);
+        ticket.setReturnAddress(returnAddress);
         ticket.setSeatlocation(request.getSeatlocation());
         String seatlocation = request.getSeatlocation();
         String status = request.getStatus();
