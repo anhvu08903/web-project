@@ -228,14 +228,17 @@ const Booking = () => {
 
   const [showPickSeat, setShowPickSeat] = useState(null); // State quản lý div chọn chuyến
   const [currentBookingPrice, setCurrentBookingPrice] = useState(null);
-  const [currentBooking, setCurrentBooking] = useState({});
+  const [currentBooking, setCurrentBooking] = useState(null);
 
   const handleBookTicket = (event, booking, id) => {
-    event.preventDefault();
     console.log("Booking được chọn:", booking);
     setShowPickSeat(id);
     setCurrentBookingPrice(booking.seat.price);
+    console.log(currentBookingPrice);
     setCurrentBooking(booking);
+    console.log(currentBooking);
+    console.log(booking);
+    console.log(id);
   };
 
   const [showLocation, setShowLocation] = useState(null); //State quản lý div điểm đón điểm trả
@@ -282,8 +285,8 @@ const Booking = () => {
   //     console.error("Error fetching data:", error);
   //   }
   // }
-  const [pickid1, setPickId] = useState(0);
-  const [dropid, setDropId] = useState(0);
+  const [pickid1, setPickId] = useState("");
+  const [dropid, setDropId] = useState("");
 
   async function postData() {
     try {
@@ -291,7 +294,6 @@ const Booking = () => {
         const pickAddress = currentBooking.pickAddress[i];
         if (pickAddress.pickname === pickup) {
           setPickId(pickAddress.pickid);
-          console.log(pickid1);
           break;
         }
       }
@@ -299,7 +301,6 @@ const Booking = () => {
         const returnAddress = currentBooking.returnAddress[i];
         if (returnAddress.returnaddress === drop) {
           setDropId(returnAddress.returnid);
-          console.log(dropid);
           break;
         }
       }
