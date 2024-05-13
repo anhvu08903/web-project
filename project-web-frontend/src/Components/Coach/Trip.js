@@ -143,7 +143,7 @@ const Trip = (props) => {
 
                 <div style={{display: "flex", justifyContent: "space-between"}}>
                     <div className={styles.tripTitle}>Chuyến đi {trip.tripid}</div>
-                    <div className={styles.tripTitle} style={{color: "#2474E5"}}>Còn {trip.remainingSeat} chỗ</div>
+                    <div className={styles.tripTitle} style={{color: "#2474E5"}}>Còn  chỗ</div>
                 </div>
                 <div className={styles.tripInfo}>
                     <div style={{display: "flex"}}>
@@ -155,13 +155,13 @@ const Trip = (props) => {
                                 <div className={styles.contentTrip}>
                                     <div style={{color: "#484848", fontSize: "20px", fontWeight: "bold"}}>{tripStartTime}</div>
                                     <div class="place">• {tripStartDate}</div>
-                                    <div class="place">• {trip.startprovince}</div>
+                                    <div class="place">• {trip.startprovince.pname}</div>
                                 </div>
                                 <div style={{color: "#A1A1A1"}}>{tripTime}</div>
                                 <div className={styles.contentTrip}>
                                     <div style={{color: "#707070", fontSize: "20px", fontWeight: "bold"}}>{tripEndTime}</div>
                                     <div class="place">• {tripEndDate}</div>
-                                    <div class="place">• {trip.endprovince}</div>
+                                    <div class="place">• {trip.endprovince.pname}</div>
                                 </div>
                         </div>
                     </div>

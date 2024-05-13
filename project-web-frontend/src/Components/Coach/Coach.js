@@ -62,7 +62,7 @@ const Coach = () => {
 
   useEffect(() => {
     axios
-      .get("api get trip vào đây")
+      .get("http://localhost:8080/identity/api/admin/trip")
       .then((response) => {
         console.log(response.data);
         setTrip(response.data);
@@ -505,7 +505,7 @@ const Coach = () => {
                     // endTime={trip.endTime}
                     // startPlace={trip.startPlace}
                     // endPlace={trip.endPlace}
-                    t={t}
+                    trip={t}
                   />
                 );
               })}
@@ -537,7 +537,7 @@ const Coach = () => {
 
                   <div>
                     {car.map((c, i) => {
-                      return <Car key={i} car={c} />;
+                      return (<Car key={i} c={c} />);
                     })}
                   </div>
 
