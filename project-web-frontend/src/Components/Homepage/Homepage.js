@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Enddate from "./Enddate";
 import axios from "axios";
 
+
 const Homepage = () => {
   // const navigate = useNavigate();
 
@@ -38,7 +39,7 @@ const Homepage = () => {
       <div className={styles.navbar}>
         <div className={styles.headerLeft}></div>
         <ul className={styles.headerRight}>
-          <Link to="/registercoach" style={{ color: "white" }}>
+          <Link to="/adminsignup" style={{ color: "white" }}>
             <li>Đăng ký mở bán vé</li>
           </Link>
           <div className={styles.signInButton}>
