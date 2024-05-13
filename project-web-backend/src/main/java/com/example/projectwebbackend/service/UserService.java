@@ -163,18 +163,27 @@ public class UserService {
         ticket.setTrip(trip);
         ticket.setPickAddress(request.getPickAddress());
         ticket.setReturnAddress(request.getReturnAddress());
+        ticket.setSeatlocation(request.getSeatlocation());
+        String seatlocation = request.getSeatlocation();
+        String status = request.getStatus();
+        ticket.setStatus(status);
+        ticket.setSeatlocation(seatlocation);
+
         List<Long> seatids = request.getSeatid();
         List<Seat> seats = new ArrayList<>();
         for (Long seatid : seatids) {
             Seat seat2 = seatRepository.findBySeatid(seatid);
             if (seat2 != null) {
                 seats.add(seat2);
+                ticket.setSeatList(seats);
+                ticketRepository.save(ticket);
+
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Khong tim thay ghe");
             }
         }
-        ticket.setSeatList(seats);
-        ticketRepository.save(ticket);
+//        ticket.setSeatList(seats);
+//        ticketRepository.save(ticket);
         return ResponseEntity.status(HttpStatus.OK).body("Them ve thanh cong");
     }
 

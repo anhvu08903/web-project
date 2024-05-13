@@ -89,13 +89,14 @@ const Booking = () => {
     async function fetchData() {
       try {
         const response = await booking1;
+        setFilteredAndSortedBookings(response.data);
         setArray(response.data);
       } catch (error) {
         console.error(error);
       }
     }
     fetchData();
-  }, []); // Chạy một lần sau khi component được render
+  }, []);
 
   const bookings = array;
 
@@ -114,7 +115,6 @@ const Booking = () => {
   }
 
   useEffect(() => {
-    // Fetch and render ratings for all admins
     const fetchData = () => {
       filteredAndSortedBookings.forEach(async (booking) => {
         await fetchDataAndRender(booking.admin.adminid);
@@ -228,12 +228,14 @@ const Booking = () => {
 
   const [showPickSeat, setShowPickSeat] = useState(null); // State quản lý div chọn chuyến
   const [currentBookingPrice, setCurrentBookingPrice] = useState(null);
+  const [currentBooking, setCurrentBooking] = useState({});
 
   const handleBookTicket = (event, booking, id) => {
     event.preventDefault();
-    // console.log("Booking được chọn:", booking);
+    console.log("Booking được chọn:", booking);
     setShowPickSeat(id);
     setCurrentBookingPrice(booking.seat.price);
+    setCurrentBooking(booking);
   };
 
   const [showLocation, setShowLocation] = useState(null); //State quản lý div điểm đón điểm trả
@@ -280,6 +282,51 @@ const Booking = () => {
   //     console.error("Error fetching data:", error);
   //   }
   // }
+  const [pickid1, setPickId] = useState("");
+  const [dropid, setDropId] = useState("");
+
+  async function postData() {
+    try {
+      for (let i = 0; i < currentBooking.pickAddress.length; i++) {
+        const pickAddress = currentBooking.pickAddress[i];
+        if (pickAddress.pickname === pickup) {
+          setPickId(pickAddress.pickid);
+          break;
+        }
+      }
+      for (let i = 0; i < currentBooking.returnAddress.length; i++) {
+        const returnAddress = currentBooking.returnAddress[i];
+        if (returnAddress.returnaddress === drop) {
+          setDropId(returnAddress.returnid);
+          break;
+        }
+      }
+      const response = await axios.post(
+        "http://localhost:8080/identity/users/datvexe",
+        {
+          tripid: parseInt(currentBooking.trip.tripid),
+          seatid: [22], // Thay đổi giá trị này nếu có cách lấy dữ liệu ghế đang chọn
+          pickAddress: {
+            pickid: parseInt(pickid1),
+            pickname: pickup,
+          },
+          returnAddress: {
+            returnid: parseInt(dropid),
+            returnaddress: drop,
+          },
+          seatlocation: seat, // Giá trị ghế đang chọn
+          status: "0",
+        }
+      );
+      console.log("Response:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error:", error);
+      throw error;
+    }
+  }
+
+  const [seat, setSeat] = useState("");
 
   return (
     <div className="background">
@@ -293,9 +340,9 @@ const Booking = () => {
         <div className="loc">
           <h1>Lọc</h1>
           <div>
-            <div>
-              <p>Giờ đi</p>
-              <div>
+            <div className="sliderOption">
+              <div className="sliderTag">
+                <p>Giờ đi</p>
                 <img
                   src={
                     currentImage1 === "image1"
@@ -307,10 +354,13 @@ const Booking = () => {
                   className="arrow"
                   style={{ height: "25px", width: "25px" }}
                 />
+              </div>
+              <div>
                 {/* Hiển thị slider nếu showSlider1 là true */}
                 {showSlider1 && (
-                  <Box sx={{ width: 300 }}>
+                  <Box>
                     <Slider
+                      className="slider"
                       getAriaLabel={() => "Time range"}
                       value={timeVal}
                       min={0}
@@ -323,22 +373,25 @@ const Booking = () => {
                 )}
               </div>
             </div>
-            <div>
-              <p>Giá vé</p>
-              <img
-                src={
-                  currentImage2 === "image1"
-                    ? "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Ic_keyboard_arrow_down_48px.svg/768px-Ic_keyboard_arrow_down_48px.svg.png"
-                    : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Ic_keyboard_arrow_up_48px.svg/768px-Ic_keyboard_arrow_up_48px.svg.png"
-                }
-                alt="Toggle Image"
-                onClick={handleClick2} // Sử dụng handleClick khi ảnh được click
-                className="arrow"
-                style={{ height: "25px", width: "25px" }}
-              />
+            <div className="sliderOption">
+              <div className="sliderTag">
+                <p>Giá vé</p>
+                <img
+                  src={
+                    currentImage2 === "image1"
+                      ? "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Ic_keyboard_arrow_down_48px.svg/768px-Ic_keyboard_arrow_down_48px.svg.png"
+                      : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Ic_keyboard_arrow_up_48px.svg/768px-Ic_keyboard_arrow_up_48px.svg.png"
+                  }
+                  alt="Toggle Image"
+                  onClick={handleClick2} // Sử dụng handleClick khi ảnh được click
+                  className="arrow"
+                  style={{ height: "25px", width: "25px" }}
+                />
+              </div>
               {showSlider2 && (
-                <Box sx={{ width: 300 }}>
+                <Box>
                   <Slider
+                    className="slider"
                     getAriaLabel={() => "Price range"}
                     value={priceVal}
                     min={0}
@@ -350,19 +403,21 @@ const Booking = () => {
                 </Box>
               )}
             </div>
-            <div>
-              <p>Nhà xe</p>
-              <img
-                src={
-                  currentImage3 === "image1"
-                    ? "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Ic_keyboard_arrow_down_48px.svg/768px-Ic_keyboard_arrow_down_48px.svg.png"
-                    : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Ic_keyboard_arrow_up_48px.svg/768px-Ic_keyboard_arrow_up_48px.svg.png"
-                }
-                alt="Toggle Image"
-                onClick={handleClick3} // Sử dụng handleClick khi ảnh được click
-                className="arrow"
-                style={{ height: "25px", width: "25px" }}
-              />
+            <div className="sliderOption">
+              <div className="sliderTag">
+                <p>Nhà xe</p>
+                <img
+                  src={
+                    currentImage3 === "image1"
+                      ? "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Ic_keyboard_arrow_down_48px.svg/768px-Ic_keyboard_arrow_down_48px.svg.png"
+                      : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Ic_keyboard_arrow_up_48px.svg/768px-Ic_keyboard_arrow_up_48px.svg.png"
+                  }
+                  alt="Toggle Image"
+                  onClick={handleClick3} // Sử dụng handleClick khi ảnh được click
+                  className="arrow"
+                  style={{ height: "25px", width: "25px" }}
+                />
+              </div>
               {showCheckbox &&
                 bookings.map((booking) => (
                   <div>
@@ -395,22 +450,24 @@ const Booking = () => {
                     <img
                       src="https://static.vexere.com/production/images/1690435601693.jpeg?w=250&h=250"
                       className="booking_img"
-                    ></img>
-                    <strong>Nhà xe:</strong> {booking.admin.adminname} <br />
-                    <strong>Giờ đi:</strong> {booking.trip.starttime} <br />
-                    <strong>Giờ đón:</strong> {booking.trip.endtime} <br />
-                    <strong>Giá vé:</strong> ${booking.seat.price} <br />
-                    <strong>Đánh giá:</strong> {ratings[booking.admin.adminid]}{" "}
-                    sao
-                    <br />
-                    <button
-                      className="button"
-                      onClick={(event) =>
-                        handleBookTicket(event, booking, booking.trip.tripid)
-                      }
-                    >
-                      Chọn chuyến
-                    </button>
+                    />
+                    <div className="info">
+                      <strong>Nhà xe:</strong> {booking.admin.adminname} <br />
+                      <strong>Giờ đi:</strong> {booking.trip.starttime} <br />
+                      <strong>Giờ đón:</strong> {booking.trip.endtime} <br />
+                      <strong>Giá vé:</strong> ${booking.seat.price} <br />
+                      <strong>Đánh giá:</strong>{" "}
+                      {ratings[booking.admin.adminid]} sao
+                      <br />
+                      <button
+                        className="button"
+                        onClick={(event) =>
+                          handleBookTicket(event, booking, booking.trip.tripid)
+                        }
+                      >
+                        Chọn chuyến
+                      </button>
+                    </div>
                   </div>
                   {showPickSeat === booking.trip.tripid && (
                     <div>
@@ -423,6 +480,10 @@ const Booking = () => {
                               type="checkbox"
                               id={`seat-${number}`}
                               value={number}
+                              onClick={(event) => {
+                                console.log(event.target.value);
+                                setSeat(event.target.value);
+                              }}
                             />
                             <label htmlFor={`seat-${number}`}>
                               Ghế {number}
@@ -453,9 +514,10 @@ const Booking = () => {
                                     label="Điểm đón"
                                     onChange={(event) => {
                                       handlePickupPointChange(event);
-                                      // console.log(
-                                      //   `Giá trị được chọn: ${event.target.value}`
-                                      // );
+                                      console.log(
+                                        typeof event.target.value
+                                        // `Giá trị được chọn: ${event.target.value}`
+                                      );
                                     }}
                                   >
                                     {booking.pickAddress.map((pick) => (
@@ -498,7 +560,12 @@ const Booking = () => {
                             </div>
                           </div>
                           <Link to={"/payment"}>
-                            <button className="button" onClick={handleSendTrip}>
+                            <button
+                              className="button"
+                              onClick={() => {
+                                postData();
+                              }}
+                            >
                               Tiếp tục
                             </button>
                           </Link>

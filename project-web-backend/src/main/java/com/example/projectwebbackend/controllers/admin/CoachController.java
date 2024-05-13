@@ -2,6 +2,7 @@ package com.example.projectwebbackend.controllers.admin;
 
 import com.example.projectwebbackend.entity.Coach;
 import com.example.projectwebbackend.repository.AdminCoachRepossitory;
+import com.example.projectwebbackend.repository.SeatRepository;
 import com.example.projectwebbackend.service.CoachService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import java.util.List;
 public class CoachController {
     @Autowired private CoachService coachService;
     @Autowired private AdminCoachRepossitory coachRepossitory;
+    @Autowired private SeatRepository seatRepository;
 
     List<Coach> coaches = new ArrayList<>();
 
