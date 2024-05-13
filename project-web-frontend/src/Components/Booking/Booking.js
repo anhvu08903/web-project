@@ -282,8 +282,8 @@ const Booking = () => {
   //     console.error("Error fetching data:", error);
   //   }
   // }
-  const [pickid1, setPickId] = useState("");
-  const [dropid, setDropId] = useState("");
+  const [pickid1, setPickId] = useState(0);
+  const [dropid, setDropId] = useState(0);
 
   async function postData() {
     try {
@@ -291,6 +291,7 @@ const Booking = () => {
         const pickAddress = currentBooking.pickAddress[i];
         if (pickAddress.pickname === pickup) {
           setPickId(pickAddress.pickid);
+          console.log(pickid1);
           break;
         }
       }
@@ -298,6 +299,7 @@ const Booking = () => {
         const returnAddress = currentBooking.returnAddress[i];
         if (returnAddress.returnaddress === drop) {
           setDropId(returnAddress.returnid);
+          console.log(dropid);
           break;
         }
       }
@@ -305,7 +307,7 @@ const Booking = () => {
         "http://localhost:8080/identity/users/datvexe",
         {
           tripid: parseInt(currentBooking.trip.tripid),
-          seatid: [22], // Thay đổi giá trị này nếu có cách lấy dữ liệu ghế đang chọn
+          seatid: [27], // Thay đổi giá trị này nếu có cách lấy dữ liệu ghế đang chọn
           pickAddress: {
             pickid: parseInt(pickid1),
             pickname: pickup,
