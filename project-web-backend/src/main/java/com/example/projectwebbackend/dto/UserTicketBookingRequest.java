@@ -5,44 +5,21 @@ import com.example.projectwebbackend.entity.ReturnAddress;
 import com.example.projectwebbackend.entity.Seat;
 import com.example.projectwebbackend.entity.Trip;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class UserTicketBookingRequest {
     private Long tripid;
     private List<Long> seatid;
     private PickAddress pickAddress;
     private ReturnAddress returnAddress;
+    private String seatlocation;
+    private String status;
 
-    public Long getTripid() {
-        return tripid;
-    }
-
-    public void setTripid(Long tripid) {
-        this.tripid = tripid;
-    }
-
-    public List<Long> getSeatid() {
-        return seatid;
-    }
-
-    public void setSeatid(List<Long> seatid) {
-        this.seatid = seatid;
-    }
-
-    public PickAddress getPickAddress() {
-        return pickAddress;
-    }
-
-    public void setPickAddress(PickAddress pickAddress) {
-        this.pickAddress = pickAddress;
-    }
-
-    public ReturnAddress getReturnAddress() {
-        return returnAddress;
-    }
-
-    public void setReturnAddress(ReturnAddress returnAddress) {
-        this.returnAddress = returnAddress;
-    }
 }

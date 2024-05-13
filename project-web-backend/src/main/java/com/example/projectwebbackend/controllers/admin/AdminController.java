@@ -154,7 +154,7 @@ public class AdminController {
 
     //danh sach cac ve dang cho
     @GetMapping("/ticket")
-    public List<AdminTicketPrompt> getAllTicket(){
+    public List<Ticket> getAllTicket(){
             return adminTicketPromptService.getAllTicket();
     }
     // chap nhan yeu cau dat ve
@@ -276,6 +276,7 @@ public class AdminController {
 
     return (double) totalStars / numberOfRatings;
 }
+
 }
 
 

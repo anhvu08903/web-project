@@ -20,23 +20,23 @@ const Coach = () => {
   const [carButtonPopup, setCarButtonPopup] = useState(false);
   const [options, setOptions] = useState([]);
 
-
   const [carInfo, setCarInfo] = useState({
     licenseplate: "",
     coachtype: "",
     number: 0,
-  });  
+  });
   const [car, setCar] = useState([]);
-
 
   const [tripInfo, setTripInfo] = useState({
     starttime: "",
     endtime: "",
     startprovince: {
       pid: "",
+      pid: "",
       pname: "",
     },
     endprovince: {
+      pid: "",
       pid: "",
       pname: "",
     },
@@ -211,7 +211,7 @@ const Coach = () => {
       setCarInfo({
         ...carInfo,
         coachtype: e.target.value,
-        number: parseInt(e.target.value.slice(3,5)),
+        number: parseInt(e.target.value.slice(3, 5)),
       });
     }
 
@@ -220,16 +220,18 @@ const Coach = () => {
 
   const addCar = async () => {
     console.log(carInfo);
-    axios.post("http://localhost:8080/identity/api/coach/add", carInfo).then((res) => {
-      alert("thanh cong ");
-    });
+    axios
+      .post("http://localhost:8080/identity/api/coach/add", carInfo)
+      .then((res) => {
+        alert("thanh cong ");
+      });
 
     console.log(carInfo);
     setCarButtonPopup(false);
     setCarInfo({
       licenseplate: "",
       coachtype: "",
-      number: 0
+      number: 0,
     });
   };
 

@@ -3,11 +3,19 @@ package com.example.projectwebbackend.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Table(name = "VeXe")
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Ticket {
     @Id
     @Column(name = "MaVeXe")
@@ -30,43 +38,9 @@ public class Ticket {
     @JoinColumn(name = "MaDiemTra", unique = false)
     private ReturnAddress returnAddress;
 
-    public Long getTicketid() {
-        return ticketid;
-    }
+   @Column (name ="vitrighe")
+   private String seatlocation;
 
-    public void setTicketid(Long ticketid) {
-        this.ticketid = ticketid;
-    }
-
-    public Trip getTrip() {
-        return trip;
-    }
-
-    public void setTrip(Trip trip) {
-        this.trip = trip;
-    }
-
-    public List<Seat> getSeatList() {
-        return seatList;
-    }
-
-    public void setSeatList(List<Seat> seatList) {
-        this.seatList = seatList;
-    }
-
-    public PickAddress getPickAddress() {
-        return pickAddress;
-    }
-
-    public void setPickAddress(PickAddress pickAddress) {
-        this.pickAddress = pickAddress;
-    }
-
-    public ReturnAddress getReturnAddress() {
-        return returnAddress;
-    }
-
-    public void setReturnAddress(ReturnAddress returnAddress) {
-        this.returnAddress = returnAddress;
-    }
+    @Column (name = "status")
+    private String status;
 }
