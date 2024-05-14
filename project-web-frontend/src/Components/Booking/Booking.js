@@ -91,7 +91,7 @@ const Booking = () => {
       try {
         const response = await booking1;
         setFilteredAndSortedBookings(response.data);
-        // setArray(response.data);
+        setArray(response.data);
       } catch (error) {
         console.error(error);
       }
@@ -234,7 +234,7 @@ const Booking = () => {
   const handleBookTicket = (event, booking, id) => {
     console.log("Booking được chọn:", booking);
     setShowPickSeat(id);
-    // setCurrentBookingPrice(booking.seat.price);
+    setCurrentBookingPrice(booking.seat.price);
     // console.log(currentBookingPrice);
     setCurrentBooking(booking);
     console.log(currentBooking);
@@ -494,10 +494,12 @@ const Booking = () => {
                 <li key={booking.trip.tripid}>
                   <div>
                     <div className="container">
-                      <img
-                        src="https://static.vexere.com/production/images/1690435601693.jpeg?w=250&h=250"
-                        className="booking_img"
-                      />
+                      <div>
+                        <img
+                          src="https://static.vexere.com/production/images/1690435601693.jpeg?w=250&h=250"
+                          className="booking_img"
+                        />
+                      </div>
                       <div className="info">
                         <strong>Nhà xe:</strong> {booking.admin.adminname}{" "}
                         <br />

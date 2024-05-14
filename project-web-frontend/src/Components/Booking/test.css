@@ -50,6 +50,7 @@
     min-height: 265px;
     width: 728px;
     margin-bottom: 30px;
+    display: flex;
 }
 
 .booking_img {
