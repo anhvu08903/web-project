@@ -19,39 +19,49 @@ import java.util.List;
 
 @Service
 public class AdminTripDTOServiceImpl implements AdminTripDTOService {
-    @Autowired private CoachService coachService;
+    @Autowired
+    private CoachService coachService;
 
-    @Autowired private TripRepository tripRepository;
+    @Autowired
+    private TripRepository tripRepository;
 
-    @Autowired private SeatRepository seatRepository;
+    @Autowired
+    private SeatRepository seatRepository;
 
-    @Autowired private AdminService adminService;
+    @Autowired
+    private AdminService adminService;
 
-    @Autowired private SeatService seatService;
+    @Autowired
+    private SeatService seatService;
 
-    @Autowired private PickAddressRepository pickAddressRepository;
+    @Autowired
+    private PickAddressRepository pickAddressRepository;
 
-    @Autowired private ReturnAddressRepository returnAddressRepository;
+    @Autowired
+    private ReturnAddressRepository returnAddressRepository;
 
-    @Autowired private SeatLocationRepository seatLocationRepository;
+    @Autowired
+    private SeatLocationRepository seatLocationRepository;
 
 
     @Override
     public List<AdminTripDTO> getAllSeatInfo() {
-      List<AdminTripDTO> adminTripDTOS = new ArrayList<>();
+        List<AdminTripDTO> adminTripDTOS = new ArrayList<>();
         List<Trip> trips = tripRepository.findAll();
         for (Trip trip : trips) {
             // Làm cái gì đó với mỗi phần tử trong trips
-            AdminTripDTO adminTripDTO= new AdminTripDTO();
+            AdminTripDTO adminTripDTO = new AdminTripDTO();
             adminTripDTO.setTrip(trip);
             adminTripDTO.setAdmin(trip.getCoach().getAdmin());
 
             Seat seat = seatRepository.findSeatByCoach_Licenseplate(trip.getCoach().getLicenseplate());
 //            adminTripDTO.setSeat(seatRepository.findSeatByCoach_Licenseplate(trip.getCoach().getLicenseplate()));
+
             adminTripDTO.setSeat(seat);
             adminTripDTO.setPickAddress(pickAddressRepository.findAllByTrip(trip));
             adminTripDTO.setReturnAddress(returnAddressRepository.findAllByTrip(trip));
             adminTripDTO.setSeatLocation(seatLocationRepository.findSeatLocationByLocationid(adminTripDTO.getSeat().getSeatid()));
+
             adminTripDTOS.add(adminTripDTO);
 
 
