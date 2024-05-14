@@ -31,9 +31,11 @@ public class UserService {
     private SeatLocationRepository seatLocationRepository;
     @Autowired
     private CommentRepository commentRepository;
-    @Autowired private PickAddressRepository pickAddressRepository;
+    @Autowired
+    private PickAddressRepository pickAddressRepository;
 
-    @Autowired private ReturnAddressRepository returnAddressRepository;
+    @Autowired
+    private ReturnAddressRepository returnAddressRepository;
 
     public User createUser(UserCreationRequest request) {
         if (userRepository.existsByAccount(request.getAccount())) {
@@ -101,12 +103,14 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<Comment> createComment(UserCommentationRequest request) {
+    public ResponseEntity<Comment> createComment(Comment request) {
         try {
             Comment comment = new Comment();
             comment.setUser(request.getUser());
             comment.setContent(request.getContent());
             comment.setCreatedAt(request.getCreatedAt());
+            comment.setStar(request.getStar());
+            comment.setAdmin(request.getAdmin());
             commentRepository.save(comment);
             return ResponseEntity.status(HttpStatus.OK).body(comment);
         } catch (Exception e) {
@@ -164,17 +168,12 @@ public class UserService {
         if (trip == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         ticket.setTrip(trip);
-<<<<<<< HEAD
-        ticket.setPickAddress(request.getPickAddress());
-        ticket.setReturnAddress(request.getReturnAddress());
-        //ticket.setSeatlocation(request.getSeatlocation());
-=======
         PickAddress pickAddress = pickAddressRepository.findByPickname(request.getPickAddress().getPickname());
-        ReturnAddress returnAddress = returnAddressRepository.findByReturnaddress(request.getReturnAddress().getReturnaddress());
+        ReturnAddress returnAddress = returnAddressRepository
+                .findByReturnaddress(request.getReturnAddress().getReturnaddress());
         ticket.setPickAddress(pickAddress);
         ticket.setReturnAddress(returnAddress);
         ticket.setSeatlocation(request.getSeatlocation());
->>>>>>> daa1597d2fd3d20cce7b7ac725ebadcecef67a9f
         String seatlocation = request.getSeatlocation();
         String status = request.getStatus();
         ticket.setStatus(status);
@@ -186,15 +185,15 @@ public class UserService {
             Seat seat2 = seatRepository.findBySeatid(seatid);
             if (seat2 != null) {
                 seats.add(seat2);
-                //ticket.setSeatList(seats);
-                //ticketRepository.save(ticket);
+                // ticket.setSeatList(seats);
+                // ticketRepository.save(ticket);
 
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Khong tim thay ghe");
             }
         }
-       ticket.setSeatList(seats);
-       ticketRepository.save(ticket);
+        ticket.setSeatList(seats);
+        ticketRepository.save(ticket);
         return ResponseEntity.status(HttpStatus.OK).body("Them ve thanh cong");
     }
 

@@ -237,10 +237,10 @@ const Booking = () => {
     setCurrentBookingPrice(booking.seat.price);
     // console.log(currentBookingPrice);
     setCurrentBooking(booking);
-    console.log(currentBooking);
     console.log(booking);
     console.log(id);
   };
+  console.log(currentBooking);
 
   const [showLocation, setShowLocation] = useState(null); //State quản lý div điểm đón điểm trả
   const handlePick = (event, booking, id) => {
@@ -289,6 +289,8 @@ const Booking = () => {
   const [pickid1, setPickId] = useState("");
   const [dropid, setDropId] = useState("");
 
+  const navigate = useNavigate(); // Use useNavigate hook
+
   async function postData() {
     try {
       for (let i = 0; i < currentBooking.pickAddress.length; i++) {
@@ -329,6 +331,8 @@ const Booking = () => {
         { headers: headers }
       );
       console.log("Response:", response.data);
+      navigate("/rating", { state: { currentBooking } }); // Navigate to Rating with currentBooking
+
       return response.data;
     } catch (error) {
       console.error("Error:", error);
