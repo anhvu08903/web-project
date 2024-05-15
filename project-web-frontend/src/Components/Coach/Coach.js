@@ -230,8 +230,8 @@ const Coach = () => {
     setCarButtonPopup(false);
     setCarInfo({
       licenseplate: "",
-      coachtype: "",
-      number: 0,
+      coachtype: "Xe 24 chỗ",
+      number: 24,
     });
   };
 
