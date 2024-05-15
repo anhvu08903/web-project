@@ -2,11 +2,16 @@ package com.example.projectwebbackend.dto;
 
 import com.example.projectwebbackend.entity.User;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class UserPaymentRequest {
     private Long ticketid;
-    private Long totalprice;
 
     public Long getTicketid() {
         return ticketid;
@@ -16,11 +21,4 @@ public class UserPaymentRequest {
         this.ticketid = ticketid;
     }
 
-    public Long getTotalprice() {
-        return totalprice;
-    }
-
-    public void setTotalprice(Long totalprice) {
-        this.totalprice = totalprice;
-    }
 }
