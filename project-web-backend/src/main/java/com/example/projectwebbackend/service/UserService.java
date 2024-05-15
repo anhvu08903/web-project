@@ -164,17 +164,17 @@ public class UserService {
         if (trip == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         ticket.setTrip(trip);
-<<<<<<< HEAD
+
         ticket.setPickAddress(request.getPickAddress());
         ticket.setReturnAddress(request.getReturnAddress());
         //ticket.setSeatlocation(request.getSeatlocation());
-=======
+
         PickAddress pickAddress = pickAddressRepository.findByPickname(request.getPickAddress().getPickname());
         ReturnAddress returnAddress = returnAddressRepository.findByReturnaddress(request.getReturnAddress().getReturnaddress());
         ticket.setPickAddress(pickAddress);
         ticket.setReturnAddress(returnAddress);
         ticket.setSeatlocation(request.getSeatlocation());
->>>>>>> daa1597d2fd3d20cce7b7ac725ebadcecef67a9f
+
         String seatlocation = request.getSeatlocation();
         String status = request.getStatus();
         ticket.setStatus(status);
