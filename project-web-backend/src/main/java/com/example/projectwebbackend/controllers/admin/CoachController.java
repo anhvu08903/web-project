@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/coach")
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin
 public class CoachController {
     @Autowired private CoachService coachService;
     @Autowired private AdminCoachRepossitory coachRepossitory;

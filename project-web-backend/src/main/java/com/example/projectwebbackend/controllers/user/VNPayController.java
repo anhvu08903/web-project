@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin
 @RestController
 @RequestMapping("/users")
 public class VNPayController {

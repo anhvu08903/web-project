@@ -8,7 +8,11 @@ public class AdminSignInRequest {
     @Size(min = 4, message = "ten tai khoan phai co it nhat 4 ki tu")
     private String adminaccount;
 
+<<<<<<< HEAD
+    @Size(min = 6, message = "mat khau phai co it nhat 6 ki tu")
+=======
     @Size(min = 6, message = "mat khau phai co it nhat 8 ki tu")
+>>>>>>> 369e50ff7f0be4e02fb43d7b18d9d01e55f552a8
     private String adminpassword;
 
 
