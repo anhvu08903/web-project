@@ -224,3 +224,56 @@ li {
     justify-content: center;
     align-content: center;
 }
+
+input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+.radioContainer{
+    display: flex;
+    position: relative;
+    width: 100%;
+}
+
+.radioContainer:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+.radioContainer input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.radioContainer input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.radioContainer .checkmark:after {
+    top: 9px;
+    left: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
+
+.radioLabel{
+    padding-left: 40px;
+}

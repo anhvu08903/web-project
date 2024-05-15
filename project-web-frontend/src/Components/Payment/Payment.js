@@ -145,22 +145,22 @@ const Payment = () => {
                 <div className={styles.infoBoxWrapper}>
                   <div className={styles.infoBoxTitle}>Phương thức thanh toán</div>
                   <form className={styles.infoBoxForm}>
-                    <div>
-                      <input type="radio" value="cash" name="payment"/>
-                      <label>
+                    <div style={{position: "relative"}} className={styles.radioContainer}>
+                      <label className={styles.radioLabel}>
                         Thanh toán tại nhà xe
+                        <input type="radio" value="cash" name="payment"/>
+                        <span className={styles.checkmark}></span>
                       </label>
                     </div>
-                    <div>
-                      <input type="radio" value="vnpay" name="payment"/>
-                      <label>
-                        Thanh toán VNPAY-QR
+                    <div style={{position: "relative"}} className={styles.radioContainer}>
+                      <label className={styles.radioLabel}>
+                      Thanh toán VNPAY-QR
+                        <input type="radio" value="vnpay" name="payment"/>
+                        <span className={styles.checkmark}></span>
                       </label>
                     </div>
 
                   </form>
-
-                  
 
                 </div>
                 
