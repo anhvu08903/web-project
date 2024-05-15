@@ -103,13 +103,14 @@ const Homepage = () => {
             {
               sessionStorage.getItem('token') ?
                 <div>
-                  <button className={styles.buttons} style={{paddingRight: "15px"}} onClick={() => {
+                  {/* <button className={styles.buttons} style={{paddingRight: "15px"}} onClick={() => {
                     sessionStorage.removeItem('token');
                     window.location.replace('/');
                   }}>
                     Đăng xuất
                   
-                  </button> 
+                  </button>  */}
+                  
                 </div> :
                 <Link to='/login'>
                   <button className={styles.buttons}>
