@@ -158,8 +158,12 @@ li {
     border: 0;
     font-size: 16px;
     font-weight: 500;
-    width: 150px;
+    width: 100%;
     padding: 0;
+}
+
+.input:focus{
+    outline: none;
 }
 
 .zone {
@@ -167,4 +171,16 @@ li {
     font-size: 16px;
     font-weight: 500;
     margin: 0;
+}
+
+.trustWrapper{
+    background-color: #EEFBF4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    border: 1px solid rgb(39, 174, 96);
+    border-radius: 8px;
+    padding: 10px 12px;
+    gap: 10px;
 }

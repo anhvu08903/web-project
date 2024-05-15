@@ -29,7 +29,7 @@ const Homepage = () => {
       });
   }, []);
 
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const [user, setUser] = useState({});
 
   async function getUserInfo() {
@@ -72,10 +72,10 @@ const Homepage = () => {
               <span></span>
             </button>
             {
-              localStorage.getItem('token') ?
+              sessionStorage.getItem('token') ?
                 <div>
                   <button className={styles.buttons} style={{paddingRight: "15px"}} onClick={() => {
-                    localStorage.removeItem('token');
+                    sessionStorage.removeItem('token');
                     window.location.replace('/');
                   }}>
                     Đăng xuất

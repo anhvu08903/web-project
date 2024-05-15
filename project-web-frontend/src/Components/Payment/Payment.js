@@ -56,7 +56,6 @@ const Payment = () => {
                       <label className={styles.title}>Số điện thoại*</label>
                       <input
                         className={styles.input}
-                        value="Placeholder"
                       ></input>
                     </div>
                   </div>
@@ -67,11 +66,18 @@ const Payment = () => {
                       </label>
                       <input
                         className={styles.input}
-                        value="Placeholder"
                       ></input>
                     </div>
                   </div>
                 </form>
+
+                <div className={styles.trustWrapper}>
+                  <div class="material-icons-wrapper md-16 info-note-icon " style={{width: "16px", height: "16px"}}>
+                    <i class="material-icons-round color--positive" style={{color: "rgb(39, 174, 96)", fontSize: "16px"}}>verified_user</i>
+                  </div>
+                  <p className={styles.trustMessage}>Số điện thoại và email được sử dụng để gửi thông tin đơn hàng và liên hệ khi cần thiết.</p>
+                </div>
+
               </div>
             </div>
             <div className={styles.money}>
@@ -80,7 +86,7 @@ const Payment = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> 
       </div>
     </div>
   );

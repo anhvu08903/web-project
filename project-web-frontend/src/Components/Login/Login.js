@@ -49,11 +49,11 @@ const Login = () => {
         .then((res) => {
           alert("Dang nhap thanh cong!");
           if (typeof window !== "undefined")
-            localStorage.setItem("token", res.data);
+            sessionStorage.setItem("token", res.data);
           navigate("/Homepage", { replace: true });
         });
       // if (typeof window !== "undefined")
-      //   localStorage.setItem("token", 'da dang nhap');
+      //   sessionStorage.setItem("token", 'da dang nhap');
       // navigate("/Homepage", { replace: true });
     }
   }, [formErrors]);
