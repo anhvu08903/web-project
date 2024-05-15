@@ -29,7 +29,7 @@ const Homepage = () => {
       });
   }, []);
 
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const [user, setUser] = useState({});
 
   async function getUserInfo() {
@@ -57,6 +57,35 @@ const Homepage = () => {
     setStartPointValue(endPointValue);
   };
 
+  // const addTrip = async () => {
+  //   console.log(tripInfo);
+  //   axios
+  //     .post("http://localhost:8080/identity/api/admin/add/trip", tripInfo)
+  //     .then((res) => {
+  //       alert("thanh cong ");
+  //     });
+
+  //   console.log(tripInfo);
+  //   setButtonPopup(false);
+  //   setTripInfo({
+  //     starttime: "",
+  //     endtime: "",
+
+  //     startprovince: {
+  //       pid: "",
+  //       pname: "",
+  //     },
+  //     endprovince: {
+  //       pid: "",
+  //       pname: "",
+  //     },
+  //     coach: {
+  //       licenseplate: "",
+  //     },
+  //   });
+  // };
+
+
   return (
     <div style={{ overflow: "hidden", height: "100vh" }}>
       <div className={styles.navbar}>
@@ -72,10 +101,10 @@ const Homepage = () => {
               <span></span>
             </button>
             {
-              localStorage.getItem('token') ?
+              sessionStorage.getItem('token') ?
                 <div>
                   <button className={styles.buttons} style={{paddingRight: "15px"}} onClick={() => {
-                    localStorage.removeItem('token');
+                    sessionStorage.removeItem('token');
                     window.location.replace('/');
                   }}>
                     Đăng xuất

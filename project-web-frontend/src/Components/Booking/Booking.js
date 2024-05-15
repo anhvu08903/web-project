@@ -307,7 +307,7 @@ const Booking = () => {
           break;
         }
       }
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       // console.log(token);
       const headers = {
         Authorization: ` ${token}`,
@@ -331,7 +331,7 @@ const Booking = () => {
         { headers: headers }
       );
       console.log("Response:", response.data);
-      localStorage.setItem("booking", JSON.stringify(currentBooking));
+      sessionStorage.setItem("booking", JSON.stringify(currentBooking));
       // navigate("/rating", { state: { currentBooking } }); // Navigate to Rating with currentBooking
 
       return response.data;
@@ -357,13 +357,13 @@ const Booking = () => {
               Hotline 24/7
               <span></span>
             </button>
-            {localStorage.getItem("token") ? (
+            {sessionStorage.getItem("token") ? (
               <div>
                 <button
                   className={styles.buttons}
                   style={{ paddingRight: "15px" }}
                   onClick={() => {
-                    localStorage.removeItem("token");
+                    sessionStorage.removeItem("token");
                     window.location.replace("/");
                   }}
                 >
