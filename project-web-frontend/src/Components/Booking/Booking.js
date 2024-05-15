@@ -331,7 +331,8 @@ const Booking = () => {
         { headers: headers }
       );
       console.log("Response:", response.data);
-      navigate("/rating", { state: { currentBooking } }); // Navigate to Rating with currentBooking
+      localStorage.setItem("booking", JSON.stringify(currentBooking));
+      // navigate("/rating", { state: { currentBooking } }); // Navigate to Rating with currentBooking
 
       return response.data;
     } catch (error) {

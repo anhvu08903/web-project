@@ -7,8 +7,10 @@ import { useLocation } from "react-router-dom";
 import moment from "moment";
 
 const Ratings = () => {
-  const location = useLocation();
-  const { currentBooking } = location.state;
+  // const location = useLocation();
+  // const { currentBooking } = location.state;
+  const currentBooking = JSON.parse(localStorage.getItem("booking"));
+  console.log(currentBooking);
 
   const [inputValue, setInputValue] = useState("");
 
