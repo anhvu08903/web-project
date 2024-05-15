@@ -29,10 +29,62 @@ const Homepage = () => {
       });
   }, []);
 
+  const token = sessionStorage.getItem("token");
+  const [user, setUser] = useState({});
+
+  async function getUserInfo() {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/identity/users/tk/${token}`
+      );
+      const data = response.data;
+      setUser(data);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getUserInfo();
+    };
+    fetchData();
+  }, []);
+
   const handleSwitch = () => {
     setEndPointValue(startPointValue);
     setStartPointValue(endPointValue);
   };
+
+  // const addTrip = async () => {
+  //   console.log(tripInfo);
+  //   axios
+  //     .post("http://localhost:8080/identity/api/admin/add/trip", tripInfo)
+  //     .then((res) => {
+  //       alert("thanh cong ");
+  //     });
+
+  //   console.log(tripInfo);
+  //   setButtonPopup(false);
+  //   setTripInfo({
+  //     starttime: "",
+  //     endtime: "",
+
+  //     startprovince: {
+  //       pid: "",
+  //       pname: "",
+  //     },
+  //     endprovince: {
+  //       pid: "",
+  //       pname: "",
+  //     },
+  //     coach: {
+  //       licenseplate: "",
+  //     },
+  //   });
+  // };
+
 
   return (
     <div style={{ overflow: "hidden", height: "100vh" }}>
@@ -49,10 +101,10 @@ const Homepage = () => {
               <span></span>
             </button>
             {
-              localStorage.getItem('token') ?
+              sessionStorage.getItem('token') ?
                 <div>
                   <button className={styles.buttons} style={{paddingRight: "15px"}} onClick={() => {
-                    localStorage.removeItem('token');
+                    sessionStorage.removeItem('token');
                     window.location.replace('/');
                   }}>
                     Đăng xuất

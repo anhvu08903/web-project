@@ -19,29 +19,23 @@ import java.util.List;
 
 @Service
 public class AdminTripDTOServiceImpl implements AdminTripDTOService {
-    @Autowired
-    private CoachService coachService;
+    @Autowired private CoachService coachService;
 
-    @Autowired
-    private TripRepository tripRepository;
+    @Autowired private TripRepository tripRepository;
 
-    @Autowired
-    private SeatRepository seatRepository;
+    @Autowired private SeatRepository seatRepository;
 
-    @Autowired
-    private AdminService adminService;
+    @Autowired private AdminService adminService;
 
-    @Autowired
-    private SeatService seatService;
+    @Autowired private SeatService seatService;
 
-    @Autowired
-    private PickAddressRepository pickAddressRepository;
+    @Autowired private PickAddressRepository pickAddressRepository;
 
-    @Autowired
-    private ReturnAddressRepository returnAddressRepository;
+    @Autowired private ReturnAddressRepository returnAddressRepository;
 
-    @Autowired
-    private SeatLocationRepository seatLocationRepository;
+    @Autowired private SeatLocationRepository seatLocationRepository;
+
+    @Autowired private TicketRepository ticketRepository;
 
 
     @Override
@@ -49,15 +43,14 @@ public class AdminTripDTOServiceImpl implements AdminTripDTOService {
         List<AdminTripDTO> adminTripDTOS = new ArrayList<>();
         List<Trip> trips = tripRepository.findAll();
         for (Trip trip : trips) {
+
+
             // Làm cái gì đó với mỗi phần tử trong trips
-            AdminTripDTO adminTripDTO = new AdminTripDTO();
+            AdminTripDTO adminTripDTO= new AdminTripDTO();
             adminTripDTO.setTrip(trip);
             adminTripDTO.setAdmin(trip.getCoach().getAdmin());
-
-            Seat seat = seatRepository.findSeatByCoach_Licenseplate(trip.getCoach().getLicenseplate());
-//            adminTripDTO.setSeat(seatRepository.findSeatByCoach_Licenseplate(trip.getCoach().getLicenseplate()));
-
-            adminTripDTO.setSeat(seat);
+            Integer remainingSeat = trip.getCoach().getNumber();
+            trip.setRemainigSeat(remainingSeat-ticketRepository.findAllByStatus("1").size());            adminTripDTO.setSeat(seatRepository.findSeatByCoach_Licenseplate(trip.getCoach().getLicenseplate()));
             adminTripDTO.setPickAddress(pickAddressRepository.findAllByTrip(trip));
             adminTripDTO.setReturnAddress(returnAddressRepository.findAllByTrip(trip));
             adminTripDTO.setSeatLocation(seatLocationRepository.findSeatLocationByLocationid(adminTripDTO.getSeat().getSeatid()));
@@ -68,5 +61,20 @@ public class AdminTripDTOServiceImpl implements AdminTripDTOService {
         }
 
         return adminTripDTOS;
+    }
+
+    @Override
+    public AdminTripDTO getSeatInfoByTripId(Long id) {
+        AdminTripDTO adminTripDTO = new AdminTripDTO();
+        Trip trip = tripRepository.findByTripid(id);
+        adminTripDTO.setTrip(trip);
+        adminTripDTO.setAdmin(trip.getCoach().getAdmin());
+        Integer remainingSeat = trip.getCoach().getNumber();
+        adminTripDTO.setRemainingSeat(remainingSeat);
+        adminTripDTO.setSeat(seatRepository.findSeatByCoach_Licenseplate(trip.getCoach().getLicenseplate()));
+        adminTripDTO.setPickAddress(pickAddressRepository.findAllByTrip(trip));
+        adminTripDTO.setReturnAddress(returnAddressRepository.findAllByTrip(trip));
+        adminTripDTO.setSeatLocation(seatLocationRepository.findSeatLocationByLocationid(adminTripDTO.getSeat().getSeatid()));
+        return adminTripDTO;
     }
 }

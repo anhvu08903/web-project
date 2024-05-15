@@ -7,14 +7,19 @@ import com.example.projectwebbackend.repository.*;
 import com.example.projectwebbackend.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Console;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -81,6 +86,33 @@ public class AdminController {
 //        } else {
 //            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 //        }
+    }
+
+    @PostMapping("/uploadImage/{id}")
+    public ResponseEntity<String> uploadImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) throws IOException {
+        Optional<Admin> optionalAdmin = adminRepository.findById(id);
+        if (optionalAdmin.isPresent()) {
+            Admin admin = optionalAdmin.get();
+            admin.setAdminImage(file.getBytes());
+            adminRepository.save(admin);
+            return new ResponseEntity<>("Image uploaded successfully", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Admin not found", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{id}/image")
+    public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
+        Optional<Admin> optionalAdmin = adminRepository.findById(id);
+        if (optionalAdmin.isPresent()) {
+            Admin admin = optionalAdmin.get();
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + admin.getAdminname() + ".jpg\"")
+                    .body(admin.getAdminImage());
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
         //them tai khoan admin

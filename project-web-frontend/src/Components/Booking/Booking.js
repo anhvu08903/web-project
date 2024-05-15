@@ -237,10 +237,10 @@ const Booking = () => {
     setCurrentBookingPrice(booking.seat.price);
     // console.log(currentBookingPrice);
     setCurrentBooking(booking);
-    console.log(currentBooking);
     console.log(booking);
     console.log(id);
   };
+  console.log(currentBooking);
 
   const [showLocation, setShowLocation] = useState(null); //State quản lý div điểm đón điểm trả
   const handlePick = (event, booking, id) => {
@@ -289,6 +289,8 @@ const Booking = () => {
   const [pickid1, setPickId] = useState("");
   const [dropid, setDropId] = useState("");
 
+  const navigate = useNavigate(); // Use useNavigate hook
+
   async function postData() {
     try {
       for (let i = 0; i < currentBooking.pickAddress.length; i++) {
@@ -305,7 +307,7 @@ const Booking = () => {
           break;
         }
       }
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       // console.log(token);
       const headers = {
         Authorization: ` ${token}`,
@@ -329,6 +331,9 @@ const Booking = () => {
         { headers: headers }
       );
       console.log("Response:", response.data);
+      sessionStorage.setItem("booking", JSON.stringify(currentBooking));
+      // navigate("/rating", { state: { currentBooking } }); // Navigate to Rating with currentBooking
+
       return response.data;
     } catch (error) {
       console.error("Error:", error);
@@ -352,13 +357,13 @@ const Booking = () => {
               Hotline 24/7
               <span></span>
             </button>
-            {localStorage.getItem("token") ? (
+            {sessionStorage.getItem("token") ? (
               <div>
                 <button
                   className={styles.buttons}
                   style={{ paddingRight: "15px" }}
                   onClick={() => {
-                    localStorage.removeItem("token");
+                    sessionStorage.removeItem("token");
                     window.location.replace("/");
                   }}
                 >
@@ -532,6 +537,7 @@ const Booking = () => {
                             <div key={number}>
                               <input
                                 type="checkbox"
+                                disabled={`0`}
                                 id={`seat-${number}`}
                                 value={number}
                                 onClick={(event) => {

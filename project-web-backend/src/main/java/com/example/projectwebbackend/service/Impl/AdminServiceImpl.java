@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
+
 @Service
 public class AdminServiceImpl implements AdminService {
     @Autowired private AdminRepository adminRepository;
@@ -60,7 +62,8 @@ public class AdminServiceImpl implements AdminService {
         admin.setAdminphone(request.getAdminphone());
         admin.setAdminemail(request.getAdminemail());
         admin.setAdminaddress(request.getAdminaddress());
-
+        String token = generateRandomString(30);
+        admin.setToken(token);
         return adminRepository.save(admin);
 
     }
@@ -71,6 +74,8 @@ public class AdminServiceImpl implements AdminService {
             throw  new RuntimeException("Admin's not existed.");
         }
         if(!admin.getAdminpassword().equals(password)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        admin.setToken(generateRandomString(30));
+        adminRepository.save(admin);
         return ResponseEntity.ok(admin);
     }
 
@@ -82,5 +87,18 @@ public class AdminServiceImpl implements AdminService {
         admin.setAdminpassword(newpassword);
         adminRepository.save(admin);
         return ResponseEntity.status(HttpStatus.OK).body(admin);
+    }
+
+    public String generateRandomString(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder randomString = new StringBuilder();
+
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            randomString.append(characters.charAt(index));
+        }
+
+        return randomString.toString();
     }
 }

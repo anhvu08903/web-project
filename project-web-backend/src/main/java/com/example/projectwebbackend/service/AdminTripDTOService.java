@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface AdminTripDTOService {
     List<AdminTripDTO> getAllSeatInfo();
+
+    AdminTripDTO getSeatInfoByTripId(Long id);
 }
