@@ -537,6 +537,7 @@ const Booking = () => {
                             <div key={number}>
                               <input
                                 type="checkbox"
+                                disabled={`0`}
                                 id={`seat-${number}`}
                                 value={number}
                                 onClick={(event) => {
