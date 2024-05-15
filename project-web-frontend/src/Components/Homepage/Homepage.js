@@ -29,18 +29,27 @@ const Homepage = () => {
       });
   }, []);
 
+  const token = localStorage.getItem("token");
+  const [user, setUser] = useState({});
+
+  async function getUserInfo() {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/identity/users/tk/${token}`
+      );
+      const data = response.data;
+      setUser(data);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
   useEffect(() => {
-    axios
-      .get("api thong tin nguowif dungf", {
-        
-      })
-      .then((response) => {
-        console.log(response.data);
-        setProvinceOption(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching options:", error);
-      });
+    const fetchData = async () => {
+      await getUserInfo();
+    };
+    fetchData();
   }, []);
 
   const handleSwitch = () => {
