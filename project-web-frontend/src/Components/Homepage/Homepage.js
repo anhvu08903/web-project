@@ -29,6 +29,20 @@ const Homepage = () => {
       });
   }, []);
 
+  useEffect(() => {
+    axios
+      .get("api thong tin nguowif dungf", {
+        
+      })
+      .then((response) => {
+        console.log(response.data);
+        setProvinceOption(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching options:", error);
+      });
+  }, []);
+
   const handleSwitch = () => {
     setEndPointValue(startPointValue);
     setStartPointValue(endPointValue);
