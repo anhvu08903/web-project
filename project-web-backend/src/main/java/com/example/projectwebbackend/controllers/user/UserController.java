@@ -35,7 +35,8 @@ public class UserController {
         return userService.updatePassword(account, newpassword, renewpassword);
     }
     @PostMapping("/binhluan")
-    public ResponseEntity<Comment> createComment(@RequestBody @Valid UserCommentationRequest request){
+    public ResponseEntity<Comment> createComment(@RequestBody @Valid Comment request){
+        //   public ResponseEntity<Comment> createComment(@RequestBody @Valid UserCommentationRequest request){
         return userService.createComment(request);
     }
 
@@ -98,5 +99,9 @@ public class UserController {
     String deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
         return "User has been deleted";
+    }
+    @GetMapping("/tk/{token}")
+    public User getUserByToken(@PathVariable String token){
+        return userService.getUserbyToken(token);
     }
 }

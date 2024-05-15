@@ -11,4 +11,5 @@ public interface PickAddressRepository extends CrudRepository<PickAddress, Long>
 
     PickAddress findAllByPickid(Long id);
     List<PickAddress> findAllByTrip(Trip trip);
+    PickAddress findByPickname(String name);
 }

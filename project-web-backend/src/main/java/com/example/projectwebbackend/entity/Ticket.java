@@ -2,6 +2,7 @@ package com.example.projectwebbackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,9 +26,8 @@ public class Ticket {
     @JoinColumn(name = "MaChuyenXe", unique = false)
     private Trip trip;
 
-    @OneToMany
-    @JsonBackReference
-    @JoinColumn(name = "MaGhe")
+    @OneToMany(mappedBy = "ticket")
+    @JsonManagedReference
     private List<Seat> seatList;
 
     @ManyToOne

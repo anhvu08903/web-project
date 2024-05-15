@@ -28,6 +28,19 @@ public class Seat {
     @JsonBackReference
     private SeatLocation seatLocation;
 
+    @ManyToOne
+    @JoinColumn(name = "MaVeXe")
+    @JsonBackReference
+    private Ticket ticket;  // Add this line to establish the foreign key relationship
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+
     public Long getSeatid() {
         return seatid;
     }

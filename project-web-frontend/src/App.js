@@ -15,9 +15,9 @@ import Homepage from "./Components/Homepage/Homepage";
 import Payment from "./Components/Payment/Payment";
 import Coach from "./Components/Coach/Coach";
 
-
 import AdminLogin from "./Components/Login/AdminLogin";
 import AdminRegister from "./Components/Register/AdminRegister";
+import Rating from "./Components/Rating/Rating";
 
 // function App() {
 //   const [userState, setUserState] = useState({});
@@ -71,6 +71,7 @@ function App() {
           <Route path="/homepage" element={<Homepage />}></Route>
           <Route path="/payment" element={<Payment />}></Route>
           <Route path="/coach" element={<Coach />}></Route>
+          <Route path="/rating" element={<Rating />}></Route>
 
           <Route path="/" element={<Navigate replace to="/homepage" />}></Route>
         </Routes>
