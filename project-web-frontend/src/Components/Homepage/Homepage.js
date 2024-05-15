@@ -57,6 +57,35 @@ const Homepage = () => {
     setStartPointValue(endPointValue);
   };
 
+  // const addTrip = async () => {
+  //   console.log(tripInfo);
+  //   axios
+  //     .post("http://localhost:8080/identity/api/admin/add/trip", tripInfo)
+  //     .then((res) => {
+  //       alert("thanh cong ");
+  //     });
+
+  //   console.log(tripInfo);
+  //   setButtonPopup(false);
+  //   setTripInfo({
+  //     starttime: "",
+  //     endtime: "",
+
+  //     startprovince: {
+  //       pid: "",
+  //       pname: "",
+  //     },
+  //     endprovince: {
+  //       pid: "",
+  //       pname: "",
+  //     },
+  //     coach: {
+  //       licenseplate: "",
+  //     },
+  //   });
+  // };
+
+
   return (
     <div style={{ overflow: "hidden", height: "100vh" }}>
       <div className={styles.navbar}>
