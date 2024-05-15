@@ -22,8 +22,8 @@ const Coach = () => {
 
   const [carInfo, setCarInfo] = useState({
     licenseplate: "",
-    coachtype: "",
-    number: 0,
+    coachtype: "Xe 24 chỗ",
+    number: 24
   });
   const [car, setCar] = useState([]);
 
