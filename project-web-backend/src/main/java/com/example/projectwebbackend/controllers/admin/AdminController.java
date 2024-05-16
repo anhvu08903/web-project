@@ -320,6 +320,10 @@ public class AdminController {
     return (double) totalStars / numberOfRatings;
 }
 
+    @GetMapping("/token/{token}")
+    public Admin findAdmiByToken(@PathVariable String token){
+        return adminService.findAdminByToken(token);
+    }
 }
 
 
