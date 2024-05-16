@@ -3,6 +3,7 @@ import styles from "./Homepage.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import Enddate from "./Enddate";
 import axios from "axios";
+import Account from "./Account";
 
 
 const Homepage = () => {
@@ -44,6 +45,8 @@ const Homepage = () => {
       console.error("Error fetching data:", error);
     }
   }
+
+  console.log(user);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -103,14 +106,7 @@ const Homepage = () => {
             {
               sessionStorage.getItem('token') ?
                 <div>
-                  {/* <button className={styles.buttons} style={{paddingRight: "15px"}} onClick={() => {
-                    sessionStorage.removeItem('token');
-                    window.location.replace('/');
-                  }}>
-                    Đăng xuất
-                  
-                  </button>  */}
-                  
+                  <Account user={user}></Account>
                 </div> :
                 <Link to='/login'>
                   <button className={styles.buttons}>

@@ -11,6 +11,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { number } from "prop-types";
 import styles from "./Booking.module.css";
+import Account from "../Homepage/Account";
 
 const Booking = () => {
   // const token = sessionStorage.getItem('token');
@@ -391,6 +392,31 @@ const Booking = () => {
     }
   }
 
+  const token = sessionStorage.getItem("token");
+  const [user, setUser] = useState({});
+
+  async function getUserInfo() {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/identity/users/tk/${token}`
+      );
+      const data = response.data;
+      setUser(data);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  console.log(user);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getUserInfo();
+    };
+    fetchData();
+  }, []);
+
   return (
     <div>
       <div className={styles.navbar}>
@@ -405,20 +431,10 @@ const Booking = () => {
               Hotline 24/7
               <span></span>
             </button>
-            {sessionStorage.getItem("token") ? (
-              <div>
-                <button
-                  className={styles.buttons}
-                  style={{ paddingRight: "15px" }}
-                  onClick={() => {
-                    sessionStorage.removeItem("token");
-                    window.location.replace("/");
-                  }}
-                >
-                  Đăng xuất
-                </button>
-              </div>
-            ) : (
+            {sessionStorage.getItem("token") ? 
+                <div>
+                  <Account user={user}></Account>
+                </div> : (
               <Link to="/login">
                 <button className={styles.buttons}>
                   Đăng nhập
