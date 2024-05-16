@@ -76,9 +76,7 @@ public class AdminServiceImpl implements AdminService {
         if(!admin.getAdminpassword().equals(password)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         admin.setToken(generateRandomString(30));
         adminRepository.save(admin);
-        String token = generateRandomString(30);
-        admin.setToken(token);
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(admin.getToken());
     }
 
     public ResponseEntity<Admin> updatePassword(String account, String newpassword){
