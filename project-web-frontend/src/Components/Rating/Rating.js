@@ -9,7 +9,7 @@ import moment from "moment";
 const Ratings = () => {
   // const location = useLocation();
   // const { currentBooking } = location.state;
-  const currentBooking = JSON.parse(localStorage.getItem("booking"));
+  const currentBooking = JSON.parse(sessionStorage.getItem("booking"));
   console.log(currentBooking);
 
   const [inputValue, setInputValue] = useState("");
@@ -23,7 +23,7 @@ const Ratings = () => {
     setStar(newValue);
   };
 
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const [user, setUser] = useState({});
 
   async function getUserInfo() {

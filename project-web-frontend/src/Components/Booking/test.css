@@ -81,3 +81,10 @@
 .slider {
     width: 100%;
 }
+.showrating{
+    background-color: white;
+    width: 728px;
+    min-height: 200px;
+    display: inline;
+    margin-bottom: 30px;
+}

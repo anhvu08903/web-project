@@ -143,6 +143,8 @@ const Booking = () => {
   const filterByNhaXe = (list, selectedNhaXe) => {
     // Nếu không có nhà xe nào được chọn, trả về toàn bộ danh sách chuyến đi
     if (selectedNhaXe.length === 0) {
+
+      
       return list;
     } else {
       // Lọc danh sách chuyến đi sao cho nhà xe nằm trong danh sách nhà xe được chọn
@@ -240,7 +242,7 @@ const Booking = () => {
     console.log(booking);
     console.log(id);
   };
-  console.log(currentBooking);
+  // console.log(currentBooking);
 
   const [showLocation, setShowLocation] = useState(null); //State quản lý div điểm đón điểm trả
   const handlePick = (event, booking, id) => {
@@ -371,6 +373,23 @@ const Booking = () => {
 
     return isDisabled;
   };
+  const [showRating, setShowRating] = useState(null);
+  const handleShowRating = (id) => {
+    setShowRating(id);
+  };
+
+  const [comments, setComments] = useState([]);
+  async function getCommentById(adminid) {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/identity/api/admin/comment/${adminid}`
+      );
+      const data = response.data;
+      return data;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
 
   return (
     <div>
@@ -494,7 +513,7 @@ const Booking = () => {
                         : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Ic_keyboard_arrow_up_48px.svg/768px-Ic_keyboard_arrow_up_48px.svg.png"
                     }
                     alt="Toggle Image"
-                    onClick={handleClick3} // Sử dụng handleClick khi ảnh được click
+                    onClick={handleClick3}
                     className="arrow"
                     style={{ height: "25px", width: "25px" }}
                   />
@@ -563,6 +582,32 @@ const Booking = () => {
                         >
                           Chọn chuyến
                         </button>
+                        <button
+                          onClick={() => {
+                            handleShowRating(booking.trip.tripid);
+                            const fetchComment = async (adminid1) => {
+                              const comment1 = await getCommentById(adminid1);
+                              setComments(comment1);
+                            };
+                            fetchComment(booking.admin.adminid);
+                            console.log("comment: ", comments);
+                          }}
+                        >
+                          Xem đánh giá về nhà xe
+                        </button>
+                        {showRating === booking.trip.tripid && (
+                          <div className="showrating">
+                            <div>
+                              {comments.map((comment) => (
+                                <div key={comment.id}>
+                                  <li>Người dùng: {comment.user.name}</li>
+                                  <li>Bình luận: {comment.content}</li>
+                                  {/* Add more comment details if needed */}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                     {showPickSeat === booking.trip.tripid && (

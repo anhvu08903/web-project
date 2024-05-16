@@ -225,7 +225,7 @@ li {
     align-content: center;
 }
 
-input[type="radio"] {
+/* input[type="radio"] {
     position: absolute;
     opacity: 0;
     cursor: pointer;
@@ -239,7 +239,7 @@ input[type="radio"] {
     width: 25px;
     background-color: #eee;
     border-radius: 50%;
-}
+} */
 
 .radioContainer{
     display: flex;
