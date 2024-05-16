@@ -16,6 +16,8 @@ function convertToStandardDateFormat(datetimeLocal) {
 const Coach = () => {
   const coachName = "{Placeholder}";
 
+  const [adminInfo, setAdminInfo] = useState({});
+
   const [buttonPopup, setButtonPopup] = useState(false);
   const [carButtonPopup, setCarButtonPopup] = useState(false);
   const [options, setOptions] = useState([]);
@@ -47,6 +49,26 @@ const Coach = () => {
   const [trip, setTrip] = useState([]);
 
   const carTypeOptions = ["Xe 24 chỗ", "Xe 29 chỗ", "Xe 35 chỗ", "Xe 45 chỗ"];
+
+  async function getAdminInfo() {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/identity/api/admin/token/{token}`
+      );
+      const data = response.data;
+      setAdminInfo(data);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getAdminInfo();
+    };
+    fetchData();
+  }, []);
 
   useEffect(() => {
     axios

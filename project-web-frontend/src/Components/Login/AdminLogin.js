@@ -28,6 +28,7 @@ const AdminLogin = () => {
         .post("http://localhost:8080/identity/api/admin/signin", adminCredentials)
         .then((response) => {
           alert("Admin login successful");
+          
           // Redirect to admin dashboard or other admin-specific page
           navigate("/coach");
         })
