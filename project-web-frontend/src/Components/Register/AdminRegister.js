@@ -82,7 +82,7 @@ const AdminRegister = () => {
           navigate("/adminlogin");
         })
         .catch((error) => {
-          // console.error("Error:", error);
+          console.error("Error:", error);
           alert(error);
           // Handle error, for example, display error message
         });
