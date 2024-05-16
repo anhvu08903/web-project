@@ -13,13 +13,12 @@ import java.util.*;
 @Service
 
 public class VNPayService {
-    public String getPay() throws UnsupportedEncodingException{
+    public String getPay(long amount) throws UnsupportedEncodingException{
 
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
         String bankCode = "NCB";
-        long amount = 10000*100;
         String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
         String vnp_IpAddr = "127.0.0.1";
 
@@ -29,7 +28,7 @@ public class VNPayService {
         vnp_Params.put("vnp_Version", vnp_Version);
         vnp_Params.put("vnp_Command", vnp_Command);
         vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
-        vnp_Params.put("vnp_Amount", String.valueOf(amount));
+        vnp_Params.put("vnp_Amount", String.valueOf(amount*100));
         vnp_Params.put("vnp_CurrCode", "VND");
 
         vnp_Params.put("vnp_BankCode", bankCode);

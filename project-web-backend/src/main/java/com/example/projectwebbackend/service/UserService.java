@@ -168,12 +168,19 @@ public class UserService {
         if (trip == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         ticket.setTrip(trip);
+
+        ticket.setPickAddress(request.getPickAddress());
+        ticket.setReturnAddress(request.getReturnAddress());
+        //ticket.setSeatlocation(request.getSeatlocation());
+
+
         PickAddress pickAddress = pickAddressRepository.findByPickname(request.getPickAddress().getPickname());
         ReturnAddress returnAddress = returnAddressRepository
                 .findByReturnaddress(request.getReturnAddress().getReturnaddress());
         ticket.setPickAddress(pickAddress);
         ticket.setReturnAddress(returnAddress);
         ticket.setSeatlocation(request.getSeatlocation());
+
         String seatlocation = request.getSeatlocation();
         String status = request.getStatus();
         ticket.setStatus(status);

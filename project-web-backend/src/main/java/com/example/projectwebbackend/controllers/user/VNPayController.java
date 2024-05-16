@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.*;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin
 @RestController
 @RequestMapping("/users")
 public class VNPayController {
     @Autowired
     private VNPayService vnPayService;
-    @GetMapping("/vnpay")
-    public ResponseEntity<String> submitPayment() throws UnsupportedEncodingException {
-        String vnpayUrl = vnPayService.getPay();
+    @PostMapping("/vnpay/{amount}")
+    public ResponseEntity<String> submitPayment(@PathVariable long amount) throws UnsupportedEncodingException {
+        String vnpayUrl = vnPayService.getPay(amount);
         return ResponseEntity.ok(vnpayUrl);
     }
     @GetMapping("/vnpay-status")
