@@ -68,7 +68,7 @@ public class AdminServiceImpl implements AdminService {
 
     }
 
-    public ResponseEntity<Admin> signInAdmin(String account, String password){
+    public ResponseEntity<String> signInAdmin(String account, String password){
         Admin admin =  adminRepository.findAdminByAdminaccount(account);
         if(admin == null) {
             throw  new RuntimeException("Admin's not existed.");
@@ -76,7 +76,9 @@ public class AdminServiceImpl implements AdminService {
         if(!admin.getAdminpassword().equals(password)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         admin.setToken(generateRandomString(30));
         adminRepository.save(admin);
-        return ResponseEntity.ok(admin);
+        String token = generateRandomString(30);
+        admin.setToken(token);
+        return ResponseEntity.ok(token);
     }
 
     public ResponseEntity<Admin> updatePassword(String account, String newpassword){

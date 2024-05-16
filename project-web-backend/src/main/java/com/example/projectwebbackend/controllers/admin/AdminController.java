@@ -75,7 +75,7 @@ public class AdminController {
 
    // dang nhap
     @PostMapping("/signin")
-    public ResponseEntity<Admin> signinAdmin(@RequestBody @Valid AdminSignInRequest request){
+    public ResponseEntity<String> signinAdmin(@RequestBody @Valid AdminSignInRequest request){
         return adminService.signInAdmin(request.getAdminaccount(), request.getAdminpassword());
 //        String adminAccount = request.getAdminaccount();
 //        String adminPassword = request.getAdminpassword();
