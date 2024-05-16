@@ -21,13 +21,13 @@ public class AdminTripDTO {
 
 //    private List<Seat> seat;
 
-    private SeatLocation seatLocation;
+
 
     private List<PickAddress> pickAddress;
 
     private List<ReturnAddress> returnAddress;
 
-    private Integer remainingSeat;
+
 
 
 }

@@ -50,13 +50,14 @@ public class AdminTripDTOServiceImpl implements AdminTripDTOService {
             adminTripDTO.setTrip(trip);
             adminTripDTO.setAdmin(trip.getCoach().getAdmin());
             Integer remainingSeat = trip.getCoach().getNumber();
-            trip.setRemainigSeat(remainingSeat-ticketRepository.findAllByStatus("1").size());            adminTripDTO.setSeat(seatRepository.findSeatByCoach_Licenseplate(trip.getCoach().getLicenseplate()));
+            trip.setRemainingSeat(remainingSeat-ticketRepository.findAllByStatus("1").size());
+            adminTripDTO.setSeat(seatRepository.findSeatByCoach_Licenseplate(trip.getCoach().getLicenseplate()));
             adminTripDTO.setPickAddress(pickAddressRepository.findAllByTrip(trip));
             adminTripDTO.setReturnAddress(returnAddressRepository.findAllByTrip(trip));
-            adminTripDTO.setSeatLocation(seatLocationRepository.findSeatLocationByLocationid(adminTripDTO.getSeat().getSeatid()));
+//            adminTripDTO.setSeatLocation(seatLocationRepository.findSeatLocationByLocationid(adminTripDTO.getSeat().getSeatid()));
 
             adminTripDTOS.add(adminTripDTO);
-
+            tripRepository.save(trip);
 
         }
 
@@ -69,12 +70,11 @@ public class AdminTripDTOServiceImpl implements AdminTripDTOService {
         Trip trip = tripRepository.findByTripid(id);
         adminTripDTO.setTrip(trip);
         adminTripDTO.setAdmin(trip.getCoach().getAdmin());
-        Integer remainingSeat = trip.getCoach().getNumber();
-        adminTripDTO.setRemainingSeat(remainingSeat);
+
         adminTripDTO.setSeat(seatRepository.findSeatByCoach_Licenseplate(trip.getCoach().getLicenseplate()));
         adminTripDTO.setPickAddress(pickAddressRepository.findAllByTrip(trip));
         adminTripDTO.setReturnAddress(returnAddressRepository.findAllByTrip(trip));
-        adminTripDTO.setSeatLocation(seatLocationRepository.findSeatLocationByLocationid(adminTripDTO.getSeat().getSeatid()));
+//        adminTripDTO.setSeatLocation(seatLocationRepository.findSeatLocationByLocationid(adminTripDTO.getSeat().getSeatid()));
         return adminTripDTO;
     }
 }

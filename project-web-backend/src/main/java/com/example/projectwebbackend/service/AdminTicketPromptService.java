@@ -8,6 +8,8 @@ import java.util.List;
 public interface AdminTicketPromptService {
     List<Ticket> getAllTicket();
 
+    List<Ticket> getTicketByTripId(Long id);
+
     Void GrantTicket(Long id);
 
     Void DenyTicket(Long id);

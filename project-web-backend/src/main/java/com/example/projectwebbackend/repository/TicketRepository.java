@@ -2,6 +2,7 @@ package com.example.projectwebbackend.repository;
 
 import com.example.projectwebbackend.dto.Admin.AdminTicketPrompt;
 import com.example.projectwebbackend.entity.Ticket;
+import com.example.projectwebbackend.entity.Trip;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +16,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     Ticket findByTicketid(Long ticketid);
 
     List<Ticket> findAllByStatus(String status);
+
+    List<Ticket> findAllByTrip(Trip trip);
 //    List<AdminTicketPrompt> fi();
 
 }
