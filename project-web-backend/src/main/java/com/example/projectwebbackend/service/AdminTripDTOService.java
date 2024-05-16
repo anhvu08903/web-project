@@ -8,4 +8,6 @@ public interface AdminTripDTOService {
     List<AdminTripDTO> getAllSeatInfo();
 
     AdminTripDTO getSeatInfoByTripId(Long id);
+
+
 }

@@ -22,7 +22,7 @@ public class Trip {
     private Long tripid;
 
     @Column(name = "SoGheConLai")
-    private Integer remainigSeat;
+    private Integer remainingSeat;
 
     @Column(name = "ThoiGianDi")
     private Date starttime;

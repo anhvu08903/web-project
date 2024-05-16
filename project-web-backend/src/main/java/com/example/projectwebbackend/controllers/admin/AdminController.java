@@ -189,6 +189,17 @@ public class AdminController {
     public List<Ticket> getAllTicket(){
             return adminTicketPromptService.getAllTicket();
     }
+
+    @GetMapping("/ticket/{id}")
+    public List<Ticket> getTicketByTripId(@PathVariable Long id){
+        return adminTicketPromptService.getTicketByTripId(id);
+    }
+
+    @GetMapping("tripseat/{id}")
+    public AdminTripDTO getTripSeatByTripId(@PathVariable Long id){
+        AdminTripDTO adminTripDTO = adminTripDTOService.getSeatInfoByTripId(id);
+        return  adminTripDTOService.getSeatInfoByTripId(id);
+    }
     // chap nhan yeu cau dat ve
     @PostMapping("ticket/grant/{id}")
     public void grantTicket(@PathVariable Long  id){
@@ -309,6 +320,10 @@ public class AdminController {
     return (double) totalStars / numberOfRatings;
 }
 
+    @GetMapping("/token/{token}")
+    public Admin findAdmiByToken(@PathVariable String token){
+        return adminService.findAdminByToken(token);
+    }
 }
 
 

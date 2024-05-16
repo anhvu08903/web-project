@@ -101,4 +101,9 @@ public class AdminServiceImpl implements AdminService {
 
         return randomString.toString();
     }
+
+    @Override
+    public Admin findAdminByToken(String token) {
+        return adminRepository.findAdminByToken(token);
+    }
 }

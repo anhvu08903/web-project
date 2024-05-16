@@ -10,4 +10,6 @@ public interface AdminRepository extends CrudRepository<Admin, Long> {
 
     Admin findAdminByAdminaccount(String admin);
     Admin findAdminByAdminid(Long id);
+    Admin findAdminByToken(String token);
+
 }

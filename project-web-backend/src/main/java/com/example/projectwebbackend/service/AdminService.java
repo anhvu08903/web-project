@@ -27,4 +27,5 @@ public interface AdminService {
     ResponseEntity<Admin> signInAdmin(String account, String password);
     ResponseEntity<Admin> updatePassword(String account, String newpassword);
     String generateRandomString(int length);
+    Admin findAdminByToken(String token);
 }

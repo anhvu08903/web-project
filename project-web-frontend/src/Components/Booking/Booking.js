@@ -342,6 +342,35 @@ const Booking = () => {
   }
 
   const [seat, setSeat] = useState("");
+  const [tickets, setTicket] = useState([]);
+
+  async function getTicketbyTripid(tripid) {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/identity/api/admin/ticket/${tripid}`
+      );
+      const data = response.data;
+      return data;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+  const handledDisable = (index) => {
+    let isDisabled = false;
+
+    tickets.forEach((ticket) => {
+      if (parseInt(ticket.seatlocation) === index) {
+        if (parseInt(ticket.status) === 1) {
+          isDisabled = true;
+        }
+      }
+      // These console.log statements are now reachable
+      // console.log(ticket.seatlocation);
+      // console.log(ticket.status);
+    });
+
+    return isDisabled;
+  };
 
   return (
     <div>
@@ -516,13 +545,21 @@ const Booking = () => {
                         <br />
                         <button
                           className="button"
-                          onClick={(event) =>
+                          onClick={(event) => {
                             handleBookTicket(
                               event,
                               booking,
                               booking.trip.tripid
-                            )
-                          }
+                            );
+                            const fetchTicket = async (tripid1) => {
+                              const ticket1 = await getTicketbyTripid(tripid1);
+                              setTicket(ticket1);
+                              // console.log(tickets);
+                            };
+
+                            fetchTicket(booking.trip.tripid);
+                            // console.log("vé xe:", tickets);
+                          }}
                         >
                           Chọn chuyến
                         </button>
@@ -531,13 +568,13 @@ const Booking = () => {
                     {showPickSeat === booking.trip.tripid && (
                       <div>
                         <div className="show1">
-                          <p>Còn{booking.trip.coach.number} chỗ</p>
+                          <p>Còn{booking.trip.remainingSeat} chỗ</p>
                           <p>Chọn ghế:</p>
                           {renderSeatNumbers(booking).map((number) => (
                             <div key={number}>
                               <input
                                 type="checkbox"
-                                disabled={`0`}
+                                disabled={handledDisable(number)}
                                 id={`seat-${number}`}
                                 value={number}
                                 onClick={(event) => {
