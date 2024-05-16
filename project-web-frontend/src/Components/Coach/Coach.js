@@ -6,6 +6,7 @@ import Car from "./Car";
 import TripForm from "./TripForm";
 import CarForm from "./CarForm";
 import axios from "axios";
+import AdminAccount from "./AdminAccount";
 
 function convertToStandardDateFormat(datetimeLocal) {
   var standardDate = `${datetimeLocal}:00`;
@@ -14,7 +15,6 @@ function convertToStandardDateFormat(datetimeLocal) {
 }
 
 const Coach = () => {
-  const coachName = "{Placeholder}";
 
   const [adminInfo, setAdminInfo] = useState({});
 
@@ -50,14 +50,17 @@ const Coach = () => {
 
   const carTypeOptions = ["Xe 24 chỗ", "Xe 29 chỗ", "Xe 35 chỗ", "Xe 45 chỗ"];
 
+  const token = sessionStorage.getItem("token");
+
   async function getAdminInfo() {
     try {
       const response = await axios.get(
-        `http://localhost:8080/identity/api/admin/token/{token}`
+        `http://localhost:8080/identity/api/admin/token/${token}`
       );
       const data = response.data;
-      setAdminInfo(data);
       console.log(data);
+      setAdminInfo(data);
+
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -69,6 +72,8 @@ const Coach = () => {
     };
     fetchData();
   }, []);
+
+  console.log(adminInfo);
 
   useEffect(() => {
     axios
@@ -482,24 +487,31 @@ const Coach = () => {
       <div className={styles.navbar}>
         <div className={styles.headerLeft}></div>
         <ul className={styles.headerRight}>
-          <div style={{ display: "flex", flexDirection: "column" }}>
+          {/* <div style={{ display: "flex", flexDirection: "column" }}>
             <li>Bạn đang đăng nhập dưới tư cách</li>
             <li style={{ fontSize: "16px", color: "#FFD333" }}>
               NHÀ XE {coachName}
             </li>
-          </div>
+          </div> */}
           <div className={styles.signInButton}>
             <button className={styles.buttons}>
               <i className="material-icons-round">phone</i>
               Hotline 24/7
               <span></span>
             </button>
-            <Link to="/homepage">
-              <button className={styles.buttons}>
+
+              {/* <button className={styles.buttons} onClick={() => {
+                sessionStorage.removeItem('token');
+                window.location.replace('/');
+                }}>
                 Đăng xuất
                 <span></span>
-              </button>
-            </Link>
+              </button> */}
+
+              <div>
+                <AdminAccount adminInfo={adminInfo}></AdminAccount>
+              </div>
+
           </div>
         </ul>
       </div>
