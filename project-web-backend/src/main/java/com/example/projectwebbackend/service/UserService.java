@@ -230,6 +230,12 @@ public class UserService {
         return ResponseEntity.status(HttpStatus.OK).body("don thanh toan hien thi thanh cong");
     }
 
+    public ResponseEntity<?> changeStatus(UserPaymentRequest request) {
+        Ticket ticket = ticketRepository.findByTicketid(request.getTicketid());
+        ticket.setStatus("1");
+        return ResponseEntity.ok("Ve da duoc dat");
+    }
+
     public ResponseEntity<List<Payment>> getAllTicketBookings(Long id) {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
