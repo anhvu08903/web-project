@@ -1,9 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Payment.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Account from "../Homepage/Account";
 
 const Payment = () => {
+
+  const [user, setUser] = useState({});
+
+  async function getUserInfo() {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/identity/users/tk/${token}`
+      );
+      const data = response.data;
+      setUser(data);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  console.log(user);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getUserInfo();
+    };
+    fetchData();
+  }, []);
+
+  const navigate = useNavigate();
+
+  const booking = JSON.parse(sessionStorage.getItem('booking'));
+
+  const ticketID = booking.seat.seatid;
 
   const [customerInfo, setCustomerInfo] = useState({
     name: "",
@@ -12,7 +43,9 @@ const Payment = () => {
   });
 
   const paymentButtonOnClick = () =>{
-    sendCustomerInfo();
+    sendTicketID();
+    sendVNPAY();
+
   }
 
   const handleChange = (e) => {
@@ -36,23 +69,29 @@ const Payment = () => {
     console.log(customerInfo);
   };
 
+  const token = sessionStorage.getItem('token');
 
-  const sendCustomerInfo = async () => {
+  const sendTicketID = async () => {
     axios
-      .post("url post thong tin nguoi dat ve", customerInfo)
+      .post(`http://localhost:8080/identity/users/thanhtoan/${token}`, ticketID)
       .then((res) => {
         alert("thanh cong ");
       });
-
-    console.log(customerInfo);
-    setCustomerInfo({
-      name: "",
-      phonenumber: "",
-      email: ""
-    });
+    console.log(ticketID);
   };
 
+  const price = booking.seat.price;
 
+  const sendVNPAY = async () => {
+    axios
+      .post(`http://localhost:8080/identity/users/vnpay/${price}`)
+      .then((res) => {
+        alert("thanh cong ");
+        navigate("res");
+      });
+    console.log(price);
+      
+  };
 
   return (
     <div style={{}}>
@@ -66,12 +105,18 @@ const Payment = () => {
               Hotline 24/7
               <span></span>
             </button>
-            <Link to="/login">
-              <button className={styles.buttons}>
-                Đăng nhập
-                <span></span>
-              </button>
-            </Link>
+            {
+              sessionStorage.getItem('token') ?
+                <div>
+                  <Account user={user}></Account>
+                </div> :
+                <Link to='/login'>
+                  <button className={styles.buttons}>
+                    Đăng nhập
+                    <span></span>
+                  </button>
+                </Link>
+            }
           </div>
         </ul>
       </div>
