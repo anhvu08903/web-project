@@ -62,16 +62,14 @@ public class UserController {
         return userService.bookTicket(request);
     }
 
-    @PostMapping("/thanhtoan")
-    public ResponseEntity<String> payBill(HttpServletRequest httpServletRequest, @RequestBody UserPaymentRequest request) {
-        String authorizationHeader = httpServletRequest.getHeader("Authorization");
-        if (authorizationHeader != null) {
-            String token = authorizationHeader.substring(0);
+    @PostMapping("/thanhtoan/{token}")
+    public ResponseEntity<String> payBill(@RequestBody UserPaymentRequest request, @PathVariable String token) {
                 return userService.payBill(token, request);
-            } else {
-                // Token không hợp lệ, trả về lỗi 401 Unauthorized
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token not found or invalid");
-            }
+    }
+
+    @PostMapping("/datlaitrangthaighe")
+    public ResponseEntity<?> setStatus (UserPaymentRequest request) {
+        return userService.changeStatus(request);
     }
 
 
