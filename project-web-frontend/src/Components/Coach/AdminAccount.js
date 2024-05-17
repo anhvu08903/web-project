@@ -24,23 +24,27 @@ const AdminAccount = (props) => {
                 <label className={styles.switch}>
                     <input type="checkbox" className={styles.sliderInput} onChange={() => setOpen(!open)}/>
                     <span className={`${styles.slider} ${styles.round}`} style={{display: "flex", alignItems: "center"}}>
-                        <div className={styles.sliderName}>{adminInfo.name}</div>
+                        <div className={styles.sliderName}>{adminInfo.adminname}</div>
                     </span>
                 </label>
             </div>
 
             <div className={`${styles.dropdownMenu} ${open? styles.active : styles.inactive}`}>
                 <div className={styles.userInfoContainer}>
-                    <div>Tên khách hàng</div>
-                    <div style={{fontWeight: "700"}}>{adminInfo.name}</div>
+                    <div>Tên nhà xe</div>
+                    <div style={{fontWeight: "700"}}>{adminInfo.adminname}</div>
                 </div>
                 <div className={styles.userInfoContainer}>
                     <div>Số điện thoại</div>
-                    <div style={{fontWeight: "700"}}>{adminInfo.phone}</div>
+                    <div style={{fontWeight: "700"}}>{adminInfo.adminphone}</div>
                 </div>
                 <div className={styles.userInfoContainer}>
                     <div>Email</div>
-                    <div style={{fontWeight: "700"}}>{adminInfo.email}</div>
+                    <div style={{fontWeight: "700"}}>{adminInfo.adminemail}</div>
+                </div>
+                <div className={styles.userInfoContainer}>
+                    <div>Địa chỉ</div>
+                    <div style={{fontWeight: "700"}}>{adminInfo.adminaddress}</div>
                 </div>
                 
                 <button className={styles.buttons} style={{backgroundColor: "rgb(255, 211, 51)", color: "black", width: "100%", display: "flex", justifyContent: "center"}} onClick={() => {
