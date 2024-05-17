@@ -211,17 +211,16 @@ public class UserService {
         if (user == null) {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body("Khong tim thay nguoi dung");
         }
-
         Ticket ticket = ticketRepository.findByTicketid(request.getTicketid());
+
+        Trip trip=tripRepository.findByTripid(ticket.getTrip().getTripid());
+        Seat seat = seatRepository.findSeatByCoach_Licenseplate(trip.getCoach().getLicenseplate());
+        totalbill=seat.getPrice();
         if (ticket == null) {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body("Khong tim thay ve");
         }
 
-        List<Seat> seats = ticket.getSeatList();
-        for (Seat seat : seats) {
-            Seat seat1 = seatRepository.findBySeatid(seat.getSeatid());
-            totalbill += seat1.getPrice();
-        }
+
         payment.setUser(user);
         payment.setTicket(ticket);
         payment.setTotalprice(totalbill);
@@ -231,6 +230,7 @@ public class UserService {
     }
 
     public ResponseEntity<?> changeStatus(UserPaymentRequest request) {
+
         Ticket ticket = ticketRepository.findByTicketid(request.getTicketid());
         ticket.setStatus("1");
         return ResponseEntity.ok("Ve da duoc dat");

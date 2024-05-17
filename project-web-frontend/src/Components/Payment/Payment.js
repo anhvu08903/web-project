@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Payment.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, json, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Account from "../Homepage/Account";
 
@@ -31,15 +31,31 @@ const Payment = () => {
 
   const navigate = useNavigate();
 
+  const ticket = JSON.parse(sessionStorage.getItem("ticket"));
+
+  const ticketID = parseInt(ticket[ticket.length - 1].ticketid);
+
   const booking = JSON.parse(sessionStorage.getItem("booking"));
 
-  const ticketID = booking.seat.seatid;
+  // const ticketID = ticket[ticket.length-1].
 
   const [customerInfo, setCustomerInfo] = useState({
     name: "",
     phonenumber: "",
     email: "",
   });
+  const sendTicketID = async () => {
+    const response = await axios
+      .post(`http://localhost:8080/identity/users/thanhtoan/${token}`, {
+        ticketid: ticketID,
+      })
+      .then((res) => {
+        alert("thanh cong ");
+        console.log(res);
+      });
+    console.log(ticketID);
+    return response;
+  };
 
   const paymentButtonOnClick = () => {
     sendTicketID();
@@ -69,15 +85,6 @@ const Payment = () => {
 
   const token = sessionStorage.getItem("token");
 
-  const sendTicketID = async () => {
-    axios
-      .post(`http://localhost:8080/identity/users/thanhtoan/${token}`, ticketID)
-      .then((res) => {
-        alert("thanh cong ");
-      });
-    console.log(ticketID);
-  };
-
   const price = booking.seat.price;
 
   const sendVNPAY = async () => {
@@ -85,7 +92,9 @@ const Payment = () => {
       .post(`http://localhost:8080/identity/users/vnpay/${price}`)
       .then((res) => {
         alert("thanh cong ");
-        navigate("res");
+        const data = res.data;
+        window.location.href = data;
+        // navigate(data);
       });
     console.log(price);
   };

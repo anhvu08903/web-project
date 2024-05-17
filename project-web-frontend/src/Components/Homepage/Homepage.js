@@ -5,14 +5,12 @@ import Enddate from "./Enddate";
 import axios from "axios";
 import Account from "./Account";
 
-
 const Homepage = () => {
   // const navigate = useNavigate();
 
   // const handleLoginButtonClick = () => {
   //   navigate('/login');
   // };
-  
 
   const [startPointValue, setStartPointValue] = useState();
   const [endPointValue, setEndPointValue] = useState();
@@ -88,6 +86,12 @@ const Homepage = () => {
   //   });
   // };
 
+  // const handlePost = async () => {
+  //   await filter1 = axios.post("http://localhost:8080/identity/api/admin/trip/filter", {
+  //     "tenTinhDen":"",
+  //     "tenTinhDi": ""
+  //   });
+  // };
 
   return (
     <div style={{ overflow: "hidden", height: "100vh" }}>
@@ -103,18 +107,18 @@ const Homepage = () => {
               Hotline 24/7
               <span></span>
             </button>
-            {
-              sessionStorage.getItem('token') ?
-                <div>
-                  <Account user={user}></Account>
-                </div> :
-                <Link to='/login'>
-                  <button className={styles.buttons}>
-                    Đăng nhập
-                    <span></span>
-                  </button>
-                </Link>
-            }
+            {sessionStorage.getItem("token") ? (
+              <div>
+                <Account user={user}></Account>
+              </div>
+            ) : (
+              <Link to="/login">
+                <button className={styles.buttons}>
+                  Đăng nhập
+                  <span></span>
+                </button>
+              </Link>
+            )}
           </div>
         </ul>
       </div>
@@ -153,10 +157,10 @@ const Homepage = () => {
                       onChange={(e) => setStartPointValue(e.target.value)}
                     >
                       {provinceOption.map((option) => (
-                      <option key={option.pid} value={option.pname}>
-                        {option.pname}
-                      </option>
-                    ))}
+                        <option key={option.pid} value={option.pname}>
+                          {option.pname}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -174,13 +178,15 @@ const Homepage = () => {
                     <select
                       className={styles.inputPoint}
                       value={endPointValue}
-                      onChange={(e) => setEndPointValue(e.target.value)}
+                      onChange={(e) => {
+                        setEndPointValue(e.target.value);
+                      }}
                     >
                       {provinceOption.map((option) => (
-                      <option key={option.pid} value={option.pname}>
-                        {option.pname}
-                      </option>
-                    ))}
+                        <option key={option.pid} value={option.pname}>
+                          {option.pname}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -195,10 +201,7 @@ const Homepage = () => {
                   </div>
                   <div className={styles.inputPointContainer}>
                     <label className={styles.titlePoint}>Ngày đi</label>
-                    <input
-                      className={styles.inputPoint}
-                      type="date"
-                    ></input>
+                    <input className={styles.inputPoint} type="date"></input>
                   </div>
                 </div>
               </div>
@@ -208,7 +211,13 @@ const Homepage = () => {
             </div>
             <div className={styles.searchButton}>
               <Link to="/booking" style={{ width: "100%" }}>
-                <button className={styles.buttons} id={styles.searchButton}>
+                <button
+                  className={styles.buttons}
+                  id={styles.searchButton}
+                  onClick={() => {
+                    // handlePost();
+                  }}
+                >
                   Tìm kiếm chuyến xe ngay
                   <span></span>
                 </button>

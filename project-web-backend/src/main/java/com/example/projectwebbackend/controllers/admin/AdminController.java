@@ -54,6 +54,7 @@ public class AdminController {
 
     @Autowired private CommentService commentService;
 
+    @Autowired private ProvinceRepository provinceRepository;
 
 
 
@@ -200,10 +201,20 @@ public class AdminController {
         AdminTripDTO adminTripDTO = adminTripDTOService.getSeatInfoByTripId(id);
         return  adminTripDTOService.getSeatInfoByTripId(id);
     }
+
+    @PostMapping("/trip/filter")
+    public List<AdminTripDTO> TripFilter(@RequestBody DualProvince dualProvince){
+        Province TinhDen = provinceRepository.findProvinceByPname(dualProvince.getTenTinhDen());
+        Province TinhDi = provinceRepository.findProvinceByPname(dualProvince.getTenTinhDi());
+        FilterTRip filterTRip = new FilterTRip(TinhDi, TinhDen);
+        if(filterTRip.getTinhDi()==null){
+            return adminTripDTOService.getAllSeatInfo();
+        }else return adminTripDTOService.filterTrip(filterTRip);
+    }
     // chap nhan yeu cau dat ve
     @PostMapping("ticket/grant/{id}")
-    public void grantTicket(@PathVariable Long  id){
-            adminTicketPromptService.GrantTicket(id);
+    public ResponseEntity<?> grantTicket(@PathVariable Long  id){
+          return  adminTicketPromptService.GrantTicket(id);
     }
 
     //tu choi yeu cau dat ve

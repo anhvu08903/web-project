@@ -13,12 +13,5 @@ import lombok.Setter;
 public class UserPaymentRequest {
     private Long ticketid;
 
-    public Long getTicketid() {
-        return ticketid;
-    }
-
-    public void setTicketid(Long ticketid) {
-        this.ticketid = ticketid;
-    }
 
 }

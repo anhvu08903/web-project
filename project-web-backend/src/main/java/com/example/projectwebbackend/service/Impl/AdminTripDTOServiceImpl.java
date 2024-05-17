@@ -1,6 +1,7 @@
 package com.example.projectwebbackend.service.Impl;
 
 import com.example.projectwebbackend.dto.Admin.AdminTripDTO;
+import com.example.projectwebbackend.dto.Admin.FilterTRip;
 import com.example.projectwebbackend.entity.Admin;
 import com.example.projectwebbackend.entity.Coach;
 import com.example.projectwebbackend.entity.Seat;
@@ -76,5 +77,32 @@ public class AdminTripDTOServiceImpl implements AdminTripDTOService {
         adminTripDTO.setReturnAddress(returnAddressRepository.findAllByTrip(trip));
 //        adminTripDTO.setSeatLocation(seatLocationRepository.findSeatLocationByLocationid(adminTripDTO.getSeat().getSeatid()));
         return adminTripDTO;
+    }
+
+    @Override
+    public List<AdminTripDTO> filterTrip(FilterTRip filterTRip) {
+        List<AdminTripDTO> adminTripDTOS = new ArrayList<>();
+        List<Trip> trips = tripRepository.findAllByStartprovinceAndEndprovince(filterTRip.getTinhDi(), filterTRip.getTinhDen());
+        for (Trip trip : trips) {
+
+
+            // Làm cái gì đó với mỗi phần tử trong trips
+            AdminTripDTO adminTripDTO= new AdminTripDTO();
+            adminTripDTO.setTrip(trip);
+            adminTripDTO.setAdmin(trip.getCoach().getAdmin());
+            Integer remainingSeat = trip.getCoach().getNumber();
+            Admin admin = trip.getCoach().getAdmin();
+            trip.setRemainingSeat(remainingSeat-ticketRepository.findAllByStatus("1").size());
+            adminTripDTO.setSeat(seatRepository.findSeatByCoach_Licenseplate(trip.getCoach().getLicenseplate()));
+            adminTripDTO.setPickAddress(pickAddressRepository.findAllByTrip(trip));
+            adminTripDTO.setReturnAddress(returnAddressRepository.findAllByTrip(trip));
+
+            adminTripDTO.setAdmin(admin);
+            adminTripDTOS.add(adminTripDTO);
+
+
+        }
+
+        return adminTripDTOS;
     }
 }
