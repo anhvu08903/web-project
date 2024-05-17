@@ -410,6 +410,10 @@ select{
     opacity: 0;
 }
 
+.adminSlider:before{
+    background-image: url('https://afamilycdn.com/150157425591193600/2022/2/17/16450720256641739894468-1645080500200-16450805005662136201462.jpg');
+}
+
 /* Tới đây thui */
   
 .dropdownMenu{

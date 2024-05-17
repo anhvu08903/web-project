@@ -23,7 +23,7 @@ const AdminAccount = (props) => {
             <div>
                 <label className={styles.switch}>
                     <input type="checkbox" className={styles.sliderInput} onChange={() => setOpen(!open)}/>
-                    <span className={`${styles.slider} ${styles.round}`} style={{display: "flex", alignItems: "center"}}>
+                    <span className={`${styles.slider} ${styles.round} ${styles.adminSlider}`} style={{display: "flex", alignItems: "center"}}>
                         <div className={styles.sliderName}>{adminInfo.adminname}</div>
                     </span>
                 </label>
