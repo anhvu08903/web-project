@@ -5,9 +5,6 @@ import axios from "axios";
 import Account from "../Homepage/Account";
 
 const Payment = () => {
-<<<<<<< HEAD
-=======
-
   const [user, setUser] = useState({});
 
   async function getUserInfo() {
@@ -34,28 +31,20 @@ const Payment = () => {
 
   const navigate = useNavigate();
 
-  const booking = JSON.parse(sessionStorage.getItem('booking'));
+  const booking = JSON.parse(sessionStorage.getItem("booking"));
 
   const ticketID = booking.seat.seatid;
 
->>>>>>> 77ea441f07188e3860492177091e78788a6684be
   const [customerInfo, setCustomerInfo] = useState({
     name: "",
     phonenumber: "",
     email: "",
   });
 
-<<<<<<< HEAD
   const paymentButtonOnClick = () => {
-    sendCustomerInfo();
-  };
-=======
-  const paymentButtonOnClick = () =>{
     sendTicketID();
     sendVNPAY();
-
-  }
->>>>>>> 77ea441f07188e3860492177091e78788a6684be
+  };
 
   const handleChange = (e) => {
     setCustomerInfo({ ...customerInfo, [e.target.name]: e.target.value });
@@ -77,29 +66,8 @@ const Payment = () => {
       });
     console.log(customerInfo);
   };
-<<<<<<< HEAD
-  const currentBooking = JSON.parse(sessionStorage.getItem("booking"));
-  const sendCustomerInfo = async () => {
-    axios
-      .post(
-        "http://localhost:8080/identity/users/thanhtoan",
-        currentBooking.seatid
-      )
-      .then((res) => {
-        alert("thanh cong ");
-      });
 
-    console.log(customerInfo);
-    setCustomerInfo({
-      name: "",
-      phonenumber: "",
-      email: "",
-    });
-  };
-
-=======
-
-  const token = sessionStorage.getItem('token');
+  const token = sessionStorage.getItem("token");
 
   const sendTicketID = async () => {
     axios
@@ -120,10 +88,8 @@ const Payment = () => {
         navigate("res");
       });
     console.log(price);
-      
   };
 
->>>>>>> 77ea441f07188e3860492177091e78788a6684be
   return (
     <div style={{}}>
       <div className={styles.navbar}>
@@ -136,18 +102,18 @@ const Payment = () => {
               Hotline 24/7
               <span></span>
             </button>
-            {
-              sessionStorage.getItem('token') ?
-                <div>
-                  <Account user={user}></Account>
-                </div> :
-                <Link to='/login'>
-                  <button className={styles.buttons}>
-                    Đăng nhập
-                    <span></span>
-                  </button>
-                </Link>
-            }
+            {sessionStorage.getItem("token") ? (
+              <div>
+                <Account user={user}></Account>
+              </div>
+            ) : (
+              <Link to="/login">
+                <button className={styles.buttons}>
+                  Đăng nhập
+                  <span></span>
+                </button>
+              </Link>
+            )}
           </div>
         </ul>
       </div>
