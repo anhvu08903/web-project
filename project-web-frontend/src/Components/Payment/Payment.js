@@ -1,18 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Payment.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Account from "../Homepage/Account";
 
 const Payment = () => {
+<<<<<<< HEAD
+=======
+
+  const [user, setUser] = useState({});
+
+  async function getUserInfo() {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/identity/users/tk/${token}`
+      );
+      const data = response.data;
+      setUser(data);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  console.log(user);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getUserInfo();
+    };
+    fetchData();
+  }, []);
+
+  const navigate = useNavigate();
+
+  const booking = JSON.parse(sessionStorage.getItem('booking'));
+
+  const ticketID = booking.seat.seatid;
+
+>>>>>>> 77ea441f07188e3860492177091e78788a6684be
   const [customerInfo, setCustomerInfo] = useState({
     name: "",
     phonenumber: "",
     email: "",
   });
 
+<<<<<<< HEAD
   const paymentButtonOnClick = () => {
     sendCustomerInfo();
   };
+=======
+  const paymentButtonOnClick = () =>{
+    sendTicketID();
+    sendVNPAY();
+
+  }
+>>>>>>> 77ea441f07188e3860492177091e78788a6684be
 
   const handleChange = (e) => {
     setCustomerInfo({ ...customerInfo, [e.target.name]: e.target.value });
@@ -34,6 +77,7 @@ const Payment = () => {
       });
     console.log(customerInfo);
   };
+<<<<<<< HEAD
   const currentBooking = JSON.parse(sessionStorage.getItem("booking"));
   const sendCustomerInfo = async () => {
     axios
@@ -53,6 +97,33 @@ const Payment = () => {
     });
   };
 
+=======
+
+  const token = sessionStorage.getItem('token');
+
+  const sendTicketID = async () => {
+    axios
+      .post(`http://localhost:8080/identity/users/thanhtoan/${token}`, ticketID)
+      .then((res) => {
+        alert("thanh cong ");
+      });
+    console.log(ticketID);
+  };
+
+  const price = booking.seat.price;
+
+  const sendVNPAY = async () => {
+    axios
+      .post(`http://localhost:8080/identity/users/vnpay/${price}`)
+      .then((res) => {
+        alert("thanh cong ");
+        navigate("res");
+      });
+    console.log(price);
+      
+  };
+
+>>>>>>> 77ea441f07188e3860492177091e78788a6684be
   return (
     <div style={{}}>
       <div className={styles.navbar}>
@@ -65,12 +136,18 @@ const Payment = () => {
               Hotline 24/7
               <span></span>
             </button>
-            <Link to="/login">
-              <button className={styles.buttons}>
-                Đăng nhập
-                <span></span>
-              </button>
-            </Link>
+            {
+              sessionStorage.getItem('token') ?
+                <div>
+                  <Account user={user}></Account>
+                </div> :
+                <Link to='/login'>
+                  <button className={styles.buttons}>
+                    Đăng nhập
+                    <span></span>
+                  </button>
+                </Link>
+            }
           </div>
         </ul>
       </div>
