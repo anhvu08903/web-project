@@ -3,6 +3,7 @@ package com.example.projectwebbackend.service.Impl;
 import com.example.projectwebbackend.entity.Admin;
 import com.example.projectwebbackend.entity.Coach;
 import com.example.projectwebbackend.repository.AdminCoachRepossitory;
+import com.example.projectwebbackend.repository.CoachRepository;
 import com.example.projectwebbackend.service.AdminService;
 import com.example.projectwebbackend.service.CoachService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ public class CoachServiceImpl implements CoachService {
 
     @Autowired private AdminCoachRepossitory adminCoachRepossitory;
     @Autowired private AdminService adminService;
+    @Autowired private CoachRepository coachRepository;
     @Override
     public List<Coach> getAllCoach() {
         return (List<Coach>) adminCoachRepossitory.findAll();
@@ -50,4 +52,30 @@ public class CoachServiceImpl implements CoachService {
     public Optional<Coach> findCoachById(Long id) {
         return adminCoachRepossitory.findById(id);
     }
+
+    @Override
+    public List<Coach> findCoachByToken(String token) {
+        Admin admin1 = new Admin();
+        admin1=adminService.findAdminByToken(token);
+
+        return (List<Coach>) coachRepository.findAllByAdmin(admin1);
+    }
+
+//    @Override
+//    public List<Coach> getCoachByAdinToken(String token) {
+//        return List.of();
+//    }
+
+    @Override
+    public List<Coach> getCoachByAdinToken(String token) {
+        return  coachRepository.findAllByAdmin_Token(token);
+    }
+
+//    @Override
+//    public List<Coach> findCoachByToken(String token) {
+//
+//        Admin admin = adminService.findAdminByToken(token);
+//        List<Coach> list =
+//        return (List<Coach>) coachRepository.findAllByAdmin_Token(token);
+//    }
 }

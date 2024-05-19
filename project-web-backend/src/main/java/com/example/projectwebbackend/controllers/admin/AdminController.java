@@ -336,7 +336,10 @@ public class AdminController {
         return adminService.findAdminByToken(token);
     }
 
-
+    @GetMapping("/tripseattoken/{token}")
+    public List<AdminTripDTO> getAllTripInfoByToken(@PathVariable String token){
+        return  adminTripDTOService.getALlSeatByAdminToken(token);
+    }
 }
 
 

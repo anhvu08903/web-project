@@ -12,4 +12,6 @@ public interface AdminTripDTOService {
 
     List<AdminTripDTO> filterTrip(FilterTRip filterTRip);
 
+    List<AdminTripDTO> getALlSeatByAdminToken(String token);
+
 }

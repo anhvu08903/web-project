@@ -41,6 +41,7 @@ public class Admin {
     @Column(name = "Token")
     private String token;
 
+    @JsonIgnore
     @Lob
     @Column(name = "HinhAnh", columnDefinition = "LONGBLOB")
     private byte[] adminImage;

@@ -105,4 +105,35 @@ public class AdminTripDTOServiceImpl implements AdminTripDTOService {
 
         return adminTripDTOS;
     }
+
+    @Override
+    public List<AdminTripDTO> getALlSeatByAdminToken(String token) {
+        List<Coach> coaches = coachService.findCoachByToken(token);
+        List<AdminTripDTO> adminTripDTOS = new ArrayList<>();
+        for (Coach coach : coaches) {
+            List<Trip> trips = tripRepository.findAllByCoach_Licenseplate(coach.getLicenseplate());
+            for (Trip trip : trips) {
+
+
+                // Làm cái gì đó với mỗi phần tử trong trips
+                AdminTripDTO adminTripDTO = new AdminTripDTO();
+                adminTripDTO.setTrip(trip);
+                adminTripDTO.setAdmin(trip.getCoach().getAdmin());
+                Integer remainingSeat = trip.getCoach().getNumber();
+                Admin admin = trip.getCoach().getAdmin();
+                trip.setRemainingSeat(remainingSeat - ticketRepository.findAllByStatus("1").size());
+                adminTripDTO.setSeat(seatRepository.findSeatByCoach_Licenseplate(trip.getCoach().getLicenseplate()));
+                adminTripDTO.setPickAddress(pickAddressRepository.findAllByTrip(trip));
+                adminTripDTO.setReturnAddress(returnAddressRepository.findAllByTrip(trip));
+//                adminTripDTO.setSeatLocation(seatLocationRepository.findSeatLocationByLocationid(adminTripDTO.getSeat().getSeatid()));
+
+                adminTripDTO.setAdmin(admin);
+                adminTripDTOS.add(adminTripDTO);
+
+
+            }
+        }
+
+        return adminTripDTOS;
+    }
 }
