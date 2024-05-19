@@ -20,7 +20,7 @@ const Homepage = () => {
     axios
       .get("http://localhost:8080/identity/api/admin/province")
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setProvinceOption(response.data);
       })
       .catch((error) => {
@@ -38,13 +38,13 @@ const Homepage = () => {
       );
       const data = response.data;
       setUser(data);
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   }
 
-  console.log(user);
+  // console.log(user);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -86,12 +86,26 @@ const Homepage = () => {
   //   });
   // };
 
-  // const handlePost = async () => {
-  //   await filter1 = axios.post("http://localhost:8080/identity/api/admin/trip/filter", {
-  //     "tenTinhDen":"",
-  //     "tenTinhDi": ""
-  //   });
-  // };
+  const handlePost = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/identity/api/admin/trip/filter",
+        {
+          tenTinhDen: endPointValue,
+          tenTinhDi: startPointValue,
+        }
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
+  useEffect(() => {
+    handlePost();
+    console.log(startPointValue);
+    console.log(endPointValue);
+  }, []);
 
   return (
     <div style={{ overflow: "hidden", height: "100vh" }}>
@@ -154,7 +168,10 @@ const Homepage = () => {
                     <select
                       className={styles.inputPoint}
                       value={startPointValue}
-                      onChange={(e) => setStartPointValue(e.target.value)}
+                      onChange={(e) => {
+                        setStartPointValue(e.target.value);
+                        console.log(startPointValue);
+                      }}
                     >
                       {provinceOption.map((option) => (
                         <option key={option.pid} value={option.pname}>

@@ -2,10 +2,7 @@ package com.example.projectwebbackend.service.Impl;
 
 import com.example.projectwebbackend.dto.Admin.AdminTripDTO;
 import com.example.projectwebbackend.dto.Admin.FilterTRip;
-import com.example.projectwebbackend.entity.Admin;
-import com.example.projectwebbackend.entity.Coach;
-import com.example.projectwebbackend.entity.Seat;
-import com.example.projectwebbackend.entity.Trip;
+import com.example.projectwebbackend.entity.*;
 import com.example.projectwebbackend.repository.*;
 import com.example.projectwebbackend.service.AdminService;
 import com.example.projectwebbackend.service.AdminTripDTOService;
@@ -51,7 +48,8 @@ public class AdminTripDTOServiceImpl implements AdminTripDTOService {
             adminTripDTO.setTrip(trip);
             adminTripDTO.setAdmin(trip.getCoach().getAdmin());
             Integer remainingSeat = trip.getCoach().getNumber();
-            trip.setRemainingSeat(remainingSeat-ticketRepository.findAllByStatus("1").size());
+            List<Ticket> tickets = ticketRepository.findAllByTripAndStatus(trip, "1");
+            trip.setRemainingSeat(remainingSeat - ticketRepository.findAllByTripAndStatus(trip, "1").size());
             adminTripDTO.setSeat(seatRepository.findSeatByCoach_Licenseplate(trip.getCoach().getLicenseplate()));
             adminTripDTO.setPickAddress(pickAddressRepository.findAllByTrip(trip));
             adminTripDTO.setReturnAddress(returnAddressRepository.findAllByTrip(trip));
@@ -92,7 +90,7 @@ public class AdminTripDTOServiceImpl implements AdminTripDTOService {
             adminTripDTO.setAdmin(trip.getCoach().getAdmin());
             Integer remainingSeat = trip.getCoach().getNumber();
             Admin admin = trip.getCoach().getAdmin();
-            trip.setRemainingSeat(remainingSeat-ticketRepository.findAllByStatus("1").size());
+            trip.setRemainingSeat(remainingSeat - ticketRepository.findAllByTripAndStatus(trip, "1").size());
             adminTripDTO.setSeat(seatRepository.findSeatByCoach_Licenseplate(trip.getCoach().getLicenseplate()));
             adminTripDTO.setPickAddress(pickAddressRepository.findAllByTrip(trip));
             adminTripDTO.setReturnAddress(returnAddressRepository.findAllByTrip(trip));
@@ -121,7 +119,8 @@ public class AdminTripDTOServiceImpl implements AdminTripDTOService {
                 adminTripDTO.setAdmin(trip.getCoach().getAdmin());
                 Integer remainingSeat = trip.getCoach().getNumber();
                 Admin admin = trip.getCoach().getAdmin();
-                trip.setRemainingSeat(remainingSeat - ticketRepository.findAllByStatus("1").size());
+//                trip.setRemainingSeat(remainingSeat);
+                trip.setRemainingSeat(remainingSeat - ticketRepository.findAllByTripAndStatus(trip, "1").size());
                 adminTripDTO.setSeat(seatRepository.findSeatByCoach_Licenseplate(trip.getCoach().getLicenseplate()));
                 adminTripDTO.setPickAddress(pickAddressRepository.findAllByTrip(trip));
                 adminTripDTO.setReturnAddress(returnAddressRepository.findAllByTrip(trip));

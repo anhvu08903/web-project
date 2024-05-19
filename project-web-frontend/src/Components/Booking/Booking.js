@@ -67,7 +67,7 @@ const Booking = () => {
   };
 
   const [timeVal, setValue1] = React.useState([0, 24]);
-  const [priceVal, setValue2] = React.useState([0, 100]);
+  const [priceVal, setValue2] = React.useState([0, 1000000]);
 
   const handleChange1 = (event, newValue) => {
     setValue1(newValue);
@@ -86,11 +86,25 @@ const Booking = () => {
     `http://localhost:8080/identity/api/admin/tripseat`
   );
   const [array, setArray] = useState([]); // Mảng các chuyến xe sau khi get từ backend
-
+  const [uniqueBookingNames, setUniqueBookings] = useState();
+  function getUniqueAdminNames(data) {
+    const seenAdmins = new Set();
+    return data.filter((entry) => {
+      const adminName = entry.admin.adminname;
+      if (seenAdmins.has(adminName)) {
+        return false;
+      } else {
+        seenAdmins.add(adminName);
+        return true;
+      }
+    });
+  }
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await booking1;
+        const uniqueBooking = getUniqueAdminNames(response.data); //hàm xử lý data đầu vào lọc ra danh sách các nhà xe không trùng
+        setUniqueBookings(uniqueBooking); // data hiển thị trong phần lọc
         setFilteredAndSortedBookings(response.data);
         setArray(response.data);
       } catch (error) {
@@ -291,6 +305,7 @@ const Booking = () => {
   const [dropid, setDropId] = useState("");
 
   const navigate = useNavigate(); // Use useNavigate hook
+  sessionStorage.setItem("booking", JSON.stringify(currentBooking));
 
   async function postData() {
     try {
@@ -332,7 +347,6 @@ const Booking = () => {
         { headers: headers }
       );
       console.log("Response:", response.data);
-      sessionStorage.setItem("booking", JSON.stringify(currentBooking));
       // navigate("/rating", { state: { currentBooking } }); // Navigate to Rating with currentBooking
 
       return response.data;
@@ -510,8 +524,8 @@ const Booking = () => {
                       getAriaLabel={() => "Price range"}
                       value={priceVal}
                       min={0}
-                      max={100}
-                      step={10}
+                      max={1000000}
+                      step={10000}
                       onChange={handleChange2}
                       valueLabelDisplay="auto"
                     />
@@ -534,7 +548,7 @@ const Booking = () => {
                   />
                 </div>
                 {showCheckbox &&
-                  bookings.map((booking) => (
+                  uniqueBookingNames.map((booking) => (
                     <div>
                       <label key={booking.trip.tripid}>
                         <input
@@ -570,7 +584,7 @@ const Booking = () => {
                       </div>
                       <div className="info">
                         <strong>Nhà xe:</strong> {booking.admin.adminname}{" "}
-                        <br /> 
+                        <br />
                         <strong>Giờ đi:</strong> {booking.trip.starttime} <br />
                         <strong>Giờ đón:</strong> {booking.trip.endtime} <br />
                         <strong>Giá vé:</strong> ${booking.seat.price} <br />

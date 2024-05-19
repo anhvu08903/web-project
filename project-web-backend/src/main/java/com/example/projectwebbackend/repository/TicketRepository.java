@@ -18,6 +18,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     List<Ticket> findAllByStatus(String status);
 
     List<Ticket> findAllByTrip(Trip trip);
-//    List<AdminTicketPrompt> fi();
+
+    List<Ticket> findAllByTripAndStatus(Trip trip, String status);
+    //    List<AdminTicketPrompt> fi();
 
 }
