@@ -77,7 +77,7 @@ const Coach = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/identity/api/coach")
+      .get(`http://localhost:8080/identity/api/coach/${token}`)
       .then((response) => {
         console.log(response.data);
         setCar(response.data);
@@ -89,7 +89,7 @@ const Coach = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/identity/api/admin/trip")
+      .get(`http://localhost:8080/identity/api/admin/tripseattoken/${token}`)
       .then((response) => {
         console.log(response.data);
         setTrip(response.data);

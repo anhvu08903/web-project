@@ -570,7 +570,7 @@ const Booking = () => {
                       </div>
                       <div className="info">
                         <strong>Nhà xe:</strong> {booking.admin.adminname}{" "}
-                        <br />
+                        <br /> 
                         <strong>Giờ đi:</strong> {booking.trip.starttime} <br />
                         <strong>Giờ đón:</strong> {booking.trip.endtime} <br />
                         <strong>Giá vé:</strong> ${booking.seat.price} <br />
