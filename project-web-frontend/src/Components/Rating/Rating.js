@@ -70,6 +70,26 @@ const Ratings = () => {
     }
   };
 
+  const ticket = JSON.parse(sessionStorage.getItem("ticket"));
+
+  const ticketID = parseInt(ticket[ticket.length - 1].ticketid);
+  console.log(ticketID);
+
+  const handleSetStatus = async () => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/identity/api/admin/ticket/grant/${ticketID}`,
+        {
+      
+        }
+      );
+      console.log("Data submitted successfully:", response.data);
+      console.log(ticketID);
+    } catch (error) {
+      console.error("There was an error submitting the data!", error);
+    }
+  };
+
   return (
     <div className="background">
       <div className="container1">
@@ -87,7 +107,14 @@ const Ratings = () => {
             onChange={handleRatingChange}
           />
         </Stack>
-        <button onClick={handleSubmit}>Submit</button>
+        <button
+          onClick={() => {
+            handleSubmit();
+            handleSetStatus();
+          }}
+        >
+          Submit
+        </button>
       </div>
     </div>
   );

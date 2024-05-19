@@ -13,5 +13,8 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
 
     Trip findByTripid(Long tripid);
 
+    List<Trip> findAllByStartprovinceAndEndprovince(Province StartProvince, Province EndProvince);
+
+    List<Trip> findAllByCoach_Licenseplate(String string);
 
 }

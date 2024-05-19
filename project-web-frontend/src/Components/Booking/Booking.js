@@ -144,8 +144,6 @@ const Booking = () => {
   const filterByNhaXe = (list, selectedNhaXe) => {
     // Nếu không có nhà xe nào được chọn, trả về toàn bộ danh sách chuyến đi
     if (selectedNhaXe.length === 0) {
-
-      
       return list;
     } else {
       // Lọc danh sách chuyến đi sao cho nhà xe nằm trong danh sách nhà xe được chọn
@@ -431,10 +429,11 @@ const Booking = () => {
               Hotline 24/7
               <span></span>
             </button>
-            {sessionStorage.getItem("token") ? 
-                <div>
-                  <Account user={user}></Account>
-                </div> : (
+            {sessionStorage.getItem("token") ? (
+              <div>
+                <Account user={user}></Account>
+              </div>
+            ) : (
               <Link to="/login">
                 <button className={styles.buttons}>
                   Đăng nhập
@@ -589,6 +588,10 @@ const Booking = () => {
                             const fetchTicket = async (tripid1) => {
                               const ticket1 = await getTicketbyTripid(tripid1);
                               setTicket(ticket1);
+                              sessionStorage.setItem(
+                                "ticket",
+                                JSON.stringify(ticket1)
+                              );
                               // console.log(tickets);
                             };
 

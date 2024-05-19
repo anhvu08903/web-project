@@ -20,6 +20,9 @@ public interface CoachService {
 
     Optional<Coach> findCoachById(Long id);
 
+    List<Coach> findCoachByToken(String token);
+
+    List<Coach> getCoachByAdinToken(String token);
 
 
 }

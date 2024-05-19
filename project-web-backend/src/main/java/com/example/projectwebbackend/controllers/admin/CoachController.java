@@ -67,5 +67,13 @@ public class CoachController {
 
     }
 
+    @PostMapping("/{token}")
+    public List<Coach> getCoachByToken(@PathVariable String token){
+        return coachService.findCoachByToken(token);
+    }
 
+    @PostMapping("/admin/{token}")
+    public List<Coach> getCoachByAdminToken(@PathVariable String token){
+        return coachService.findCoachByToken(token);
+    }
 }
