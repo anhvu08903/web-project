@@ -5,90 +5,90 @@ import axios from "axios";
 import Account from "../Homepage/Account";
 
 const Payment = () => {
-  // const [user, setUser] = useState({});
+  const [user, setUser] = useState({});
 
-  // async function getUserInfo() {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:8080/identity/users/tk/${token}`
-  //     );
-  //     const data = response.data;
-  //     setUser(data);
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   }
-  // }
+  async function getUserInfo() {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/identity/users/tk/${token}`
+      );
+      const data = response.data;
+      setUser(data);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
 
-  // console.log(user);
+  console.log(user);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await getUserInfo();
-  //   };
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      await getUserInfo();
+    };
+    fetchData();
+  }, []);
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  // const booking = JSON.parse(sessionStorage.getItem("booking"));
+  const booking = JSON.parse(sessionStorage.getItem("booking"));
 
-  // const ticketID = booking.seat.seatid;
+  const ticketID = booking.seat.seatid;
 
-  // const [customerInfo, setCustomerInfo] = useState({
-  //   name: "",
-  //   phonenumber: "",
-  //   email: "",
-  // });
+  const [customerInfo, setCustomerInfo] = useState({
+    name: "",
+    phonenumber: "",
+    email: "",
+  });
 
-  // const paymentButtonOnClick = () => {
-  //   sendTicketID();
-  //   sendVNPAY();
-  // };
+  const paymentButtonOnClick = () => {
+    sendTicketID();
+    sendVNPAY();
+  };
 
-  // const handleChange = (e) => {
-  //   setCustomerInfo({ ...customerInfo, [e.target.name]: e.target.value });
-  //   if (e.target.name == "name") {
-  //     setCustomerInfo({
-  //       ...customerInfo,
-  //       name: e.target.value,
-  //     });
-  //   }
-  //   if (e.target.name == "phonenumber")
-  //     setCustomerInfo({
-  //       ...customerInfo,
-  //       phonenumber: e.target.value,
-  //     });
-  //   if (e.target.name == "email")
-  //     setCustomerInfo({
-  //       ...customerInfo,
-  //       email: e.target.value,
-  //     });
-  //   console.log(customerInfo);
-  // };
+  const handleChange = (e) => {
+    setCustomerInfo({ ...customerInfo, [e.target.name]: e.target.value });
+    if (e.target.name == "name") {
+      setCustomerInfo({
+        ...customerInfo,
+        name: e.target.value,
+      });
+    }
+    if (e.target.name == "phonenumber")
+      setCustomerInfo({
+        ...customerInfo,
+        phonenumber: e.target.value,
+      });
+    if (e.target.name == "email")
+      setCustomerInfo({
+        ...customerInfo,
+        email: e.target.value,
+      });
+    console.log(customerInfo);
+  };
 
-  // const token = sessionStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
-  // const sendTicketID = async () => {
-  //   axios
-  //     .post(`http://localhost:8080/identity/users/thanhtoan/${token}`, ticketID)
-  //     .then((res) => {
-  //       alert("thanh cong ");
-  //     });
-  //   console.log(ticketID);
-  // };
+  const sendTicketID = async () => {
+    axios
+      .post(`http://localhost:8080/identity/users/thanhtoan/${token}`, ticketID)
+      .then((res) => {
+        alert("thanh cong ");
+      });
+    console.log(ticketID);
+  };
 
-  // const price = booking.seat.price;
+  const price = booking.seat.price;
 
-  // const sendVNPAY = async () => {
-  //   axios
-  //     .post(`http://localhost:8080/identity/users/vnpay/${price}`)
-  //     .then((res) => {
-  //       alert("thanh cong ");
-  //       navigate("res");
-  //     });
-  //   console.log(price);
-  // };
+  const sendVNPAY = async () => {
+    axios
+      .post(`http://localhost:8080/identity/users/vnpay/${price}`)
+      .then((res) => {
+        alert("thanh cong ");
+        navigate("res");
+      });
+    console.log(price);
+  };
 
   return (
     <div style={{height: "100vh"}}>
@@ -104,7 +104,7 @@ const Payment = () => {
             </button>
             {sessionStorage.getItem("token") ? (
               <div>
-                {/* <Account user={user}></Account> */}
+                <Account user={user}></Account>
               </div>
             ) : (
               <Link to="/login">
@@ -142,7 +142,7 @@ const Payment = () => {
                         <input
                           className={styles.input}
                           name="name"
-                          // onChange={handleChange}
+                          onChange={handleChange}
                         ></input>
                       </div>
                     </div>
@@ -162,7 +162,7 @@ const Payment = () => {
                         <input
                           className={styles.input}
                           name="phonenumber"
-                          // onChange={handleChange}
+                          onChange={handleChange}
                         ></input>
                       </div>
                     </div>
@@ -174,7 +174,7 @@ const Payment = () => {
                         <input
                           className={styles.input}
                           name="email"
-                          // onChange={handleChange}
+                          onChange={handleChange}
                         ></input>
                       </div>
                     </div>
@@ -219,7 +219,7 @@ const Payment = () => {
         <div>
           <button
             className={`${styles.confirmPaymentButton} ${styles.buttons}`}
-            // onClick={paymentButtonOnClick}
+            onClick={paymentButtonOnClick}
           >
             Tiếp tục đặt vé
             <span></span>
