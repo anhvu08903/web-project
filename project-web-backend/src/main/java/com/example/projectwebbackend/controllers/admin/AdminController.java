@@ -217,8 +217,8 @@ public class AdminController {
           return  adminTicketPromptService.GrantTicket(id);
     }
 
-    //tu choi yeu cau dat ve
-    @PostMapping("ticket/deny/{id}")
+    //tu
+            //    @PostMapping( choi yeu cau dat ve"ticket/deny/{id}")
     public void denyTicket(@PathVariable Long  id){
         adminTicketPromptService.DenyTicket(id);
     }
