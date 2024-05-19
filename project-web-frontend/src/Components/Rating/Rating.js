@@ -6,7 +6,7 @@ import Stack from "@mui/material/Stack";
 import { useLocation } from "react-router-dom";
 import moment from "moment";
 
-const Ratings = () => {
+const Ratings = () => { 
   // const location = useLocation();
   // const { currentBooking } = location.state;
   const currentBooking = JSON.parse(sessionStorage.getItem("booking"));
@@ -91,30 +91,48 @@ const Ratings = () => {
   };
 
   return (
-    <div className="background">
-      <div className="container1">
-        <input
-          type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-          placeholder="Enter your text here"
-        />
-        <Stack spacing={1}>
-          <Rating
-            name="half-rating"
-            defaultValue={2.5}
-            precision={0.5}
-            onChange={handleRatingChange}
-          />
-        </Stack>
+    <div className="wrapper">
+      <div className="background">
+        <div className="container1">
+          <div className="title">
+            Đánh giá chuyến xe
+          </div>
+
+          <div>
+            Bạn đánh giá trải nghiệm chuyến đi như thế nào?
+          </div>
+
+          <Stack spacing={1}>
+            <Rating
+              name="half-rating"
+              defaultValue={2.5}
+              precision={0.5}
+              onChange={handleRatingChange}
+              size="large"
+            />
+          </Stack>
+
+          <div className="inputContainer" style={{width: "100%"}}>
+            <input
+              className="input"
+              value={inputValue}
+              onChange={handleInputChange}
+              placeholder="Để lại bình luận ở đây nhé"
+            ></input>
+          </div>
+
+        </div>
+
         <button
-          onClick={() => {
-            handleSubmit();
-            handleSetStatus();
-          }}
-        >
-          Submit
-        </button>
+            className="buttons"
+            onClick={() => {
+              handleSubmit();
+              handleSetStatus();
+            }}
+          >
+            Gửi đánh giá
+            <span></span>
+          </button>
       </div>
     </div>
   );
