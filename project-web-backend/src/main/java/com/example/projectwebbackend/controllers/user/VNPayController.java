@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 @CrossOrigin
-@RestController
+@Controller
 @RequestMapping("/users")
 public class VNPayController {
     @Autowired
@@ -23,8 +24,9 @@ public class VNPayController {
         return ResponseEntity.ok(vnpayUrl);
     }
     @GetMapping("/vnpay-status")
-    public String GetMapping(HttpServletRequest request, Model model){
+    public String payStatus(HttpServletRequest request, Model model){
         int paymentStatus =vnPayService.orderReturn(request);
+        System.out.println(model);
 
         String orderInfo = request.getParameter("vnp_OrderInfo");
         String paymentTime = request.getParameter("vnp_PayDate");
