@@ -458,20 +458,21 @@ const Booking = () => {
           </div>
         </ul>
       </div>
-      <div className="background">
-        <div className="box left">
-          <div>
+
+      <div className={styles.main}>
+        <div className={styles.left}>
+          <div className={styles.sort}>
             <SortOptions
               sortOption={sortOption}
               handleSortChange={handleSortChange}
             />
           </div>
-          <div className="loc">
-            <h1>Lọc</h1>
+          <div className={styles.filter}>
+            <div className={styles.title}>Lọc</div>
             <div>
-              <div className="sliderOption">
-                <div className="sliderTag">
-                  <p>Giờ đi</p>
+              <div className={styles.sliderOption}>
+                <div className={styles.sliderTag}>
+                  <p className={styles.subtitle}>Giờ đi</p>
                   <img
                     src={
                       currentImage1 === "image1"
@@ -487,7 +488,7 @@ const Booking = () => {
                 <div>
                   {/* Hiển thị slider nếu showSlider1 là true */}
                   {showSlider1 && (
-                    <Box>
+                    <Box style={{paddingBottom: "15px"}}>
                       <Slider
                         className="slider"
                         getAriaLabel={() => "Time range"}
@@ -502,9 +503,9 @@ const Booking = () => {
                   )}
                 </div>
               </div>
-              <div className="sliderOption">
-                <div className="sliderTag">
-                  <p>Giá vé</p>
+              <div className={styles.sliderOption}>
+                <div className={styles.sliderTag}>
+                  <p className={styles.subtitle}>Giá vé</p>
                   <img
                     src={
                       currentImage2 === "image1"
@@ -518,7 +519,7 @@ const Booking = () => {
                   />
                 </div>
                 {showSlider2 && (
-                  <Box>
+                  <Box style={{paddingBottom: "15px"}}>
                     <Slider
                       className="slider"
                       getAriaLabel={() => "Price range"}
@@ -532,9 +533,9 @@ const Booking = () => {
                   </Box>
                 )}
               </div>
-              <div className="sliderOption">
-                <div className="sliderTag">
-                  <p>Nhà xe</p>
+              <div>
+                <div className={styles.sliderTag}>
+                  <p className={styles.subtitle}>Nhà xe</p>
                   <img
                     src={
                       currentImage3 === "image1"
@@ -549,7 +550,7 @@ const Booking = () => {
                 </div>
                 {showCheckbox &&
                   uniqueBookingNames.map((booking) => (
-                    <div>
+                    <div style={{paddingBottom: "15px"}}>
                       <label key={booking.trip.tripid}>
                         <input
                           type="checkbox"
@@ -568,7 +569,7 @@ const Booking = () => {
             </div>
           </div>
         </div>
-        <div className="box right">
+        <div className={styles.right}>
           <h1>Danh sách chuyến đi</h1>
           <div id="booking">
             <ul>
