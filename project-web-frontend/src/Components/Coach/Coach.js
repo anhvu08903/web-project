@@ -550,14 +550,14 @@ const Coach = () => {
                   >
                     Số chuyến đi hiện có{" "}
                     <div style={{ fontWeight: "bold" }}>
-                      {Trips.length} chuyến
+                      {trip.length} chuyến
                     </div>
                   </div>
                   <div
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
                     Số xe hiện có{" "}
-                    <div style={{ fontWeight: "bold" }}>{"placeholder"} xe</div>
+                    <div style={{ fontWeight: "bold" }}>{car.length} xe</div>
                   </div>
                 </div>
               </div>

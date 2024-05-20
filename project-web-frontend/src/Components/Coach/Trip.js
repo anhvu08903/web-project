@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Coach.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import TripForm from "./TripForm";
 import zIndex from "@mui/material/styles/zIndex";
+import axios from "axios";
 
 const Trip = (props) => {
   const { trip } = props;
@@ -52,6 +53,72 @@ const Trip = (props) => {
 
   const [buttonPopup, setButtonPopup] = useState(false);
 
+  function convertToStandardDateFormat(datetimeLocal) {
+    var standardDate = `${datetimeLocal}:00`;
+    console.log(standardDate);
+    return standardDate;
+  }
+
+  const [tripInfo, setTripInfo] = useState({
+    tripid: trip.trip.tripid,
+    starttime: trip.trip.starttime,
+    endtime: trip.trip.endtime,
+    startprovince: {
+      pid: trip.trip.startprovince.pid,
+      pname: trip.trip.startprovince.pname,
+    },
+    endprovince: {
+      pid: trip.trip.endprovince.pid,
+      pname: trip.trip.endprovince.pname,
+    },
+    coach: {
+      licenseplate: trip.trip.coach.licenseplate,
+    },
+  });
+
+  const handleChange = (e) => {
+    setTripInfo({ ...tripInfo, [e.target.name]: e.target.value });
+    if (e.target.name == "starttime") {
+      setTripInfo({
+        ...tripInfo,
+        starttime: convertToStandardDateFormat(e.target.value),
+      });
+      console.log(convertToStandardDateFormat(e.target.value));
+    }
+    if (e.target.name == "endtime")
+      setTripInfo({
+        ...tripInfo,
+        endtime: convertToStandardDateFormat(e.target.value),
+      });
+    console.log(tripInfo);
+  };
+
+
+  const addTrip = async () => {
+    console.log(tripInfo);
+    axios
+      .put("http://localhost:8080/identity/api/admin/edit/trip", tripInfo)
+      .then((res) => {
+        alert("thanh cong ");
+      });
+
+    console.log(tripInfo);
+    setButtonPopup(false);
+  };
+
+  const tripid = trip.trip.tripid;
+
+  const deleteTrip = async () => {
+    console.log(tripid);
+    axios
+      .delete(`http://localhost:8080/identity/api/admin/trip/delete/${tripid}`)
+      .then((res) => {
+        alert("thanh cong ");
+      });
+
+    setButtonPopup(false);
+  };
+
   return (
     <div className={styles.infoBox}>
       <TripForm trigger={buttonPopup} setTrigger={setButtonPopup}>
@@ -62,44 +129,44 @@ const Trip = (props) => {
               <div className={styles.places}>
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Nơi xuất phát*</label>
-                  <input className={styles.input}></input>
+                  <input className={styles.input} value={trip.trip.startprovince.pname}></input>
                 </div>
 
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Nơi đến*</label>
-                  <input className={styles.input}></input>
+                  <input className={styles.input} value={trip.trip.endprovince.pname}></input>
                 </div>
               </div>
 
-              <div className={styles.times}>
+              {/* <div className={styles.times}>
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Ngày đi*</label>
-                  <input className={styles.input}></input>
+                  <input className={styles.input} placeholder={tripStartDate}></input>
                 </div>
 
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Ngày về*</label>
-                  <input className={styles.input}></input>
+                  <input className={styles.input} placeholder={tripEndDate}></input>
                 </div>
-              </div>
+              </div> */}
 
               <div className={styles.types}>
                 <div className={styles.types} style={{ width: "100%" }}>
                   <div className={styles.inputContainer}>
                     <label className={styles.title}>Giờ đi*</label>
-                    <input className={styles.input}></input>
+                    <input className={styles.input} name="starttime" type="datetime-local" placeholder={trip.trip.starttime} onChange={handleChange}></input>
                   </div>
 
                   <div className={styles.inputContainer}>
                     <label className={styles.title}>Giờ về*</label>
-                    <input className={styles.input}></input>
+                    <input className={styles.input} name="endtime" type="datetime-local" placeholder={trip.trip.endtime} onChange={handleChange}></input>
                   </div>
                 </div>
 
-                <div className={styles.inputContainer}>
+                {/* <div className={styles.inputContainer}>
                   <label className={styles.title}>Loại xe*</label>
                   <input className={styles.input}></input>
-                </div>
+                </div> */}
               </div>
             </form>
 
@@ -109,8 +176,9 @@ const Trip = (props) => {
                   className={styles.buttons}
                   id={styles.searchButton}
                   style={{ backgroundColor: "#3E8ACC", color: "white" }}
+                  onClick={addTrip}
                 >
-                  Chỉnh sửa chuyến đi
+                  Chỉnh sửa
                   <span></span>
                 </button>
               </div>
@@ -120,6 +188,7 @@ const Trip = (props) => {
                   className={styles.buttons}
                   id={styles.searchButton}
                   style={{ backgroundColor: "#DB524B", color: "white" }}
+                  onClick={deleteTrip}
                 >
                   Xóa chuyến đi
                   <span></span>

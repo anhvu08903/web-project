@@ -766,6 +766,20 @@ const Booking = () => {
                             Xem bình luận
                           </button>
 
+                          {showRating === booking.trip.tripid && (
+                            <div className="showrating">
+                              <div>
+                                {comments.map((comment) => (
+                                  <div key={comment.id}>
+                                    <li>Người dùng: {comment.user.name}</li>
+                                    <li>Bình luận: {comment.content}</li>
+                                    {/* Add more comment details if needed */}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
                           <button
                             className={`${styles.buttons} ${styles.orderButton}`}
                             onClick={(event) => {
@@ -838,19 +852,7 @@ const Booking = () => {
                       >
                         Xem đánh giá về nhà xe
                       </div>
-                      {showRating === booking.trip.tripid && (
-                        <div className="showrating">
-                          <div>
-                            {comments.map((comment) => (
-                              <div key={comment.id}>
-                                <li>Người dùng: {comment.user.name}</li>
-                                <li>Bình luận: {comment.content}</li>
-                                {/* Add more comment details if needed */}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
+                      
                     </div>
                   </div>
                   {showPickSeat === booking.trip.tripid && (
