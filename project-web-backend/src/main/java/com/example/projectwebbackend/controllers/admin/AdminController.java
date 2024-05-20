@@ -165,7 +165,8 @@ public class AdminController {
     //them chuyen xe cho nha xe(id)
     @PostMapping("/add/trip")
     public ResponseEntity<Trip> addTrip( @RequestBody Trip trip){
-
+            Coach coach = coachRepository.findByLicenseplate(trip.getCoach().getLicenseplate());
+      trip.setRemainingSeat(coach.getNumber());
 //Coach coach = new Coach();
 //coach=coachRepository.findByLicenseplate(trip.getCoach().getLicenseplate());
 //trip.setCoach(coach);

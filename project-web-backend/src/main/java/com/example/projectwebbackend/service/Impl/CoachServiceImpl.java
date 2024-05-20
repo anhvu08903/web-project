@@ -3,6 +3,7 @@ package com.example.projectwebbackend.service.Impl;
 import com.example.projectwebbackend.entity.Admin;
 import com.example.projectwebbackend.entity.Coach;
 import com.example.projectwebbackend.repository.AdminCoachRepossitory;
+import com.example.projectwebbackend.repository.AdminRepository;
 import com.example.projectwebbackend.repository.CoachRepository;
 import com.example.projectwebbackend.service.AdminService;
 import com.example.projectwebbackend.service.CoachService;
@@ -18,6 +19,9 @@ public class CoachServiceImpl implements CoachService {
     @Autowired private AdminCoachRepossitory adminCoachRepossitory;
     @Autowired private AdminService adminService;
     @Autowired private CoachRepository coachRepository;
+    @Autowired
+    private AdminRepository adminRepository;
+
     @Override
     public List<Coach> getAllCoach() {
         return (List<Coach>) adminCoachRepossitory.findAll();
@@ -33,7 +37,9 @@ public class CoachServiceImpl implements CoachService {
     }
 
     @Override
-    public Coach addCoach(Coach coach) {
+    public Coach addCoach(Coach coach, String token) {
+        Admin admin = adminRepository.findAdminByToken(token);
+        coach.setAdmin(admin);
         return adminCoachRepossitory.save(coach);
     }
 
