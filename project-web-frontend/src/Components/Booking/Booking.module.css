@@ -156,3 +156,81 @@ li {
 .sliderOption{
     border-bottom: 1px solid #999;
 }
+
+.right{
+    padding: 40px 20px;
+}
+
+.tripList{
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    gap: 20px;
+    width: 700px;
+}
+
+.tripWrapper{
+    left: 0;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.tripContainer{
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    display: flex;
+    width: 100%;
+    gap: 20px;
+    border: 1px solid #e0e0e0;
+}
+
+.tripTitle{
+    font-size: 18px;
+    font-weight: 700;
+    color: #202020;
+    padding-bottom: 15px;
+    display: flex;
+}
+
+.tripInfo{
+    gap: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.tripRoute{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.contentTrip{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tripRouteInfo{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 86px;
+}
+
+.bookingImg{
+    height: 220px;
+    width: 220px;
+    border-radius: 8px;
+}
+
+.orderButton{
+    width: 120px !important;
+    display: flex;
+    justify-content: center !important;
+    align-content: center;
+    background-color: rgb(255, 211, 51);
+    color: black;
+    font-size: 16px;
+}
