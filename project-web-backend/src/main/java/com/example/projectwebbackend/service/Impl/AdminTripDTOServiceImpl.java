@@ -80,7 +80,14 @@ public class AdminTripDTOServiceImpl implements AdminTripDTOService {
     @Override
     public List<AdminTripDTO> filterTrip(FilterTRip filterTRip) {
         List<AdminTripDTO> adminTripDTOS = new ArrayList<>();
-        List<Trip> trips = tripRepository.findAllByStartprovinceAndEndprovince(filterTRip.getTinhDi(), filterTRip.getTinhDen());
+
+        List<Trip> tripss = tripRepository.findByDay(filterTRip.getDate());
+        List<Trip> trips = new ArrayList<>();
+              trips=  tripRepository.findAllByStartprovinceAndEndprovince(filterTRip.getTinhDi(), filterTRip.getTinhDen());
+        List<Trip> tripsss = trips;
+        if ((trips!=null && tripss !=null)){
+            trips.retainAll(tripss);
+        }
         for (Trip trip : trips) {
 
 
@@ -135,5 +142,10 @@ public class AdminTripDTOServiceImpl implements AdminTripDTOService {
         }
 
         return adminTripDTOS;
+    }
+
+    @Override
+    public List<Trip> getTripByDate(String date) {
+        return tripRepository.findByDay(date);
     }
 }

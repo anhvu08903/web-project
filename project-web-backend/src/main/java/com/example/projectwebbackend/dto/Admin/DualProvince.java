@@ -16,4 +16,6 @@ public class DualProvince {
 
     private String TenTinhDen;
 
+    private String Date;
+
 }
