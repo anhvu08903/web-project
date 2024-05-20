@@ -3,12 +3,14 @@ import axios from "axios";
 import "./index.css";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
 
-const Ratings = () => { 
+const Ratings = () => {
   // const location = useLocation();
   // const { currentBooking } = location.state;
+  const navigate = useNavigate();
+
   const currentBooking = JSON.parse(sessionStorage.getItem("booking"));
   console.log(currentBooking);
 
@@ -79,9 +81,7 @@ const Ratings = () => {
     try {
       const response = await axios.post(
         `http://localhost:8080/identity/api/admin/ticket/grant/${ticketID}`,
-        {
-      
-        }
+        {}
       );
       console.log("Data submitted successfully:", response.data);
       console.log(ticketID);
@@ -94,13 +94,9 @@ const Ratings = () => {
     <div className="wrapper">
       <div className="background">
         <div className="container1">
-          <div className="title">
-            Đánh giá chuyến xe
-          </div>
+          <div className="title">Đánh giá chuyến xe</div>
 
-          <div>
-            Bạn đánh giá trải nghiệm chuyến đi như thế nào?
-          </div>
+          <div>Bạn đánh giá trải nghiệm chuyến đi như thế nào?</div>
 
           <Stack spacing={1}>
             <Rating
@@ -112,7 +108,7 @@ const Ratings = () => {
             />
           </Stack>
 
-          <div className="inputContainer" style={{width: "100%"}}>
+          <div className="inputContainer" style={{ width: "100%" }}>
             <input
               className="input"
               value={inputValue}
@@ -120,19 +116,19 @@ const Ratings = () => {
               placeholder="Để lại bình luận ở đây nhé"
             ></input>
           </div>
-
         </div>
 
         <button
-            className="buttons"
-            onClick={() => {
-              handleSubmit();
-              handleSetStatus();
-            }}
-          >
-            Gửi đánh giá
-            <span></span>
-          </button>
+          className="buttons"
+          onClick={() => {
+            handleSubmit();
+            handleSetStatus();
+            navigate("/homepage");
+          }}
+        >
+          Gửi đánh giá
+          <span></span>
+        </button>
       </div>
     </div>
   );
