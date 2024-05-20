@@ -26,10 +26,10 @@ public class Trip {
     private Integer remainingSeat;
 
     @Column(name = "ThoiGianDi")
-    private ZonedDateTime starttime;
+    private Date starttime;
 
     @Column(name = "ThoiGianDen")
-    private ZonedDateTime endtime;
+    private Date endtime;
 
     @ManyToOne
     @JoinColumn(name = "MaTinhDi", unique = false)
