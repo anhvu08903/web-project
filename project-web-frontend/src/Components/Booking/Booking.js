@@ -753,9 +753,18 @@ const Booking = () => {
                             gap: "20px",
                           }}
                         >
-                          <div style={{ fontWeight: "600", color: "#2474E5" }}>
+                          <button style={{ fontWeight: "600", color: "#2474E5" }}
+                            onClick={() => {
+                              handleShowRating(booking.trip.tripid);
+                              const fetchComment = async (adminid1) => {
+                                const comment1 = await getCommentById(adminid1);
+                                setComments(comment1);
+                              };
+                              fetchComment(booking.admin.adminid);
+                              console.log("comment: ", comments);
+                            }}>
                             Xem bình luận
-                          </div>
+                          </button>
 
                           <button
                             className={`${styles.buttons} ${styles.orderButton}`}
@@ -816,7 +825,7 @@ const Booking = () => {
                       >
                         Chọn chuyến
                       </button>
-                      <button
+                      <div
                         onClick={() => {
                           handleShowRating(booking.trip.tripid);
                           const fetchComment = async (adminid1) => {
@@ -828,7 +837,7 @@ const Booking = () => {
                         }}
                       >
                         Xem đánh giá về nhà xe
-                      </button>
+                      </div>
                       {showRating === booking.trip.tripid && (
                         <div className="showrating">
                           <div>
