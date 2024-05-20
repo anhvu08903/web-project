@@ -1,7 +1,9 @@
 package com.example.projectwebbackend.controllers.admin;
 
+import com.example.projectwebbackend.entity.Admin;
 import com.example.projectwebbackend.entity.Coach;
 import com.example.projectwebbackend.repository.AdminCoachRepossitory;
+import com.example.projectwebbackend.repository.AdminRepository;
 import com.example.projectwebbackend.repository.SeatRepository;
 import com.example.projectwebbackend.service.CoachService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ public class CoachController {
     @Autowired private SeatRepository seatRepository;
 
     List<Coach> coaches = new ArrayList<>();
+    @Autowired
+    private AdminRepository adminRepository;
 
     @GetMapping
     public List<Coach> getAllCoach(){
@@ -34,9 +38,9 @@ public class CoachController {
     }
 
 //them xe
-    @PostMapping("/add")
-    public Coach addCoach(@RequestBody Coach coach){
-        return  coachService.addCoach(coach);
+    @PostMapping("/add/{token}")
+    public Coach addCoach(@RequestBody Coach coach, @PathVariable String token){
+        return  coachService.addCoach(coach, token);
     }
 
     @DeleteMapping("/{id}")
