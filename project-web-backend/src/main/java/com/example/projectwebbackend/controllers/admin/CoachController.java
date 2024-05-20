@@ -32,13 +32,13 @@ public class CoachController {
     }
 
 //    them theo id nhaxe
-    @PostMapping("/add/{id}")
+    @PostMapping("/addid/{id}")
     public Coach addCoachById(@RequestParam Long id, @RequestBody Coach coach){
         return coachService.addCoachById(id, coach);
     }
 
 //them xe
-    @PostMapping("/add/{token}")
+    @PostMapping("/addtoken/{token}")
     public Coach addCoach(@RequestBody Coach coach, @PathVariable String token){
         return  coachService.addCoach(coach, token);
     }
