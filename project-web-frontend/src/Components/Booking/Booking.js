@@ -392,8 +392,12 @@ const Booking = () => {
     return isDisabled;
   };
   const [showRating, setShowRating] = useState(null);
+
+  console.log(showRating);
+
   const handleShowRating = (id) => {
-    setShowRating(id);
+    if (showRating === null) setShowRating(id);
+    else setShowRating(null);
   };
 
   const [comments, setComments] = useState([]);
@@ -657,7 +661,7 @@ const Booking = () => {
                           <div>
                             {Math.round(ratings[booking.admin.adminid] * 10) /
                               10}{" "}
-                            🍬
+                            ⭐
                           </div>
                         </div>
                         <div className={styles.tripRoute}>
@@ -753,7 +757,7 @@ const Booking = () => {
                             gap: "20px",
                           }}
                         >
-                          <button style={{ fontWeight: "600", color: "#2474E5" }}
+                          <div style={{ fontWeight: "600", color: "#2474E5" }}
                             onClick={() => {
                               handleShowRating(booking.trip.tripid);
                               const fetchComment = async (adminid1) => {
@@ -764,21 +768,7 @@ const Booking = () => {
                               console.log("comment: ", comments);
                             }}>
                             Xem bình luận
-                          </button>
-
-                          {showRating === booking.trip.tripid && (
-                            <div className="showrating">
-                              <div>
-                                {comments.map((comment) => (
-                                  <div key={comment.id}>
-                                    <li>Người dùng: {comment.user.name}</li>
-                                    <li>Bình luận: {comment.content}</li>
-                                    {/* Add more comment details if needed */}
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          )}
+                          </div>
 
                           <button
                             className={`${styles.buttons} ${styles.orderButton}`}
@@ -839,7 +829,7 @@ const Booking = () => {
                       >
                         Chọn chuyến
                       </button>
-                      <div
+                      <button
                         onClick={() => {
                           handleShowRating(booking.trip.tripid);
                           const fetchComment = async (adminid1) => {
@@ -851,7 +841,7 @@ const Booking = () => {
                         }}
                       >
                         Xem đánh giá về nhà xe
-                      </div>
+                      </button>
                       
                     </div>
                   </div>
@@ -960,6 +950,20 @@ const Booking = () => {
                       )}
                     </div>
                   )}
+
+                      {showRating === booking.trip.tripid && (
+                            <div className="showrating">
+                              <div>
+                                {comments.map((comment) => (
+                                  <div key={comment.id}>
+                                    <li>Người dùng: {comment.user.name}</li>
+                                    <li>Bình luận: {comment.content}</li>
+                                    {/* Add more comment details if needed */}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
                 </li>
               ))}
             </ul>
