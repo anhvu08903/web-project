@@ -90,30 +90,18 @@ public class AdminController {
     }
 
     @PostMapping("/uploadImage/{id}")
-    public ResponseEntity<String> uploadImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) throws IOException {
-        Optional<Admin> optionalAdmin = adminRepository.findById(id);
-        if (optionalAdmin.isPresent()) {
-            Admin admin = optionalAdmin.get();
-            admin.setAdminImage(file.getBytes());
-            adminRepository.save(admin);
-            return new ResponseEntity<>("Image uploaded successfully", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Admin not found", HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<String> uploadImage(@PathVariable Long id, @RequestBody String image) throws IOException {
+        Admin admin = adminService.findAdminById(id);
+        admin.setAdminImage(image);
+        adminRepository.save(admin);
+        return new ResponseEntity<>("Image uploaded successfully", HttpStatus.OK);
     }
 
+
     @GetMapping("/{id}/image")
-    public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
-        Optional<Admin> optionalAdmin = adminRepository.findById(id);
-        if (optionalAdmin.isPresent()) {
-            Admin admin = optionalAdmin.get();
-            return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_JPEG)
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + admin.getAdminname() + ".jpg\"")
-                    .body(admin.getAdminImage());
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public String getImage(@PathVariable Long id) {
+        Admin admin = adminService.findAdminById(id);
+        return admin.getAdminImage();
     }
 
         //them tai khoan admin

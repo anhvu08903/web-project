@@ -92,9 +92,10 @@ public class AdminTripDTOServiceImpl implements AdminTripDTOService {
             Admin admin = trip.getCoach().getAdmin();
             trip.setRemainingSeat(remainingSeat - ticketRepository.findAllByTripAndStatus(trip, "1").size());
             adminTripDTO.setSeat(seatRepository.findSeatByCoach_Licenseplate(trip.getCoach().getLicenseplate()));
-            adminTripDTO.setPickAddress(pickAddressRepository.findAllByTrip(trip));
-            adminTripDTO.setReturnAddress(returnAddressRepository.findAllByTrip(trip));
-
+             List<PickAddress> pickAddress = pickAddressRepository.findAllByPickname(filterTRip.getTinhDi().getPname());
+            List<ReturnAddress> returnAddress = returnAddressRepository.findAllByReturnaddress(filterTRip.getTinhDen().getPname());
+            adminTripDTO.setPickAddress(pickAddress);
+            adminTripDTO.setReturnAddress(returnAddress);
             adminTripDTO.setAdmin(admin);
             adminTripDTOS.add(adminTripDTO);
 

@@ -66,13 +66,13 @@ public class CoachController {
         return new ResponseEntity<>(exsistingCoach, HttpStatus.OK);
 
     }
-
-    @PostMapping("/{token}")
+//Chien sua
+    @GetMapping("/{token}")
     public List<Coach> getCoachByToken(@PathVariable String token){
         return coachService.findCoachByToken(token);
     }
 
-    @PostMapping("/admin/{token}")
+    @GetMapping("/admin/{token}")
     public List<Coach> getCoachByAdminToken(@PathVariable String token){
         return coachService.findCoachByToken(token);
     }

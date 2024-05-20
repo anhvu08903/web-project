@@ -11,5 +11,5 @@ public interface ReturnAddressRepository extends CrudRepository<ReturnAddress, L
 
     List<ReturnAddress> findAllByTrip(Trip trip);
     ReturnAddress findByReturnaddress(String name);
-
+    List<ReturnAddress> findAllByReturnaddress(String id);
 }
