@@ -96,16 +96,26 @@ const Homepage = () => {
         }
       );
       console.log(response.data);
+      sessionStorage.setItem("filteredList", JSON.stringify(response.data));
       return response.data;
     } catch (error) {
       throw error;
     }
   };
-  useEffect(() => {
-    handlePost();
-    console.log(startPointValue);
-    console.log(endPointValue);
-  }, []);
+  // useEffect(() => {
+  //   handlePost();
+  //   console.log(startPointValue);
+  //   console.log(endPointValue);
+  // }, []);
+
+  const [date, setDate] = useState("");
+
+  const handleDateChange = (event) => {
+    const selectedDate = event.target.value;
+    setDate(selectedDate);
+    console.log("test", event.target.value);
+    console.log(date); 
+  };
 
   return (
     <div style={{ overflow: "hidden", height: "100vh" }}>
@@ -170,7 +180,7 @@ const Homepage = () => {
                       value={startPointValue}
                       onChange={(e) => {
                         setStartPointValue(e.target.value);
-                        console.log(startPointValue);
+                        console.log(e.target.value);
                       }}
                     >
                       {provinceOption.map((option) => (
@@ -218,7 +228,11 @@ const Homepage = () => {
                   </div>
                   <div className={styles.inputPointContainer}>
                     <label className={styles.titlePoint}>Ngày đi</label>
-                    <input className={styles.inputPoint} type="date"></input>
+                    <input
+                      className={styles.inputPoint}
+                      type="date"
+                      onChange={handleDateChange}
+                    ></input>
                   </div>
                 </div>
               </div>
@@ -232,7 +246,7 @@ const Homepage = () => {
                   className={styles.buttons}
                   id={styles.searchButton}
                   onClick={() => {
-                    // handlePost();
+                    handlePost();
                   }}
                 >
                   Tìm kiếm chuyến xe ngay

@@ -15,7 +15,6 @@ function convertToStandardDateFormat(datetimeLocal) {
 }
 
 const Coach = () => {
-
   const [adminInfo, setAdminInfo] = useState({});
 
   const [buttonPopup, setButtonPopup] = useState(false);
@@ -25,7 +24,7 @@ const Coach = () => {
   const [carInfo, setCarInfo] = useState({
     licenseplate: "",
     coachtype: "Xe 24 chỗ",
-    number: 24
+    number: 24,
   });
   const [car, setCar] = useState([]);
 
@@ -60,7 +59,6 @@ const Coach = () => {
       const data = response.data;
       console.log(data);
       setAdminInfo(data);
-
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -79,7 +77,7 @@ const Coach = () => {
     axios
       .get(`http://localhost:8080/identity/api/coach/${token}`)
       .then((response) => {
-        console.log(response.data);
+        console.log(">>>>>>>>data", response.data);
         setCar(response.data);
       })
       .catch((error) => {
@@ -500,7 +498,7 @@ const Coach = () => {
               <span></span>
             </button>
 
-              {/* <button className={styles.buttons} onClick={() => {
+            {/* <button className={styles.buttons} onClick={() => {
                 sessionStorage.removeItem('token');
                 window.location.replace('/');
                 }}>
@@ -508,10 +506,9 @@ const Coach = () => {
                 <span></span>
               </button> */}
 
-              <div>
-                <AdminAccount adminInfo={adminInfo}></AdminAccount>
-              </div>
-
+            <div>
+              <AdminAccount adminInfo={adminInfo}></AdminAccount>
+            </div>
           </div>
         </ul>
       </div>
@@ -571,7 +568,7 @@ const Coach = () => {
 
                   <div>
                     {car.map((c, i) => {
-                      return (<Car key={i} c={c} />);
+                      return <Car key={i} c={c} />;
                     })}
                   </div>
 

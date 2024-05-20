@@ -99,14 +99,18 @@ const Booking = () => {
       }
     });
   }
+  // console.log("test", x);
+
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await booking1;
-        const uniqueBooking = getUniqueAdminNames(response.data); //hàm xử lý data đầu vào lọc ra danh sách các nhà xe không trùng
+        // const response = await booking1;
+        const response = JSON.parse(sessionStorage.getItem("filteredList"));
+
+        const uniqueBooking = getUniqueAdminNames(response); //hàm xử lý data đầu vào lọc ra danh sách các nhà xe không trùng
         setUniqueBookings(uniqueBooking); // data hiển thị trong phần lọc
-        setFilteredAndSortedBookings(response.data);
-        setArray(response.data);
+        setFilteredAndSortedBookings(response);
+        setArray(response);
       } catch (error) {
         console.error(error);
       }
@@ -578,7 +582,7 @@ const Booking = () => {
                     <div className="container">
                       <div>
                         <img
-                          src="https://static.vexere.com/production/images/1690435601693.jpeg?w=250&h=250"
+                          src={booking.admin.adminImage}
                           className="booking_img"
                         />
                       </div>
@@ -587,7 +591,7 @@ const Booking = () => {
                         <br />
                         <strong>Giờ đi:</strong> {booking.trip.starttime} <br />
                         <strong>Giờ đón:</strong> {booking.trip.endtime} <br />
-                        <strong>Giá vé:</strong> ${booking.seat.price} <br />
+                        <strong>Giá vé:</strong> {booking.seat.price} <br />
                         <strong>Đánh giá:</strong>{" "}
                         {ratings[booking.admin.adminid]} sao
                         <br />
