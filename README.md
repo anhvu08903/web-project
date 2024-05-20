@@ -21,26 +21,49 @@
 - Quản lý các loại xe của riêng các nhà xe: Chủ nhà xe cần có thể theo dõi và phân tích dữ liệu về số lượng vé đã bán, doanh thu, tỷ lệ sử dụng ghế, và các chỉ số hoạt động kinh doanh khác.
 
 2. Cách để khởi chạy dự án:
+
    2.1. React.js
+
    • Cài đặt Node.js
+
    • Mở terminal và điều hướng đến thư mục chứa mã nguồn front-end của dự án (project-web-frontend)
+
    • Chạy npm install để tải thư viện
+
    • Chạy npm start
+
    2.2. Java Springboot
+
    • Mở IntelliJ IDEA (phiên bản Ultimate hoặc Community)
+
    • Trỏ đến thư mục backend của dự án (project-web-backend)
+
    • Chọn ProjectWebBackendApplication và Run
+
    2.3. Cơ sở dữ liệu MySQL Workbench
+
    • Tải XAMPP và MySQL Workbench về máy tính
+
    • Mở XAMPP và khởi chạy MySQL
+
    • Mở MySQL Workbench lên và tạo connection tên tùy ý sau đó tạo schema tên tùy ý
+
    Trong tệp cấu hình của Java Spring Boot trong file application.properties trong thư mục resources:
+
    spring.datasource.url= jdbc:mysql://localhost:3306/{tên của schema}
+
    spring.datasource.username= {username của connection}
+
    spring.datasource.password= {password của connection}
+
    Tài khoản VN Pay sử dụng cho demo test thanh toán:
+
    Ngân hàng NCB
+
    Số thẻ 9704198526191432198
+
    Tên chủ thẻ NGUYEN VAN A
+
    Ngày phát hành 07/15
+
    Mật khẩu OTP 123456
