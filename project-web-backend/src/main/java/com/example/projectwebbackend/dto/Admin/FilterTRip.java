@@ -18,4 +18,6 @@ public class FilterTRip {
 
     private Province TinhDi;
 
+    private String Date;
+
 }

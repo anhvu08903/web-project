@@ -165,7 +165,8 @@ public class AdminController {
     //them chuyen xe cho nha xe(id)
     @PostMapping("/add/trip")
     public ResponseEntity<Trip> addTrip( @RequestBody Trip trip){
-
+            Coach coach = coachRepository.findByLicenseplate(trip.getCoach().getLicenseplate());
+      trip.setRemainingSeat(coach.getNumber());
 //Coach coach = new Coach();
 //coach=coachRepository.findByLicenseplate(trip.getCoach().getLicenseplate());
 //trip.setCoach(coach);
@@ -194,11 +195,18 @@ public class AdminController {
     public List<AdminTripDTO> TripFilter(@RequestBody DualProvince dualProvince){
         Province TinhDen = provinceRepository.findProvinceByPname(dualProvince.getTenTinhDen());
         Province TinhDi = provinceRepository.findProvinceByPname(dualProvince.getTenTinhDi());
-        FilterTRip filterTRip = new FilterTRip(TinhDi, TinhDen);
+        FilterTRip filterTRip = new FilterTRip(TinhDi, TinhDen, dualProvince.getDate());
         if(filterTRip.getTinhDi()==null){
             return adminTripDTOService.getAllSeatInfo();
         }else return adminTripDTOService.filterTrip(filterTRip);
     }
+
+    @GetMapping("/trip/date")
+    public List<Trip> getTripByDate(@RequestBody String date)
+    {
+        return adminTripDTOService.getTripByDate(date);
+    }
+
     // chap nhan yeu cau dat ve
     @PostMapping("ticket/grant/{id}")
     public ResponseEntity<?> grantTicket(@PathVariable Long  id){

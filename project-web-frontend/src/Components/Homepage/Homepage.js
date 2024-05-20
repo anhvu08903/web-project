@@ -6,11 +6,7 @@ import axios from "axios";
 import Account from "./Account";
 
 const Homepage = () => {
-  // const navigate = useNavigate();
-
-  // const handleLoginButtonClick = () => {
-  //   navigate('/login');
-  // };
+  const navigate = useNavigate();
 
   const [startPointValue, setStartPointValue] = useState();
   const [endPointValue, setEndPointValue] = useState();
@@ -20,7 +16,6 @@ const Homepage = () => {
     axios
       .get("http://localhost:8080/identity/api/admin/province")
       .then((response) => {
-        // console.log(response.data);
         setProvinceOption(response.data);
       })
       .catch((error) => {
@@ -38,13 +33,10 @@ const Homepage = () => {
       );
       const data = response.data;
       setUser(data);
-      // console.log(data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   }
-
-  // console.log(user);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,34 +50,6 @@ const Homepage = () => {
     setStartPointValue(endPointValue);
   };
 
-  // const addTrip = async () => {
-  //   console.log(tripInfo);
-  //   axios
-  //     .post("http://localhost:8080/identity/api/admin/add/trip", tripInfo)
-  //     .then((res) => {
-  //       alert("thanh cong ");
-  //     });
-
-  //   console.log(tripInfo);
-  //   setButtonPopup(false);
-  //   setTripInfo({
-  //     starttime: "",
-  //     endtime: "",
-
-  //     startprovince: {
-  //       pid: "",
-  //       pname: "",
-  //     },
-  //     endprovince: {
-  //       pid: "",
-  //       pname: "",
-  //     },
-  //     coach: {
-  //       licenseplate: "",
-  //     },
-  //   });
-  // };
-
   const handlePost = async () => {
     try {
       const response = await axios.post(
@@ -93,28 +57,21 @@ const Homepage = () => {
         {
           tenTinhDen: endPointValue,
           tenTinhDi: startPointValue,
+          date: date,
         }
       );
-      console.log(response.data);
       sessionStorage.setItem("filteredList", JSON.stringify(response.data));
-      return response.data;
+      navigate("/booking");
     } catch (error) {
-      throw error;
+      console.error("Error posting data:", error);
     }
   };
-  // useEffect(() => {
-  //   handlePost();
-  //   console.log(startPointValue);
-  //   console.log(endPointValue);
-  // }, []);
 
   const [date, setDate] = useState("");
 
   const handleDateChange = (event) => {
     const selectedDate = event.target.value;
     setDate(selectedDate);
-    console.log("test", event.target.value);
-    console.log(date); 
   };
 
   return (
@@ -180,7 +137,6 @@ const Homepage = () => {
                       value={startPointValue}
                       onChange={(e) => {
                         setStartPointValue(e.target.value);
-                        console.log(e.target.value);
                       }}
                     >
                       {provinceOption.map((option) => (
@@ -241,18 +197,14 @@ const Homepage = () => {
               </div>
             </div>
             <div className={styles.searchButton}>
-              <Link to="/booking" style={{ width: "100%" }}>
-                <button
-                  className={styles.buttons}
-                  id={styles.searchButton}
-                  onClick={() => {
-                    handlePost();
-                  }}
-                >
-                  Tìm kiếm chuyến xe ngay
-                  <span></span>
-                </button>
-              </Link>
+              <button
+                className={styles.buttons}
+                id={styles.searchButton}
+                onClick={handlePost}
+              >
+                Tìm kiếm chuyến xe ngay
+                <span></span>
+              </button>
             </div>
           </div>
         </div>

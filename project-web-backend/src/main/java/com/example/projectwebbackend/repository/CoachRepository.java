@@ -11,6 +11,7 @@ import java.util.List;
 public interface CoachRepository extends JpaRepository<Coach, Long> {
     Coach findByLicenseplate(String licenseplate);
 
+
     List<Coach> findAllByAdmin(Admin admin);
 
     List<Coach> findAllByAdmin_Token(String token);

@@ -11,8 +11,7 @@ public interface CoachService {
     List<Coach> getAllCoach();
 
     Coach addCoachById(Long id, Coach coach);
-    Coach addCoach(Coach coach);
-
+    Coach addCoach(Coach coach, String token);
 
     void deleteCoach(Long id);
 

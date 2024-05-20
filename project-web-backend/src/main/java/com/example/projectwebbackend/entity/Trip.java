@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.ZonedDateTime;
 import java.util.Date;
 @Table(name = "ChuyenXe")
 @Entity
@@ -25,10 +26,10 @@ public class Trip {
     private Integer remainingSeat;
 
     @Column(name = "ThoiGianDi")
-    private Date starttime;
+    private ZonedDateTime starttime;
 
     @Column(name = "ThoiGianDen")
-    private Date endtime;
+    private ZonedDateTime endtime;
 
     @ManyToOne
     @JoinColumn(name = "MaTinhDi", unique = false)
