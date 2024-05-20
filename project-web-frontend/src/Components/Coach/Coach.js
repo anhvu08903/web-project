@@ -242,11 +242,13 @@ const Coach = () => {
 
     console.log(carInfo);
   };
-  const id = adminInfo.adminid;
   const addCar = async () => {
     console.log(carInfo);
     axios
-      .post(`http://localhost:8080/identity/api/coach/addtoken/${id}`, carInfo)
+      .post(
+        `http://localhost:8080/identity/api/coach/addtoken/${token}`,
+        carInfo
+      )
       .then((res) => {
         alert("thanh cong ");
       });

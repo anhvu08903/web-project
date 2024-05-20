@@ -173,7 +173,24 @@ public class AdminController {
         tripRepository.save(trip);
         return new ResponseEntity<>(trip, HttpStatus.CREATED);
     }
-
+    @PutMapping("/edit/trip")
+    public ResponseEntity<Trip> editTrip(@RequestBody Trip trip) {
+        Coach coach = coachRepository.findByLicenseplate(trip.getCoach().getLicenseplate());
+        Integer remaingseat = coach.getNumber();
+        trip.setRemainingSeat(remaingseat);
+        tripRepository.save(trip);
+        return new ResponseEntity<>(trip, HttpStatus.CREATED);
+    }
+    @DeleteMapping("/trip/delete/{tripid}")
+    public  ResponseEntity<String> deleteTrip(@PathVariable Long tripid) {
+        // Kiem tra xem co ton tai nha xe khong
+        Trip trip1 = tripRepository.findByTripid(tripid);
+        if (trip1 == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Trip not found");
+        }
+        tripRepository.delete(trip1);
+        return ResponseEntity.status(HttpStatus.OK).body("Trip deleted successfully");
+    }
     //danh sach cac ve dang cho
     @GetMapping("/ticket")
     public List<Ticket> getAllTicket(){

@@ -93,7 +93,6 @@ const Trip = (props) => {
     console.log(tripInfo);
   };
 
-
   const addTrip = async () => {
     console.log(tripInfo);
     axios
@@ -129,12 +128,18 @@ const Trip = (props) => {
               <div className={styles.places}>
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Nơi xuất phát*</label>
-                  <input className={styles.input} value={trip.trip.startprovince.pname}></input>
+                  <input
+                    className={styles.input}
+                    value={trip.trip.startprovince.pname}
+                  ></input>
                 </div>
 
                 <div className={styles.inputContainer}>
                   <label className={styles.title}>Nơi đến*</label>
-                  <input className={styles.input} value={trip.trip.endprovince.pname}></input>
+                  <input
+                    className={styles.input}
+                    value={trip.trip.endprovince.pname}
+                  ></input>
                 </div>
               </div>
 
@@ -154,12 +159,24 @@ const Trip = (props) => {
                 <div className={styles.types} style={{ width: "100%" }}>
                   <div className={styles.inputContainer}>
                     <label className={styles.title}>Giờ đi*</label>
-                    <input className={styles.input} name="starttime" type="datetime-local" placeholder={trip.trip.starttime} onChange={handleChange}></input>
+                    <input
+                      className={styles.input}
+                      name="starttime"
+                      type="datetime-local"
+                      placeholder={trip.trip.starttime}
+                      onChange={handleChange}
+                    ></input>
                   </div>
 
                   <div className={styles.inputContainer}>
                     <label className={styles.title}>Giờ về*</label>
-                    <input className={styles.input} name="endtime" type="datetime-local" placeholder={trip.trip.endtime} onChange={handleChange}></input>
+                    <input
+                      className={styles.input}
+                      name="endtime"
+                      type="datetime-local"
+                      placeholder={trip.trip.endtime}
+                      onChange={handleChange}
+                    ></input>
                   </div>
                 </div>
 
