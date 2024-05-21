@@ -12,6 +12,7 @@ import Select from "@mui/material/Select";
 import { number } from "prop-types";
 import styles from "./Booking.module.css";
 import Account from "../Homepage/Account";
+import moment from "moment-timezone";
 
 const Booking = () => {
   // const token = sessionStorage.getItem('token');
@@ -20,6 +21,18 @@ const Booking = () => {
   // };
   // const province = axios.get("http://localhost:4000/api/province",{ headers: headers })
   // console.log(province);
+  const convertUTCToLocalTime = (utcTimeString, timeZone) => {
+    // Sử dụng moment để phân tích chuỗi thời gian UTC
+    const utcTime = moment.utc(utcTimeString);
+
+    // Chuyển đổi thời gian UTC sang múi giờ được chỉ định
+    const localTime = utcTime.tz(timeZone);
+
+    // Định dạng thời gian để hiển thị
+    return localTime.format("YYYY-MM-DD HH:mm:ss");
+  };
+
+  const timeZone = "Asia/Ho_Chi_Minh"; // Múi giờ cụ thể
 
   const [sortOption, setSortOption] = useState("default");
   const [filteredAndSortedBookings, setFilteredAndSortedBookings] = useState(
@@ -702,7 +715,10 @@ const Booking = () => {
                                   fontWeight: "bold",
                                 }}
                               >
-                                {booking.trip.starttime.slice(11, 16)}
+                                {convertUTCToLocalTime(
+                                  booking.trip.starttime,
+                                  timeZone
+                                ).slice(11, 16)}
                               </div>
                               <div class="place">
                                 •{" "}
@@ -731,7 +747,10 @@ const Booking = () => {
                                   fontWeight: "bold",
                                 }}
                               >
-                                {booking.trip.endtime.slice(11, 16)}
+                                {convertUTCToLocalTime(
+                                  booking.trip.endtime,
+                                  timeZone
+                                ).slice(11, 16)}
                               </div>
                               <div class="place">
                                 •{" "}
@@ -757,7 +776,8 @@ const Booking = () => {
                             gap: "20px",
                           }}
                         >
-                          <div style={{ fontWeight: "600", color: "#2474E5" }}
+                          <div
+                            style={{ fontWeight: "600", color: "#2474E5" }}
                             onClick={() => {
                               handleShowRating(booking.trip.tripid);
                               const fetchComment = async (adminid1) => {
@@ -766,7 +786,8 @@ const Booking = () => {
                               };
                               fetchComment(booking.admin.adminid);
                               console.log("comment: ", comments);
-                            }}>
+                            }}
+                          >
                             Xem bình luận
                           </div>
 
@@ -842,7 +863,6 @@ const Booking = () => {
                       >
                         Xem đánh giá về nhà xe
                       </button>
-                      
                     </div>
                   </div>
                   {showPickSeat === booking.trip.tripid && (
@@ -951,19 +971,19 @@ const Booking = () => {
                     </div>
                   )}
 
-                      {showRating === booking.trip.tripid && (
-                            <div className="showrating">
-                              <div>
-                                {comments.map((comment) => (
-                                  <div key={comment.id}>
-                                    <li>Người dùng: {comment.user.name}</li>
-                                    <li>Bình luận: {comment.content}</li>
-                                    {/* Add more comment details if needed */}
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          )}
+                  {showRating === booking.trip.tripid && (
+                    <div className="showrating">
+                      <div>
+                        {comments.map((comment) => (
+                          <div key={comment.id}>
+                            <li>Người dùng: {comment.user.name}</li>
+                            <li>Bình luận: {comment.content}</li>
+                            {/* Add more comment details if needed */}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </li>
               ))}
             </ul>
